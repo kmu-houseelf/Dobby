@@ -1,0 +1,22 @@
+{
+  "item": [
+  {
+   "name": "item1",
+   "price": 100
+  },
+  {
+   "name": "item2",
+   "price": 200
+  },
+
+ ],
+
+  "light": [
+  {
+    "name": "light_11",
+    "state": True
+  },
+ ],
+}
+		
+	
