@@ -1,0 +1,43 @@
+{
+	// 1 : HomeIOT, 2 : Secretary, 3 : Chatbot
+	"TaskNumber" : "Number",
+
+	// result to speak for user
+	"TTS" : "String",
+
+	
+	"HomeIOT" : 
+	{
+		// 1 : light, 2 : TV
+		"HomeIOTNumber" : "Number",
+
+		"Light":
+		{
+			"Location" : "String",
+			"object" : "String",
+			"Action" : "String",
+			"Brightness" : "Number", // 1 ~ 100
+			"Count" : "Number"
+		},
+
+		"TV":
+		{
+			"Power" : "Boolean",
+			"Channel" : "Number",
+			"Volume" : "Number",
+			"RemoteLoc" : "String"
+		},
+	},
+
+	"Secretary" :
+	{
+		"Schedule" :
+		{
+			"StartDate" : "2016-05-15",
+			"StartTime": "07:30:00",
+			"EndDate": "2016-05-15",
+			"Content" : "회의",
+		}
+	}
+}
+
