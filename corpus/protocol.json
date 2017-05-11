@@ -24,7 +24,7 @@
 			"Power" : "Boolean",
 			"Channel" : "Number",
 			"Volume" : "Boolean",
-      "Mute" : "Boolean",
+                           "Mute" : "Boolean",
 			"RemoteLoc" : "Boolean"
 		},
 	},
