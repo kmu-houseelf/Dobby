@@ -15,17 +15,17 @@
 		{
 			"Location" : "String",
 			"object" : "String",
-			"Action" : "String",
-			"Brightness" : "Number", // 1 ~ 100
-			"Count" : "Number"
+			"Action" : "Boolean",
+			"Brightness" : "Boolean"
 		},
 
 		"TV":
 		{
 			"Power" : "Boolean",
 			"Channel" : "Number",
-			"Volume" : "Number",
-			"RemoteLoc" : "String"
+			"Volume" : "Boolean",
+      "Mute" : "Boolean",
+			"RemoteLoc" : "Boolean"
 		},
 	},
 
