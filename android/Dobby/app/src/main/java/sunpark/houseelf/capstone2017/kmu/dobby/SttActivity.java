@@ -1,11 +1,7 @@
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
-/*
-*   Kookmin Univ. CS Capstone Design Project DOBBY
-*
-*
-*
-*
+/**
+*   Kookmin Univ. CS Capstone Design Project Dobby
 *
 */
 
@@ -19,14 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 
 public class SttActivity extends AppCompatActivity {
@@ -37,12 +25,7 @@ public class SttActivity extends AppCompatActivity {
     SpeechRecognizer mSpeechRecognizer;
     String resultStr;
 
-    private String IP = "203.246.112.77";
-    private int PORT = 7777;
-    private Socket socket = null;
-
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private Thread sendThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,25 +41,16 @@ public class SttActivity extends AppCompatActivity {
         startActivityForResult(recognizerIntent, 2);
 
         bSend = (Button)findViewById(R.id.button_send);
-        bRestart = (Button)findViewById(R.id.button_restart);
-
-        bRestart.setOnClickListener(new Button.OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                Intent i = getIntent();
-                finish();
-                startActivity(i);
-            }
-        });
 
         bSend.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View view)
-            {
-                connectServer.start();
-//                String data = "{\n" + resultsView.getText().toString() + "\n}";
-//                DataSendThread dataSendThread = new DataSendThread(data);
-//                dataSendThread.start();
+            public void onClick(View view) {
+                try {
+                    sendThread = new CommandSenderThread(resultStr);
+                    sendThread.start();
+                    sendThread.interrupt();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -109,37 +83,8 @@ public class SttActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    private Thread connectServer = new Thread() {
-        public void run(){
-            try {
-                setSocket(IP, PORT);
-                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-                out.write(resultStr);
-                out.flush();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        }
-    };
-
-    public void setSocket(String ip, int port) throws IOException {
-        try {
-            socket = new Socket(ip, port);
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
-        } catch (IOException e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
-    }
     RecognitionListener mRecognitionListener = new RecognitionListener() {
         @Override
         public void onBeginningOfSpeech() {
