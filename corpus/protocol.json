@@ -1,20 +1,16 @@
 {
-	// 1 : HomeIOT, 2 : Secretary, 3 : Chatbot
-	"TaskNumber" : "Number",
+	"TaskType" : "Number",
 
-	// result to speak for user
 	"TTS" : "String",
-
 	
 	"HomeIOT" : 
 	{
-		// 1 : light, 2 : TV
-		"HomeIOTNumber" : "Number",
+		"HomeIOTType" : "Number",
 
 		"Light":
 		{
 			"Location" : "String",
-			"object" : "String",
+			"Object" : "String",
 			"Action" : "Boolean",
 			"Brightness" : "Boolean"
 		},
@@ -24,20 +20,31 @@
 			"Power" : "Boolean",
 			"Channel" : "Number",
 			"Volume" : "Boolean",
-                        "Mute" : "Boolean",
+			"Mute" : "Boolean",
 			"RemoteLoc" : "Boolean"
 		},
 	},
 
 	"Secretary" :
 	{
+		"SecretaryType" : "Number",
+
 		"Schedule" :
 		{
-			"StartDate" : "2016-05-15",
-			"StartTime": "07:30:00",
-			"EndDate": "2016-05-15",
-			"Content" : "회의",
+			"StartDate" : "String",
+			"StartTime": "String",
+			"EndDate" : "String",
+			"EndTime" : "String",
+			"Content" : "String"
+		},
+
+		"Music" :
+		{
+			"Title" : "String",
+			"Singer" : "String",
+			"Album" : "String",
+			"Gnr" : "String",
+			"DtlGnr" "String"
 		}
 	}
 }
-
