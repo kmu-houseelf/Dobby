@@ -1,0 +1,1 @@
+{t1:___, loc:homeIOTLightLocationPattern, t2:___, obj:homeIOTLightObjectPattern, t3:___, act:homeIOTLightActionOnPattern, t4:___} -> Module[{rul = <|"Location"->loc, "Object"->obj, "Action"->True, "Brightness"->Null|>}, rul["Location"]=loc; rul["Object"]=obj;rul]
