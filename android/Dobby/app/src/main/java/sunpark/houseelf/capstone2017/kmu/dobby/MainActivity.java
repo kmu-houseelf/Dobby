@@ -16,7 +16,6 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private BackPressCloseHandler backPressCloseHandler;
-    private Button bStart;
     private Button bTTS;
 
     @Override
@@ -26,23 +25,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         backPressCloseHandler = new BackPressCloseHandler(this);
 
-        bStart = (Button)findViewById(R.id.button_start);
-        bStart.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, SttActivity.class);
-                startActivity(i);
-            }
-        });
+        Intent sttIntent = new Intent(MainActivity.this, SttActivity.class);
+        sttIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(sttIntent);
 
         bTTS = (Button)findViewById(R.id.button_TTS);
         bTTS.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, TTSActivity.class);
-                startActivity(i);
+                Intent ttsIntent = new Intent(MainActivity.this, TTSActivity.class);
+                ttsIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(ttsIntent);
             }
         });
 
     }
+
+
 
     @Override
     public void onBackPressed() {

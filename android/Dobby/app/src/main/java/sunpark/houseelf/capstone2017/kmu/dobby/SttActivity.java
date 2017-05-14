@@ -8,23 +8,17 @@ package sunpark.houseelf.capstone2017.kmu.dobby;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 public class SttActivity extends AppCompatActivity {
 
-    Button bSend, bRestart;
     TextView resultsView;
     Intent recognizerIntent;
     SpeechRecognizer mSpeechRecognizer;
@@ -43,29 +37,26 @@ public class SttActivity extends AppCompatActivity {
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
 
         startActivityForResult(recognizerIntent, 2);
-
-        bSend = (Button)findViewById(R.id.button_send);
-
-        bSend.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View view) {
-                try {
-                    sendThread = new CommandSenderThread(resultStr);
-                    sendThread.start();
-                    sendThread.interrupt();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 2) {
+        if (resultCode == RESULT_OK) {
             ArrayList<String> sstResult = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             resultStr = sstResult.get(0);
             resultsView.setText(resultStr);
+
+            try {
+                sendThread = new CommandSenderThread(resultStr);
+                sendThread.start();
+                sendThread.interrupt();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            mSpeechRecognizer.destroy();
+            finish();
         }
     }
 
@@ -75,6 +66,7 @@ public class SttActivity extends AppCompatActivity {
         super.onResume();
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
+        mSpeechRecognizer.startListening(recognizerIntent);
     }
 
     @Override
@@ -85,13 +77,9 @@ public class SttActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onRestart() {
-        super.onRestart();
+    public void onDestroy() {
+        super.onDestroy();
+        mSpeechRecognizer.destroy();
     }
 
     RecognitionListener mRecognitionListener = new RecognitionListener() {

@@ -11,15 +11,12 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.view.View;
-import android.widget.Button;
 
 import java.util.HashMap;
 import java.util.Locale;
 
 public class TTSActivity extends AppCompatActivity {
 
-    private Button bStart;
     private TextToSpeech textToSpeech;
     private String message;
 
@@ -43,15 +40,23 @@ public class TTSActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         if(textToSpeech != null){
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+
+        this.finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(textToSpeech != null){
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        finish();
     }
 
     @SuppressWarnings("deprecation")
