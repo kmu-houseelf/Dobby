@@ -1,0 +1,5 @@
+blue-python-server 를 라즈베리파이에서 부팅시 키도록 설정
+
+/etc/profile 아래에 스크립트 실행문 설정
+
+chmod 변경할것 
