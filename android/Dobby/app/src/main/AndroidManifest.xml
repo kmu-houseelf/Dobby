@@ -20,10 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SttActivity" />
-
-        <service
-            android:name=".RecognitionIntentService"
-            android:exported="false"></service>
+        <activity android:name=".TTSActivity"></activity>
     </application>
 
 </manifest>

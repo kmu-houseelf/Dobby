@@ -1,3 +1,9 @@
+
+/**
+ * Created by Sunpark on 2017-05-11.
+ * Kookmin Univ. CS Capstone Design Project Dobby
+ */
+
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
 import android.util.Log;
@@ -7,12 +13,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-/**
- * Created by Sunpark on 2017-05-11.
- * Kookmin Univ. CS Capstone Design Project Dobby
- */
-
-public class CommandSenderThread extends Thread {
+public class CommandSenderThread extends Thread implements Runnable {
     private String IP = "203.246.112.77";
     private int PORT = 7777;
     private Socket socket = null;
@@ -24,6 +25,8 @@ public class CommandSenderThread extends Thread {
     }
 
     public void run(){
+        super.run();
+
         try {
             openSocket();
         } catch (Exception e) {

@@ -1,8 +1,11 @@
-package sunpark.houseelf.capstone2017.kmu.dobby;
 
 /**
  * Created by Sunpark on 2017-04-05.
+ * Kookmin Univ. CS Capstone Design Project Dobby
  */
+
+package sunpark.houseelf.capstone2017.kmu.dobby;
+
 import android.app.Activity;
 import android.widget.Toast;
 public class BackPressCloseHandler {
