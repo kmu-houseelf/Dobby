@@ -2,13 +2,50 @@
 
 (* read korean string *)
 kstr[str:_] := FromCharacterCode[ImportString[str,"Byte"],"UTF-8"]
+kstr[a:_->b:_] := kstr[a]->kstr[b]
 kstr[list:_List] := kstr/@list
+kstr[num:_Number] := num
+
+
+(* define constant *)
+homeIOTLightLocationLivingroom = "livingroom"
+homeIOTLightLocationRoom = "room"
+homeIOTLightLocationKitchen = "kitchen"
+homeIOTLightLocationBathroom = "bathroom"
+homeIOTLightObjectLight = "light"
+homeIOTLightActionOn = True
+
+
+(* define morph list *)
+homeIOTLightLocationList = kstr[{"거실", "마루", "방", "화장실", "부엌"}]
+homeIOTLightObjectList = kstr[{"불", "조명"}]
+homeIOTLightActionOnList = kstr[{"킬", "켜", "켜볼", "켤", "켜기"}]
+homeIOTLightActionOffList = kstr[{"끄", "꺼", "끌", "꺼볼", "끄기"}]
 
 
 (* define pattern *)
-homeIOTLightLocationPattern = (kstr["거실"] | kstr["안방"] | kstr["화장실"] | kstr["부엌"])
-homeIOTLightObjectPattern = kstr["불"] | kstr["조명"]
-homeIOTLightActionOnPattern = (kstr["킬"] | kstr["켜"] | kstr["켜볼"] | kstr["켤"] | kstr["켜기"])
+homeIOTLightLocationPattern = Apply[Alternatives, homeIOTLightLocationList]
+homeIOTLightObjectPattern = Apply[Alternatives, homeIOTLightObjectList]
+homeIOTLightActionOnPattern = Apply[Alternatives, homeIOTLightActionOnList]
+homeIOTLightActionOffPattern = Apply[Alternatives, homeIOTLightActionOffList]
+
+(* define mapping *)
+homeIOTLightLocationMapping = kstr[{ "거실"->homeIOTLightLocationLivingroom, "마루"->homeIOTLightLocationLivingroom, "방"->homeIOTLightLocationRoom, "부엌"->homeIOTLightLocationKitchen, "화장실"->homeIOTLightLocationBathroom }]
+homeIOTLightObjectMapping = #->homeIOTLightObjectLight&/@homeIOTLightObjectList
+homeIOTLightActionOnMapping = #->homeIOTLightActionOn&/@homeIOTLightActionOnList
+homeIOTLightActionOffMapping = #->homeIOTLightActionOff&/@homeIOTLightActionOffList
+
+
+(* read user input *)
+sentence = FromCharacterCode[ImportString[$ScriptCommandLine[[2]], "Byte"],"UTF-8"]
+Print["----- Sentence : "~~sentence]
+
+
+(* run morph analysis *)
+template = StringTemplate["`python` morph.py \"`sentence`\""]
+commandString := TemplateApply[template, <|"python"->"python", "sentence"->sentence |>]
+commandString//Print
+Run[commandString]
 
 
 (* read morph sentence *)
@@ -29,26 +66,22 @@ userJson = defaultJson
 
 
 (* pattern matching function *)
-(*{
-"TaskType" : "Number",
-"TTS" : "String",
-"HomeIOT" : 
-{
-"HomeIOTType" : "Number",
-"Light":
-{
-"Location" : "String",
-"Object" : "String",
-"Action" : "Boolean",
-"Brightness" : "Boolean"
-}
-}
-}*)
 commandRun[{t1:___, loc:homeIOTLightLocationPattern, t2:___, obj:homeIOTLightObjectPattern, t3:___, act:homeIOTLightActionOnPattern, t4:___}] :=
 Module[{rul = <|"Location"->loc, "Object"->obj, "Action"->True, "Brightness"->Null|>},
-rul["Location"]=loc; rul["Object"]=obj; 
-userJson["HomeIOT"]["Light"]=rul; userJson["TaskType"]=1;userJson["TTS"]=kstr["거실의 불이 켜졌습니다"];userJson["HomeIOT"]["HomeIOTType"]=1]
-
+rul["Location"]=loc/.homeIOTLightLocationMapping; rul["Object"]=obj/.homeIOTLightObjectMapping;
+userJson["HomeIOT"]["Light"]=rul; userJson["TaskType"]=1;userJson["TTS"]=StringJoin[{loc, kstr["의 "], obj, kstr["이 켜졌습니다"]}];userJson["HomeIOT"]["HomeIOTType"]=1;"light on! pattern1"]
+commandRun[{t1:___, obj:homeIOTLightObjectPattern, t2:___, act:homeIOTLightActionOnPattern, t3:___, loc:homeIOTLightLocationPattern, t4:___}] :=
+Module[{rul = <|"Location"->loc, "Object"->obj, "Action"->True, "Brightness"->Null|>},
+rul["Location"]=loc/.homeIOTLightLocationMapping; rul["Object"]=obj/.homeIOTLightObjectMapping;
+userJson["HomeIOT"]["Light"]=rul; userJson["TaskType"]=1;userJson["TTS"]=StringJoin[{loc, kstr["의 "], obj, kstr["이 켜졌습니다"]}];userJson["HomeIOT"]["HomeIOTType"]=1;"light on! pattern2"]
+commandRun[{t1:___, loc:homeIOTLightLocationPattern, t2:___, obj:homeIOTLightObjectPattern, t3:___, act:homeIOTLightActionOffPattern, t4:___}] :=
+Module[{rul = <|"Location"->loc, "Object"->obj, "Action"->False, "Brightness"->Null|>},
+rul["Location"]=loc/.homeIOTLightLocationMapping; rul["Object"]=obj/.homeIOTLightObjectMapping;
+userJson["HomeIOT"]["Light"]=rul; userJson["TaskType"]=1;userJson["TTS"]=StringJoin[{loc, kstr["의 "], obj, kstr["이 꺼졌습니다"]}];userJson["HomeIOT"]["HomeIOTType"]=1;"light off! pattern1"]
+commandRun[{t1:___, obj:homeIOTLightObjectPattern, t2:___, act:homeIOTLightActionOffPattern, t3:___, loc:homeIOTLightLocationPattern, t4:___}] :=
+Module[{rul = <|"Location"->loc, "Object"->obj, "Action"->False, "Brightness"->Null|>},
+rul["Location"]=loc/.homeIOTLightLocationMapping; rul["Object"]=obj/.homeIOTLightObjectMapping;
+userJson["HomeIOT"]["Light"]=rul; userJson["TaskType"]=1;userJson["TTS"]=StringJoin[{loc, kstr["의 "], obj, kstr["이 꺼졌습니다"]}];userJson["HomeIOT"]["HomeIOTType"]=1;"light off! pattern2"]
 
 (* print command function status *)
 ??commandRun
@@ -65,4 +98,5 @@ userJson//Print
 
 
 (* todo : socket programming for send json result *)
-(*ExportString[userJson, "RawJSON"]//Print*)
+ExportString[userJson, "RawJSON"]//Print
+

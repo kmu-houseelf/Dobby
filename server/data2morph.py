@@ -1,16 +1,17 @@
 from konlpy.tag import Twitter
 from konlpy.utils import pprint
+from os.path import basename
+import sys
 
 twitterMorph = Twitter()
 morphSet = set()
 
-with open('data1.csv', 'r') as data:
+with open(sys.argv[1], 'r') as data:
 	for idx, line in enumerate(data.readlines()):
-		sentence, _ = line.split(',')
-		morphList = twitterMorph.morphs(sentence.decode('utf8'))
+		morphList = twitterMorph.morphs(line.decode('utf8'))
 		morphSet.update(morphList)
 
-	with open('morph_data1.txt', 'a') as resultFile:
+	with open('data/morph_' + basename(sys.argv[1]), 'a') as resultFile:
 		resultFile.write(','.join(morphSet).encode('utf8'))
 				
 		
