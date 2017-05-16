@@ -20,7 +20,7 @@ public class CommandSenderThread extends Thread implements Runnable {
 
     private String command;
 
-    public CommandSenderThread(String str) throws Exception {
+    public CommandSenderThread(String str) {
         command = str;
     }
 

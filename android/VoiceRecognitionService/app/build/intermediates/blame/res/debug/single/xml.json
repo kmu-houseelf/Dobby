@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\Capstone\\Dobby\\android\\VoiceRecognitionService\\app\\build\\intermediates\\res\\merged\\debug\\xml\\recognizer.xml",
+        "source": "D:\\Capstone\\Dobby\\android\\VoiceRecognitionService\\app\\src\\main\\res\\xml\\recognizer.xml"
+    },
+    {
+        "merged": "D:\\Capstone\\Dobby\\android\\VoiceRecognitionService\\app\\build\\intermediates\\res\\merged\\debug\\xml\\preferences.xml",
+        "source": "D:\\Capstone\\Dobby\\android\\VoiceRecognitionService\\app\\src\\main\\res\\xml\\preferences.xml"
+    }
+]

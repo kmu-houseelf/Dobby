@@ -28,18 +28,7 @@ public class TTSActivity extends AppCompatActivity {
 
         message = "테스트입니다.";
 
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener(){
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    textToSpeech.setLanguage(Locale.KOREAN);
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                        ttsUnder20(message);
-                    else
-                        ttsUpper21(message);
-                }
-            }
-        });
+        startTTS();
 
         if(textToSpeech != null){
             textToSpeech.stop();
@@ -57,6 +46,21 @@ public class TTSActivity extends AppCompatActivity {
             textToSpeech.shutdown();
         }
         finish();
+    }
+
+    private void startTTS(){
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener(){
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.KOREAN);
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                        ttsUnder20(message);
+                    else
+                        ttsUpper21(message);
+                }
+            }
+        });
     }
 
     @SuppressWarnings("deprecation")

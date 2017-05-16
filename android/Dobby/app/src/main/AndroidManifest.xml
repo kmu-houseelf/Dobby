@@ -19,8 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SttActivity" />
-        <activity android:name=".TTSActivity"></activity>
+        <activity android:name=".STTActivity" />
+        <activity android:name=".TTSActivity" />
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
