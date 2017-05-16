@@ -15,6 +15,8 @@ homeIOTLightLocationBathroom = "bathroom"
 homeIOTLightObjectLight = "light"
 homeIOTLightActionOn = True
 homeIOTLightActionOff = False
+homeIOTLightBrightnessOn = True
+homeIOTLightBrightnessOff = False
 
 
 (* define morph list *)
@@ -70,8 +72,27 @@ json["HomeIOT"]["Light"]["Brightness"] = Null;
 json]
 
 (* Todo : brightness function template parameter *)
+homeIOTLightBrightnessOnPattern1 = ___~~loc:homeIOTLightLocationPattern~~___~~obj:homeIOTLightObjectPattern~~___~~bri:homeIOTLightBrightnessOnPattern~~___
+homeIOTLightBrightnessOnParameter = {loc, obj, bri}
+homeIOTLightBrightnessOnJson[{loc_, obj_, bri_}] := Module[{json = defaultJson}, 
+json["TaskType"] = 1; 
+json["HomeIOT"]["HomeIOTType"] = 1;
+json["HomeIOT"]["Light"]["Location"] = loc/.homeIOTLightLocationMapping;
+json["HomeIOT"]["Light"]["Object"] = obj/.homeIOTLightObjectMapping;
+json["HomeIOT"]["Light"]["Action"] = Null;
+json["HomeIOT"]["Light"]["Brightness"] = bri/.homeIOTLightBrightnessOnMapping;
+json]
 
-
+homeIOTLightBrightnessOffPattern1 = ___~~loc:homeIOTLightLocationPattern~~___~~obj:homeIOTLightObjectPattern~~___~~bri:homeIOTLightBrightnessOffPattern~~___
+homeIOTLightBrightnessOffParameter = {loc, obj, bri}
+homeIOTLightBrightnessOffJson[{loc_, obj_, bri_}] := Module[{json = defaultJson}, 
+json["TaskType"] = 1; 
+json["HomeIOT"]["HomeIOTType"] = 1;
+json["HomeIOT"]["Light"]["Location"] = loc/.homeIOTLightLocationMapping;
+json["HomeIOT"]["Light"]["Object"] = obj/.homeIOTLightObjectMapping;
+json["HomeIOT"]["Light"]["Action"] = Null;
+json["HomeIOT"]["Light"]["Brightness"] = bri/.homeIOTLightBrightnessOffMapping;
+json]
 
 (* define funciton template *)
 funcTemplate := (runCommand[s_String /; StringMatchQ[s, #1]] := Module[{param = Flatten[StringCases[s, #1->#2]]}, #3[param]])&
@@ -82,7 +103,8 @@ defaultJson = Import["protocol.json", "RawJSON"]
 
 
 (* read user input *)
-sentence = kstr["불 꺼 화장실"]
+(* sentence = kstr[$ScriptCommandLine[[2]]] *)
+sentence = kstr["거실 불 밝게 해줘"]
 Print["sentence : ", sentence]
 
 
@@ -91,6 +113,8 @@ funcTemplate[homeIOTLightActionOnPattern1, homeIOTLightOnParameter, homeIOTLight
 funcTemplate[homeIOTLightActionOnPattern2, homeIOTLightOnParameter, homeIOTLightOnJson]
 funcTemplate[homeIOTLightActionOffPattern1, homeIOTLightOffParameter, homeIOTLightOffJson]
 funcTemplate[homeIOTLightActionOffPattern2, homeIOTLightOffParameter, homeIOTLightOffJson]
+funcTemplate[homeIOTLightBrightnessOnPattern1, homeIOTLightBrightnessOnParameter, homeIOTLightBrightnessOnJson]
+funcTemplate[homeIOTLightBrightnessOffPattern1, homeIOTLightBrightnessOffParameter, homeIOTLightBrightnessOffJson]
 
 
 (* run function *)
