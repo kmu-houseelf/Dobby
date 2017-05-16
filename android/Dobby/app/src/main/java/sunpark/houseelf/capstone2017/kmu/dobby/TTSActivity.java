@@ -7,6 +7,7 @@
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,13 +21,20 @@ public class TTSActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private String message;
 
+    private int status;
+
+    private final int START_MESSAGE = 1;
+    private final int RESTART_MESSAGE = 2;
+    private final int NEEDINFO_MESSAGE = 3;
+    private final int RESULT_MESSAGE = 4;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tts);
 
-        message = "테스트입니다.";
+        setMessage();
 
         startTTS();
 
@@ -74,5 +82,26 @@ public class TTSActivity extends AppCompatActivity {
     private void ttsUpper21(String text) {
         String utteranceID = this.hashCode() + "";
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceID);
+    }
+
+    private void setMessage() {
+        Intent TTSIntent = getIntent();
+        status = TTSIntent.getExtras().getInt("status");
+        switch (status) {
+            case START_MESSAGE:
+                message = "말씀하세요";
+                break;
+
+            case RESTART_MESSAGE:
+                message = "다시 한번 말씀해 주세요";
+                break;
+
+            case NEEDINFO_MESSAGE: case RESULT_MESSAGE:
+                message = TTSIntent.getExtras().getString("Message");
+                break;
+
+            default:
+                break;
+        }
     }
 }
