@@ -26,12 +26,15 @@
 ##########################################################
 
 @list
-HomeiotLightLocation = {"거실", "마루", "방", "화장실", "부엌"}
-HomeiotLightObject = {"불", "조명"}
-HomeiotLightActionTrue = {"킬", "켜", "켜볼", "켤", "켜기", "켜줘"}
+HomeiotLightLocation = {"거실", "마루", "방", "화장실", "부엌", "주방", "전체"}
+HomeiotLightObject = {"불", "조명", "등"}
+HomeiotLightActionTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜줘라", "켜기", "켜봐", "켜줘봐라", "켜줬으면", "켜줬으면 해", 
+"켜봐라", "켜주세요", "켜줘봐", "켜주라", "켜라", "켜주기", "켜주다", "켜줄", "켜볼래", "켜줄래", "켜줄래요", "켜봐줄래", "켜줘볼래", 
+"켜봐줄", "켜줘볼", "켜 줄 수 있어", "켜 줄", "켜 줄 수 있지", "켜 줄 수 있다", "켜 줄 수", "켜주지 않겠니", "켜 줄 수 있어요", "켜 줄 수 있을까",
+"켤래", "킬래"}
 HomeiotLightActionFalse = {"끄", "꺼", "끌", "꺼볼", "끄기"}
-HomeiotLightBrightnessTrue = {"밝게"}
-HomeiotLightBrightnessFalse = {"어둡게"}
+HomeiotLightBrightnessTrue = {"밝게", "더 밝게"}
+HomeiotLightBrightnessFalse = {"어둡게", "더 어둡게"}
 
 @mapping
 HomeiotLightLocation = {"livingroom", "livingroom", "room", "bathroom", "kitchen"}
