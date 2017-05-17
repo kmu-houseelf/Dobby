@@ -12,6 +12,7 @@ UNKNOWN_FLAG = -1
 
 filename = 'config.txt'
 list_dict = {}
+mapping_dict = {}
 user_func_dict = {}
 pattern_dict = {}
 
@@ -43,8 +44,9 @@ def run(flag, line):
 		list_dict[variable] = array
 
 	elif flag == MAPPING_FLAG:
-		
-		pass
+		lhs, rhs = line.split('=')
+		lhs, rhs = lhs.strip(), rhs.strip()
+		mapping_dict[lhs] = rhs
 
 	elif flag == USER_FLAG:
 		mapping_func, value = line.split('=')
@@ -81,6 +83,10 @@ def printResult():
 	    print(variable, array)
 
 	print('# mapping table')
+	for lhs, rhs in list_dict.items():
+		print(lhs, rhs)
+
+	print('# user table')
 	for func_name, pair in user_func_dict.items():
 		print(func_name)
 		for parameter, value in pair.items():
@@ -95,6 +101,19 @@ def generateWl():
 		f.write('\n(* define morph pattern *)\n')
 		for variable, array in list_dict.items():
 			f.write(variable + ' = Apply[Alternatives, ' + array + ']\n')
+
+		f.write('\n(* define mapping *)\n')
+		for variable, array in list_dict.items():
+			if variable in mapping_dict:
+				lhs = array[1:-1].split(',')
+				rhs = mapping_dict[variable][1:-1].split(',')
+				res = [l + '->' + rhs[i] for i, l in enumerate(lhs)]
+				res = '{' + ','.join(res) + '}'
+				f.write(variable + 'Mapping = ' + res + '\n')
+
+			else:
+				b = re.findall(r"[A-Z][a-z]+", variable)[-1]
+				f.write('{}Mapping = #->{}&/@{}\n'.format(variable, b, variable))
 
 		f.write('\n(* define sentence pattern *)\n')
 		pattern_number = 1
@@ -129,7 +148,7 @@ def generateWl():
 				temp = re.findall(r"[A-Z][a-z]+", item)
 				temp = ['[\"{}\"]'.format(t) for t in temp if t != "True" and t != 'False' ]
 				lhs = 'json'+''.join(temp)
-				rhs = item.lower() 
+				rhs = item.lower() + '/.' + item + 'Mapping'
 				json += '{} = {};'.format(lhs, rhs)
 
 			# rule json
@@ -162,7 +181,7 @@ def generateWl():
 			f.write('FuncTemplate[SentencePattern{0}, SentenceParameter{0}, SentenceJson{0}]\n'.format(i + 1))
 		
 
-printResult()
+#printResult()
 generateWl()
 
 
