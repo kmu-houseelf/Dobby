@@ -1,5 +1,6 @@
 import codecs
 import re
+from operator import itemgetter, attrgetter
 
 COMMENT_SYMBOL = '#'
 FLAG_SYMBOL = '@'
@@ -15,6 +16,9 @@ list_dict = {}
 mapping_dict = {}
 user_func_dict = {}
 pattern_dict = {}
+patternline_dict = {}
+
+global_pattern_num = 1
 
 def isComment(symbol):
 	return symbol == COMMENT_SYMBOL
@@ -60,9 +64,23 @@ def run(flag, line):
 		user_func_dict[mapping_func_name][parameter] = value
 
 	elif flag == PATTERN_FLAG:
+		global global_pattern_num
 		pattern, json_rule = line.split('/')
 		pattern, json_rule = pattern.strip(), json_rule.strip()
 		pattern_dict[pattern] = json_rule
+
+		rules = json_rule.split(',')
+		for i, rule in enumerate(rules):
+			lhs, rhs = rule.split('=')
+			lhs, rhs = lhs.strip(), rhs.strip()
+			rhs = [item.strip() for item in rhs.split('+')]
+
+			# if $pattern
+			if rhs[0][0] == '$':
+				patternline_dict[rhs[0][1:]]=global_pattern_num
+		global_pattern_num += 1
+
+
 
 with codecs.open(filename,'r',encoding='utf8') as f:
     for line in f.readlines():
@@ -96,6 +114,10 @@ def printResult():
 	for pattern, json_rule in pattern_dict.items():
 		print(pattern, json_rule)
 
+	print('# pattern variable table')
+	for symbol, num in patternline_dict.items():
+		print(symbol, num)
+
 def generateWl():
 	with codecs.open('auto_gen_wl.wl','w',encoding='utf8') as f:
 		f.write('\n(* define morph pattern *)\n')
@@ -113,13 +135,16 @@ def generateWl():
 
 			else:
 				b = re.findall(r"[A-Z][a-z]+", variable)[-1]
-				f.write('{}Mapping = #->{}&/@{}\n'.format(variable, b, variable))
+				f.write('{}Mapping = #->{}&/@'.format(variable, b) + array + '\n')
 
 		f.write('\n(* define sentence pattern *)\n')
 		pattern_number = 1
 		for pattern, _ in pattern_dict.items():
 			lst = re.findall(r"[\w]+", pattern)
 			lst = ['{}:{}'.format(item.lower(), item) for item in lst]
+			if pattern[0] == '%':
+				lst[0] = '\"Q{}\"'.format(patternline_dict[lst[0].split(':')[0]])
+
 			pat = '~~___~~'.join(lst)
 			pat = '___~~' + pat + '~~___'
 			f.write('SentencePattern{} = {}\n'.format(pattern_number, pat))
@@ -129,6 +154,10 @@ def generateWl():
 		parameter_number = 1
 		for pattern, _ in pattern_dict.items():
 			lst = re.findall(r"[\w]+", pattern)
+
+			if lst[0] in patternline_dict:
+				lst.remove(lst[0])
+
 			lst = [item.lower() for item in lst]
 			arr = ','.join(lst)
 			f.write('SentenceParameter{} = {{{}}}\n'.format(parameter_number, arr))
@@ -139,6 +168,9 @@ def generateWl():
 		for pattern, json_rule in pattern_dict.items():
 			# paramter 
 			lst = re.findall(r"[\w]+", pattern)
+			if lst[0] in patternline_dict:
+				lst.remove(lst[0])
+
 			lst2 = ['{}_'.format(item.lower()) for item in lst]
 			arr = ','.join(lst2)
 			json = ''
@@ -162,6 +194,11 @@ def generateWl():
 
 				rhs = [item.strip() for item in rhs.split('+')]
 
+				# if $pattern
+				if rhs[0][0] == '$':
+					rhs = '{}'.format(patternline_dict[rhs[0][1:]])
+
+				# if user function exist
 				for i, item in enumerate(rhs):
 					if re.match(r'[\w]+\[[\w]+\]', item):
 						func, param = re.findall(r"[\w]+", item)
@@ -176,18 +213,16 @@ def generateWl():
 			f.write('SentenceJson{}[{{{}}}] := Module[{{json = DefaultJson}},'.format(json_number, arr) + json + 'json]\n')
 			json_number += 1
 
+
+		pattern_list = [(i, key.count(','), value.find('Pattern') >= 0) for i, (key, value) in enumerate(pattern_dict.items())]
+
+		pattern_list = sorted(pattern_list, key=itemgetter(2,1))
+
 		f.write('\n(* define function template *)\n')
-		for i in range(json_number - 1):
-			f.write('FuncTemplate[SentencePattern{0}, SentenceParameter{0}, SentenceJson{0}]\n'.format(i + 1))
-		
+		for p in pattern_list:
+			f.write('FuncTemplate[SentencePattern{0}, SentenceParameter{0}, SentenceJson{0}]\n'.format(p[0] + 1))
+
 
 #printResult()
 generateWl()
 
-
-
-
-
-# process Unicode text
-#with codecs.open(filename,'w',encoding='utf8') as f:
-#    f.write(text)
