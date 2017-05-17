@@ -1,0 +1,25 @@
+import socket 
+import sys
+import subprocess
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+sock.bind(('', 1759))
+sock.listen(1)
+
+while True:
+	print 'wait connection...'
+	conn, client = sock.accept()
+
+	try:
+		print 'conn from', client
+		data = conn.recv(1024)
+		print data
+
+	finally:
+		try:
+			result = subprocess.check_output('./sentence2json.wl \"'+data+'\"', shell=True)
+			conn.send(result)
+		except:
+			pass
+		conn.close()

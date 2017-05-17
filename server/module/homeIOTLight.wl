@@ -1,134 +1,54 @@
-#!/usr/bin/env wolframscript
 
-(* define constant *)
-HomeIOTLightLocationLivingroom = "livingroom"
-HomeIOTLightLocationRoom = "room"
-HomeIOTLightLocationKitchen = "kitchen"
-HomeIOTLightLocationBathroom = "bathroom"
-HomeIOTLightObjectLight = "light"
-HomeIOTLightActionOn = True
-HomeIOTLightActionOff = False
-HomeIOTLightBrightnessOn = True
-HomeIOTLightBrightnessOff = False
-
-
-(* define morph list *)
-HomeIOTLightLocationList = {"거실", "마루", "방", "화장실", "부엌"}
-HomeIOTLightObjectList = {"불", "조명"}
-HomeIOTLightActionOnList = {"킬", "켜", "켜볼", "켤", "켜기", "켜줘"}
-HomeIOTLightActionOffList = {"끄", "꺼", "끌", "꺼볼", "끄기"}
-HomeIOTLightBrightnessOnList = {"밝게"}
-HomeIOTLightBrightnessOffList = {"어둡게"}
-
-
-(* define pattern *)
-HomeIOTLightLocationPattern = Apply[Alternatives, HomeIOTLightLocationList]
-HomeIOTLightObjectPattern = Apply[Alternatives, HomeIOTLightObjectList]
-HomeIOTLightActionOnPattern = Apply[Alternatives, HomeIOTLightActionOnList]
-HomeIOTLightActionOffPattern = Apply[Alternatives, HomeIOTLightActionOffList]
-HomeIOTLightBrightnessOnPattern = Apply[Alternatives, HomeIOTLightBrightnessOnList]
-HomeIOTLightBrightnessOffPattern = Apply[Alternatives, HomeIOTLightBrightnessOffList]
-
+(* define morph pattern *)
+HomeiotLightLocation = Apply[Alternatives, {"거실", "마루", "방", "화장실", "부엌"}]
+HomeiotLightObject = Apply[Alternatives, {"불", "조명"}]
+HomeiotLightBrightnessFalse = Apply[Alternatives, {"어둡게"}]
+HomeiotLightBrightnessTrue = Apply[Alternatives, {"밝게"}]
+HomeiotLightActionFalse = Apply[Alternatives, {"끄", "꺼", "끌", "꺼볼", "끄기"}]
+HomeiotLightActionTrue = Apply[Alternatives, {"킬", "켜", "켜볼", "켤", "켜기", "켜줘"}]
 
 (* define mapping *)
-HomeIOTLightLocationMapping = { "거실"->HomeIOTLightLocationLivingroom, "마루"->HomeIOTLightLocationLivingroom, "방"->HomeIOTLightLocationRoom, "부엌"->HomeIOTLightLocationKitchen, "화장실"->HomeIOTLightLocationBathroom }
-HomeIOTLightObjectMapping = #->HomeIOTLightObjectLight&/@HomeIOTLightObjectList
-HomeIOTLightActionOnMapping = #->HomeIOTLightActionOn&/@HomeIOTLightActionOnList
-HomeIOTLightActionOffMapping = #->HomeIOTLightActionOff&/@HomeIOTLightActionOffList
-HomeIOTLightBrightnessOnMapping = #->HomeIOTLightBrightnessOn&/@HomeIOTLightBrightnessOnList
-HomeIOTLightBrightnessOffMapping = #->HomeIOTLightBrightnessOff&/@HomeIOTLightBrightnessOffList
+HomeiotLightLocationMapping = {"거실"->"livingroom", "마루"-> "livingroom", "방"-> "room", "화장실"-> "bathroom", "부엌"-> "kitchen"}
+HomeiotLightObjectMapping = {"불"->"light", "조명"-> "light"}
+HomeiotLightBrightnessFalseMapping = #->False&/@{"어둡게"}
+HomeiotLightBrightnessTrueMapping = #->True&/@{"밝게"}
+HomeiotLightActionFalseMapping = #->False&/@{"끄", "꺼", "끌", "꺼볼", "끄기"}
+HomeiotLightActionTrueMapping = #->True&/@{"킬", "켜", "켜볼", "켤", "켜기", "켜줘"}
 
+(* define sentence pattern *)
+SentencePattern1 = ___~~"Q3"~~___~~homeiotlightlocation:HomeiotLightLocation~~___
+SentencePattern2 = ___~~homeiotlightlocation:HomeiotLightLocation~~___~~homeiotlightobject:HomeiotLightObject~~___
+SentencePattern3 = ___~~"Q5"~~___~~homeiotlightactionfalse:HomeiotLightActionFalse~~___
+SentencePattern4 = ___~~homeiotlightlocation:HomeiotLightLocation~~___~~homeiotlightobject:HomeiotLightObject~~___~~homeiotlightactiontrue:HomeiotLightActionTrue~~___
+SentencePattern5 = ___~~homeiotlightlocation:HomeiotLightLocation~~___~~homeiotlightobject:HomeiotLightObject~~___~~homeiotlightactionfalse:HomeiotLightActionFalse~~___
+SentencePattern6 = ___~~homeiotlightobject:HomeiotLightObject~~___~~homeiotlightactiontrue:HomeiotLightActionTrue~~___
+SentencePattern7 = ___~~"Q5"~~___~~homeiotlightactiontrue:HomeiotLightActionTrue~~___
 
-(* define function template parameter *)
-HomeIOTLightActionOnPattern1 = ___~~loc:HomeIOTLightLocationPattern~~___~~obj:HomeIOTLightObjectPattern~~___~~act:HomeIOTLightActionOnPattern~~___
-HomeIOTLightActionOnPattern2 = ___~~obj:HomeIOTLightObjectPattern~~___~~act:HomeIOTLightActionOnPattern~~___~~loc:HomeIOTLightLocationPattern~~___
+(* define sentence parameter *)
+SentenceParameter1 = {homeiotlightlocation}
+SentenceParameter2 = {homeiotlightlocation,homeiotlightobject}
+SentenceParameter3 = {homeiotlightactionfalse}
+SentenceParameter4 = {homeiotlightlocation,homeiotlightobject,homeiotlightactiontrue}
+SentenceParameter5 = {homeiotlightlocation,homeiotlightobject,homeiotlightactionfalse}
+SentenceParameter6 = {homeiotlightobject,homeiotlightactiontrue}
+SentenceParameter7 = {homeiotlightactiontrue}
 
-HomeIOTLightActionOffPattern1 = ___~~loc:HomeIOTLightLocationPattern~~___~~obj:HomeIOTLightObjectPattern~~___~~act:HomeIOTLightActionOffPattern~~___
-HomeIOTLightActionOffPattern2 = ___~~obj:HomeIOTLightObjectPattern~~___~~act:HomeIOTLightActionOffPattern~~___~~loc:HomeIOTLightLocationPattern~~___
+(* define sentence json *)
+SentenceJson1[{homeiotlightlocation_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation/.HomeiotLightLocationMapping;json["Pattern"] = Null;json["Tts"] = homeiotlightlocation;json]
+SentenceJson2[{homeiotlightlocation_,homeiotlightobject_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation/.HomeiotLightLocationMapping;json["Homeiot"]["Light"]["Object"] = homeiotlightobject/.HomeiotLightObjectMapping;json["Tasktype"] = 1;json["Homeiot"]["Homeiottype"] = 1;json["Pattern"] = 5;json["Tts"] = homeiotlightlocation~~"의 "~~homeiotlightobject~~" 어떻게 할까요?";json]
+SentenceJson3[{homeiotlightactionfalse_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Action"] = homeiotlightactionfalse/.HomeiotLightActionFalseMapping;json["Pattern"] = Null;json["Tts"] = "꺼졌습니다";json]
+SentenceJson4[{homeiotlightlocation_,homeiotlightobject_,homeiotlightactiontrue_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation/.HomeiotLightLocationMapping;json["Homeiot"]["Light"]["Object"] = homeiotlightobject/.HomeiotLightObjectMapping;json["Homeiot"]["Light"]["Action"] = homeiotlightactiontrue/.HomeiotLightActionTrueMapping;json["Tasktype"] = 1;json["Tts"] = homeiotlightlocation~~"의 "~~homeiotlightobject~~" "~~"켜졌습니다";json["Homeiot"]["Homeiottype"] = 1;json]
+SentenceJson5[{homeiotlightlocation_,homeiotlightobject_,homeiotlightactionfalse_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation/.HomeiotLightLocationMapping;json["Homeiot"]["Light"]["Object"] = homeiotlightobject/.HomeiotLightObjectMapping;json["Homeiot"]["Light"]["Action"] = homeiotlightactionfalse/.HomeiotLightActionFalseMapping;json["Tasktype"] = 1;json["Tts"] = homeiotlightlocation~~"의 "~~homeiotlightobject~~" "~~"꺼졌습니다";json["Homeiot"]["Homeiottype"] = 1;json]
+SentenceJson6[{homeiotlightobject_,homeiotlightactiontrue_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Object"] = homeiotlightobject/.HomeiotLightObjectMapping;json["Homeiot"]["Light"]["Action"] = homeiotlightactiontrue/.HomeiotLightActionTrueMapping;json["Tasktype"] = 1;json["Homeiot"]["Homeiottype"] = 1;json["Pattern"] = 3;json["Tts"] = "어디를 켜야 할까요?";json]
+SentenceJson7[{homeiotlightactiontrue_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Action"] = homeiotlightactiontrue/.HomeiotLightActionTrueMapping;json["Pattern"] = Null;json["Tts"] = "켜졌습니다";json]
 
-HomeIOTLightBrightnessOnPattern1 = ___~~loc:HomeIOTLightLocationPattern~~___~~obj:HomeIOTLightObjectPattern~~___~~bri:HomeIOTLightBrightnessOnPattern~~___
+(* define function template *)
+FuncTemplate[SentencePattern4, SentenceParameter4, SentenceJson4]
+FuncTemplate[SentencePattern5, SentenceParameter5, SentenceJson5]
 
-HomeIOTLightBrightnessOffPattern1 = ___~~loc:HomeIOTLightLocationPattern~~___~~obj:HomeIOTLightObjectPattern~~___~~bri:HomeIOTLightBrightnessOffPattern~~___
+FuncTemplate[SentencePattern2, SentenceParameter2, SentenceJson2]
+FuncTemplate[SentencePattern6, SentenceParameter6, SentenceJson6]
+FuncTemplate[SentencePattern7, SentenceParameter7, SentenceJson7]
 
-(*
-HomeIOTLightLocationMissingPattern1 = ___~~obj:HomeIOTLightObjectPattern~~___~~act:HomeIOTLightActionOnPattern~~___
-HomeIOTLightLocationMissingPattern2 = ___~~obj:HomeIOTLightObjectPattern~~___~~act:HomeIOTLightActionOffPattern~~___
-HomeIOTLightLocationMissingPattern3 = ___~~obj:HomeIOTLightObjectPattern~~___~~bri:HomeIOTLightBrightnessOnPattern~~___
-HomeIOTLightLocationMissingPattern4 = ___~~obj:HomeIOTLightObjectPattern~~___~~bri:HomeIOTLightBrightnessOffPattern~~___
-
-(* todo *)
-HomeIOTLightLocationAnswerPattern1 = ___~~qn:QnumberPattern~~___~~loc:HomeIOTLightLocationPattern~~___
-*)
-
-(* define light parameter *)
-HomeIOTLightOnParameter = {loc, obj, act}
-HomeIOTLightOffParameter = {loc, obj, act}
-HomeIOTLightBrightnessOnParameter = {loc, obj, bri}
-HomeIOTLightBrightnessOffParameter = {loc, obj, bri}
-
-(*HomeIOTLightLocationMissingParameter = {obj, act}*)
-
-
-(*  *)
-HomeIOTLightOnJson[{loc_, obj_, act_}] := Module[{json = DefaultJson}, 
-json["TaskType"] = 1; 
-json["TTS"] = loc~~"의 "~~obj~~" 켜졌습니다";
-json["HomeIOT"]["HomeIOTType"] = 1;
-json["HomeIOT"]["Light"]["Location"] = loc/.HomeIOTLightLocationMapping;
-json["HomeIOT"]["Light"]["Object"] = obj/.HomeIOTLightObjectMapping;
-json["HomeIOT"]["Light"]["Action"] = act/.HomeIOTLightActionOnMapping;
-json["HomeIOT"]["Light"]["Brightness"] = Null;
-json]
-
-HomeIOTLightOffJson[{loc_, obj_, act_}] := Module[{json = DefaultJson}, 
-json["TaskType"] = 1; 
-json["TTS"] = loc~~"의 "~~obj~~" 꺼졌습니다";
-json["HomeIOT"]["HomeIOTType"] = 1;
-json["HomeIOT"]["Light"]["Location"] = loc/.HomeIOTLightLocationMapping;
-json["HomeIOT"]["Light"]["Object"] = obj/.HomeIOTLightObjectMapping;
-json["HomeIOT"]["Light"]["Action"] = act/.HomeIOTLightActionOffMapping;
-json["HomeIOT"]["Light"]["Brightness"] = Null;
-json]
-
-HomeIOTLightBrightnessOnJson[{loc_, obj_, bri_}] := Module[{json = DefaultJson}, 
-json["TaskType"] = 1; 
-json["TTS"] = loc~~"의 "~~obj~~" 밝아졌습니다";
-json["HomeIOT"]["HomeIOTType"] = 1;
-json["HomeIOT"]["Light"]["Location"] = loc/.HomeIOTLightLocationMapping;
-json["HomeIOT"]["Light"]["Object"] = obj/.HomeIOTLightObjectMapping;
-json["HomeIOT"]["Light"]["Action"] = Null;
-json["HomeIOT"]["Light"]["Brightness"] = bri/.HomeIOTLightBrightnessOnMapping;
-json]
-
-HomeIOTLightBrightnessOffJson[{loc_, obj_, bri_}] := Module[{json = DefaultJson}, 
-json["TaskType"] = 1; 
-json["TTS"] = loc~~"의 "~~obj~~" 어두워졌습니다";
-json["HomeIOT"]["HomeIOTType"] = 1;
-json["HomeIOT"]["Light"]["Location"] = loc/.HomeIOTLightLocationMapping;
-json["HomeIOT"]["Light"]["Object"] = obj/.HomeIOTLightObjectMapping;
-json["HomeIOT"]["Light"]["Action"] = Null;
-json["HomeIOT"]["Light"]["Brightness"] = bri/.HomeIOTLightBrightnessOffMapping;
-json]
-
-(*
-HomeIOTLightLocationMissingJson[{obj_, act_}] := Module[{json = DefaultJson}, 
-json["TaskType"] = 1; 
-json["TTS"] = loc~~"의 "~~obj~~" 어두워졌습니다";
-json["HomeIOT"]["HomeIOTType"] = 1;
-json["HomeIOT"]["Light"]["Location"] = loc/.HomeIOTLightLocationMapping;
-json["HomeIOT"]["Light"]["Object"] = obj/.HomeIOTLightObjectMapping;
-json["HomeIOT"]["Light"]["Action"] = act/.HomeIOTLightActionOnMapping
-json["HomeIOT"]["Light"]["Brightness"] = bri/.HomeIOTLightBrightnessOffMapping;
-json]
-*)
-
-
-
-(* Creating a function by template *)
-FuncTemplate[HomeIOTLightActionOnPattern1, HomeIOTLightOnParameter, HomeIOTLightOnJson]
-FuncTemplate[HomeIOTLightActionOnPattern2, HomeIOTLightOnParameter, HomeIOTLightOnJson]
-FuncTemplate[HomeIOTLightActionOffPattern1, HomeIOTLightOffParameter, HomeIOTLightOffJson]
-FuncTemplate[HomeIOTLightActionOffPattern2, HomeIOTLightOffParameter, HomeIOTLightOffJson]
-FuncTemplate[HomeIOTLightBrightnessOnPattern1, HomeIOTLightBrightnessOnParameter, HomeIOTLightBrightnessOnJson]
-FuncTemplate[HomeIOTLightBrightnessOffPattern1, HomeIOTLightBrightnessOffParameter, HomeIOTLightBrightnessOffJson]
-
+FuncTemplate[SentencePattern3, SentenceParameter3, SentenceJson3]
+FuncTemplate[SentencePattern1, SentenceParameter1, SentenceJson1]
