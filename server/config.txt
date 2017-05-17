@@ -47,6 +47,8 @@ tts[HomeiotLightBrightnessFalse] = "어두워졌습니다"
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionTrue], HomeiotHomeiottype = 1
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionFalse],HomeiotHomeiottype = 1
 
-#HomeiotLightObject, HomeiotLightActionTrue / pattern = $xxx
-#%xxx HomeiotLightLocation / pattern = Null
-
+HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜야 할까요?"
+%p1, HomeiotLightLocation / Pattern = Null, Tts = HomeiotLightLocation
+HomeiotLightLocation, HomeiotLightObject / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p2, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" 어떻게 할까요?"
+%p2, HomeiotLightActionTrue / Pattern = Null, Tts = tts[HomeiotLightActionTrue]
+%p2, HomeiotLightActionFalse / Pattern = Null, Tts = tts[HomeiotLightActionFalse]
