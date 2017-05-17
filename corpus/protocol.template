@@ -1,0 +1,52 @@
+{
+	"Tasktype" : "Number",
+
+	"Pattern" : "Number",
+
+	"Tts" : "String",
+	
+	"Homeiot" : 
+	{
+		"Homeiottype" : "Number",
+
+		"Light":
+		{
+			"Location" : "String",
+			"Object" : "String",
+			"Action" : "Boolean",
+			"Brightness" : "Boolean"
+		},
+
+		"Tv":
+		{
+			"Power" : "Boolean",
+			"Channel" : "Number",
+			"Volume" : "Boolean",
+			"Mute" : "Boolean",
+			"Remoteloc" : "Boolean"
+		}
+	},
+
+	"Secretary" :
+	{
+		"Secretarytype" : "Number",
+
+		"Schedule" :
+		{
+			"Startdate" : "String",
+			"Starttime": "String",
+			"Enddate" : "String",
+			"Endtime" : "String",
+			"Content" : "String"
+		},
+
+		"Music" :
+		{
+			"Title" : "String",
+			"Singer" : "String",
+			"Album" : "String",
+			"Gnr" : "String",
+			"Dtlgnr" : "String"
+		}
+	}
+}

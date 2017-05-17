@@ -1,52 +1,52 @@
 {
-	"Tasktype" : "Number",
+	"Tasktype" : "Null",
 
-	"Pattern" : "Number",
+	"Pattern" : "Null",
 
-	"Tts" : "String",
+	"Tts" : "Null",
 	
 	"Homeiot" : 
 	{
-		"Homeiottype" : "Number",
+		"Homeiottype" : "Null",
 
 		"Light":
 		{
-			"Location" : "String",
-			"Object" : "String",
-			"Action" : "Boolean",
-			"Brightness" : "Boolean"
+			"Location" : "Null",
+			"Object" : "Null",
+			"Action" : "Null",
+			"Brightness" : "Null"
 		},
 
 		"Tv":
 		{
-			"Power" : "Boolean",
-			"Channel" : "Number",
-			"Volume" : "Boolean",
-			"Mute" : "Boolean",
-			"Remoteloc" : "Boolean"
+			"Power" : "Null",
+			"Channel" : "Null",
+			"Volume" : "Null",
+			"Mute" : "Null",
+			"Remoteloc" : "Null"
 		}
 	},
 
 	"Secretary" :
 	{
-		"Secretarytype" : "Number",
+		"Secretarytype" : "Null",
 
 		"Schedule" :
 		{
-			"Startdate" : "String",
-			"Starttime": "String",
-			"Enddate" : "String",
-			"Endtime" : "String",
-			"Content" : "String"
+			"Startdate" : "Null",
+			"Starttime": "Null",
+			"Enddate" : "Null",
+			"Endtime" : "Null",
+			"Content" : "Null"
 		},
 
 		"Music" :
 		{
-			"Title" : "String",
-			"Singer" : "String",
-			"Album" : "String",
-			"Gnr" : "String",
-			"Dtlgnr" : "String"
+			"Title" : "Null",
+			"Singer" : "Null",
+			"Album" : "Null",
+			"Gnr" : "Null",
+			"Dtlgnr" : "Null"
 		}
 	}
 }

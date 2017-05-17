@@ -12,8 +12,8 @@
 #
 # 3. <pattern> define pattern to json function
 # it will make wl function
-# - first line : pattern
-# - second line : json 
+# - pattern / json rule
+# - string concat be use '+'
 #
 # # is comment start symbol. program not read this line
 #######################################################
@@ -32,10 +32,6 @@ tts[HomeiotLightActionFalse] = "꺼졌습니다"
 tts[HomeiotLightBrightnessTrue] = "밝아졌습니다"
 tts[HomeiotLightBrightnessFalse] = "어두워졌습니다"
 
-# first line : pattern
-# second line : json rule, string concat be use '+'
 @pattern
-HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue
-Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionTrue]
-HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse
-Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionFalse]
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionTrue]
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionFalse]
