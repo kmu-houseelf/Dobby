@@ -1,0 +1,41 @@
+#######################################################
+# config file 
+#######################################################
+# This file consists of three elements using @ symbol.
+# 1. <list> define json element 
+# defines the values corresponding to the json element.
+# - json element = { element list ... }
+#
+# 2. <mapping> define user map
+# this will be use json part of <pattern>
+# - userfunc[<list symbol>] = "string"
+#
+# 3. <pattern> define pattern to json function
+# it will make wl function
+# - first line : pattern
+# - second line : json 
+#
+# # is comment start symbol. program not read this line
+#######################################################
+
+@list
+HomeiotLightLocation = {"거실", "마루", "방", "화장실", "부엌"}
+HomeiotLightObject = {"불", "조명"}
+HomeiotLightActionTrue = {"킬", "켜", "켜볼", "켤", "켜기", "켜줘"}
+HomeiotLightActionFalse = {"끄", "꺼", "끌", "꺼볼", "끄기"}
+HomeiotLightBrightnessTrue = {"밝게"}
+HomeiotLightBrightnessFalse = {"어둡게"}
+
+@mapping
+tts[HomeiotLightActionTrue] = "켜졌습니다"
+tts[HomeiotLightActionFalse] = "꺼졌습니다"
+tts[HomeiotLightBrightnessTrue] = "밝아졌습니다"
+tts[HomeiotLightBrightnessFalse] = "어두워졌습니다"
+
+# first line : pattern
+# second line : json rule, string concat be use '+'
+@pattern
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue
+Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionTrue]
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse
+Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionFalse]

@@ -1,11 +1,13 @@
 {
-	"TaskType" : "Number",
+	"Tasktype" : "Number",
 
-	"TTS" : "String",
+	"Pattern" : "Number",
+
+	"Tts" : "String",
 	
-	"HomeIOT" : 
+	"Homeiot" : 
 	{
-		"HomeIOTType" : "Number",
+		"Homeiottype" : "Number",
 
 		"Light":
 		{
@@ -15,26 +17,26 @@
 			"Brightness" : "Boolean"
 		},
 
-		"TV":
+		"Tv":
 		{
 			"Power" : "Boolean",
 			"Channel" : "Number",
 			"Volume" : "Boolean",
 			"Mute" : "Boolean",
-			"RemoteLoc" : "Boolean"
+			"Remoteloc" : "Boolean"
 		}
 	},
 
 	"Secretary" :
 	{
-		"SecretaryType" : "Number",
+		"Secretarytype" : "Number",
 
 		"Schedule" :
 		{
-			"StartDate" : "String",
-			"StartTime": "String",
-			"EndDate" : "String",
-			"EndTime" : "String",
+			"Startdate" : "String",
+			"Starttime": "String",
+			"Enddate" : "String",
+			"Endtime" : "String",
 			"Content" : "String"
 		},
 
@@ -44,7 +46,7 @@
 			"Singer" : "String",
 			"Album" : "String",
 			"Gnr" : "String",
-			"DtlGnr" : "String"
+			"Dtlgnr" : "String"
 		}
 	}
 }
