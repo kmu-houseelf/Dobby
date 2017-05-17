@@ -28,30 +28,71 @@
 @list
 HomeiotLightLocation = {"거실", "마루", "방", "화장실", "부엌", "주방", "전체"}
 HomeiotLightObject = {"불", "조명", "등"}
-HomeiotLightActionTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜줘라", "켜기", "켜봐", "켜줘봐라", "켜줬으면", "켜줬으면 해", 
-"켜봐라", "켜주세요", "켜줘봐", "켜주라", "켜라", "켜주기", "켜주다", "켜줄", "켜볼래", "켜줄래", "켜줄래요", "켜봐줄래", "켜줘볼래", 
-"켜봐줄", "켜줘볼", "켜 줄 수 있어", "켜 줄", "켜 줄 수 있지", "켜 줄 수 있다", "켜 줄 수", "켜주지 않겠니", "켜 줄 수 있어요", "켜 줄 수 있을까",
+HomeiotTvObject = {"티비", "텔레비젼", "테레비", "리모컨", "리모콘", "소리", "볼륨", "음소거", "채널"}
+HomeiotTvChannel = {"메뉴", "카테고리", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "ytn", "sbs", "cnn", "해외축구", "야구", "해외농구", "음악프로", "애니프로", "게임프로", "교육프로"}
+HomeiotLightActionTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜줘라", "켜기", "켜봐", "켜줘봐라", "켜줬으면", "켜줬으면 해", "켜봐라", "켜주세요", "켜줘봐", "켜주라", "켜라", "켜주기", "켜주다", "켜줄", "켜볼래", "켜줄래", "켜줄래요", "켜봐줄래", "켜줘볼래", "켜봐줄", "켜줘볼", "켜 줄 수 있어", "켜 줄", "켜 줄 수 있지", "켜 줄 수 있다", "켜 줄 수", "켜주지 않겠니", "켜 줄 수 있어요", "켜 줄 수 있을까",
 "켤래", "킬래"}
-HomeiotLightActionFalse = {"끄", "꺼", "끌", "꺼볼", "끄기"}
+HomeiotLightActionFalse = {"끄", "끌", "꺼볼", "꺼", "꺼줘", "끄다", "꺼줘라", "끄기", "꺼봐", "꺼줘봐라", "꺼줬으면", "꺼줬으면 해", "꺼줬", "꺼봐라", "꺼주세요", "꺼줘봐", "꺼주라", "꺼주", "꺼라", "꺼주기", "꺼주다", "꺼라", "꺼줄래", "꺼줄", "꺼줄래요", "꺼봐줄래", "꺼봐줄", "꺼줘볼래", "꺼줘볼", "꺼볼래", "꺼 줄 수 있어", "꺼 줄 수", "꺼 줄 수 있", "꺼 줄 수 있지", "꺼주지 않겠니", "꺼주지 않겠", "꺼 줄 수 있어요", "꺼 줄 수 있을까", "꺼 줄 수 있을", "끌래", "해", "해줘", "줄", "줄여", "해줘라", "줄여줘", "해봐", "해줘봐", "해줬으면 해", "해줬으면", "해봐라", "해주세요", "해줘봐라", "해주라", "해라", "해주기", "해주", "해줬", "해줄", "해줄래", "해줄래요", "해봐줄래", "해줘볼래", "해볼래", "해 줄 수 있어", "해 줄 수", "해 줄 수 있지", "해주지", "해주지 않겠니", "해 줄 수 있어요", "해 줄 수 있을까", "줄여줄래"}
 HomeiotLightBrightnessTrue = {"밝게", "더 밝게"}
 HomeiotLightBrightnessFalse = {"어둡게", "더 어둡게"}
+HomeiotTvPowerTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜줘라", "켜기", "켜봐", "켜줘봐라", "켜줬으면", "켜줬으면 해", "켜봐라", "켜주세요", "켜줘봐", "켜주라", "켜라", "켜주기", "켜주다", "켜줄", "켜볼래", "켜줄래", "켜줄래요", "켜봐줄래", "켜줘볼래", "켜봐줄", "켜줘볼", "켜 줄 수 있어", "켜 줄", "켜 줄 수 있지", "켜 줄 수 있다", "켜 줄 수", "켜주지 않겠니", "켜 줄 수 있어요", "켜 줄 수 있을까", "켤래", "킬래", "켜다줄래", "켜다줄","바꿔", "바꿔줘", "바꾸다", "바꿔줘라", "바꾸기", "바꿔봐", "바꿔줘봐라", "바꿔줬으면 해", "바꿔봐라", "바꿔주세요", "바꿔줘봐", "바꿔주라", "바꿔라", "바꿔주기", "바꿔주다", "바꿔라", "바꿔줄래", "바꿔줄래요", "바꿔봐줄래", "바꿔줘볼래", "바꿔볼래", "바꿔줄 수 있어", "바꿔 줄 수 있지", "바꿔주지 않겠니", "바꿔 줄 수 있어요", "바꿔 줄 수 있을까", "바꿀래", "틀", "틀어", "틀어줘", "틀다", "틀어줘라", "틀기", "틀어봐", "틀어줘봐라", "틀어줬으면 해", "틀어줬으면", "틀어봐라", "틀어주세요", "틀어줘봐", "틀어주라", "틀어주", "틀어라", "틀어주기", "틀어주다", "틀다줄", "틀어줄래", "틀어줄래요", "틀어봐줄래", "틀어줘볼래", "틀어볼래", "틀어 줄 수 있어", "틀어 줄 수", "틀어 줄", "틀어 줄 수 있지", "틀어주지 않겠니", "틀어 줄 수 있어요", "틀어 줄 수 있", "틀어 줄 수 있을까", "틀래", "틀을래", "온", "돌려", "돌려줘", "돌리다", "돌려줘라", "돌리기", "돌려봐", "돌려줘봐라", "돌려줬으면 해", "돌려봐라", "돌려주세요", "돌려줘봐", "돌려주라", "돌려라", "돌려주기", "돌려주다", "돌려줄래", "돌려줄래요", "돌려봐줄래", "돌려줘볼래", "돌려볼래", "돌려 줄 수 있어", "돌려 줄 수 있지", "돌려주지 않겠니", "돌려 줄 수 있어요", "돌려 줄 수 있을까", "돌릴래", "보여줘", "봐봐", "보여줘라", "보여봐", "보여줘봐라", "보여줬으면 해", "보여봐라", "보여주세요", "보여줘봐", "보여주라", "보여라", "보여주기", "보여주다", "보여줄래", "보여줄래요", "보여봐줄래", "보여줘볼래", "보여볼래", "보여 줄 수 있어", "보여 줄 수 있지", "보여주지 않겠니", "보여 줄 수 있어요", "보여 줄 수 있을까", "알려줘", "알려줘라", "알려줘봐라", "알려줬으면 해", "알려줘봐라", "알려주세요", "알려줘봐", "알려주라", "알려주기", "알려주다", "알려줄래", "알려줄래요", "알려줘볼래", "알려 줄 수 있어", "알려 줄 수 있지", "알려주지 않겠니", "알려 줄 수 있어요", "알려 줄 수 있을까"}
+HomeiotTvPowerFalse = {"끄", "끌", "꺼볼", "꺼", "꺼줘", "끄다", "꺼줘라", "끄기", "꺼봐", "꺼줘봐라", "꺼줬으면", "꺼줬으면 해", "꺼줬", "꺼봐라", "꺼주세요", "꺼줘봐", "꺼주라", "꺼주", "꺼라", "꺼주기", "꺼주다", "꺼라", "꺼줄래", "꺼줄", "꺼줄래요", "꺼봐줄래", "꺼봐줄", "꺼줘볼래", "꺼줘볼", "꺼볼래", "꺼 줄 수 있어", "꺼 줄 수", "꺼 줄 수 있", "꺼 줄 수 있지", "꺼주지 않겠니", "꺼주지 않겠", "꺼 줄 수 있어요", "꺼 줄 수 있을까", "꺼 줄 수 있을", "끌래", "오프"}
+HomeiotTvVolumeTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜줘라", "켜기", "켜봐", "켜줘봐라", "켜줬으면", "켜줬으면 해", "켜봐라", "켜주세요", "켜줘봐", "켜주라", "켜라", "켜주기", "켜주다", "켜줄", "켜볼래", "켜줄래", "켜줄래요", "켜봐줄래", "켜줘볼래", "켜봐줄", "켜줘볼", "켜 줄 수 있어", "켜 줄", "켜 줄 수 있지", "켜 줄 수 있다", "켜 줄 수", "켜주지 않겠니", "켜 줄 수 있어요", "켜 줄 수 있을까", "켤래", "킬래", "켜다줄래", "켜다줄", "높여", "높여줘", "높이다", "높여줘라", "높이기", "높여봐", "높여줘봐라", "높여줬으면 해", "높여봐라", "높여주세요", "높여줘봐", "높여주라", "높여라", "높여주기", "높여주다", "높여줄래", "높여줄래요", "높여봐줄래", "높여줘볼래", "높여볼래", "높여 줄 수 있어", "높여 줄 수 있지", "높여주지 않겠니", "높여 줄 수 있어요", "높여 줄 수 있을까", "높일래"}
+HomeiotTvVolumeFalse = {"줄여", "줄여줘", "줄여봐", "줄이다", "줄여줘라", "줄이기", "줄여봐", "줄여줘봐라", "줄여줬으면 해", "줄여봐라", "줄여주세요", "줄여줘봐", "줄여주라", "줄여라", "줄여주기", "줄여주다", "줄여줄래", "줄여줄래요", "줄여봐줄래", "줄여줘볼래", "줄여볼래", "줄여 줄 수 있어", "줄여 줄 수 있지", "줄여주지 않겠니", "줄여 줄 수 있어요", "줄여 줄 수 있을까", "줄여다줄래", "줄일래", "낮춰", "낮춰줘", "낮추다", "낮춰줘라", "낮추기", "낮춰봐", "낮춰줘봐라", "낮춰줬으면 해", "낮춰봐라", "낮춰주세요", "낮춰봐라", "낮춰주세요", "낮춰줘봐", "낮춰주라", "낮춰라", "낮춰주기", "낮춰주다", "낮춰줄래", "낮춰줄래요", "낮춰봐줄래", "낮춰줘볼래", "낮춰볼래", "낮춰 줄 수 있어", "낮춰 줄 수 있지", "낮춰주지 않겠니", "낮춰 줄 수 있어요", "낮춰 줄 수 있을까", "낮춰다줄래", "낮출래"}
+HomeiotTvMuteTrue = {"해", "해줘", "하다", "해줬으면 해", "해줘라", "하기", "해봐", "해줘봐", "해줘봐라", "해줬으면", "해봐라", "해주세요", "해줘봐", "해주라", "해라", "해주기", "해주다", "해줬", "해줄", "해줄래", "해줄래요", "해봐줄래", "해줘볼래", "해볼래", "해 줄 수 있어", "해 줄 수", "해 줄 수 있지", "해주지", "해주지 않겠니", "해 줄 수 있어요", "해 줄 수 있을까", "할래", "킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜줘라", "켜기", "켜봐", "켜줘봐라", "켜줬으면", "켜줬으면 해", "켜봐라", "켜주세요", "켜줘봐", "켜주라", "켜라", "켜주기", "켜주다", "켜줄", "켜볼래", "켜줄래", "켜줄래요", "켜봐줄래", "켜줘볼래", "켜봐줄", "켜줘볼", "켜 줄 수 있어", "켜 줄", "켜 줄 수 있지", "켜 줄 수 있다", "켜 줄 수", "켜주지 않겠니", "켜 줄 수 있어요", "켜 줄 수 있을까", "켤래", "킬래", "켜다줄래", "켜다줄"}
+HomeiotTvMuteFalse = {"끄", "끌", "꺼볼", "꺼", "꺼줘", "끄다", "꺼줘라", "끄기", "꺼봐", "꺼줘봐라", "꺼줬으면", "꺼줬으면 해", "꺼줬", "꺼봐라", "꺼주세요", "꺼줘봐", "꺼주라", "꺼주", "꺼라", "꺼주기", "꺼주다", "꺼라", "꺼줄래", "꺼줄", "꺼줄래요", "꺼봐줄래", "꺼봐줄", "꺼줘볼래", "꺼줘볼", "꺼볼래", "꺼 줄 수 있어", "꺼 줄 수", "꺼 줄 수 있", "꺼 줄 수 있지", "꺼주지 않겠니", "꺼주지 않겠", "꺼 줄 수 있어요", "꺼 줄 수 있을까", "꺼 줄 수 있을", "끌래"}
+HomeiotTvRemoteLocTrue = {"알려줘", "알려줘라", "알려줘봐라", "알려줬으면 해", "알려줘봐라", "알려주세요", "알려줘봐", "알려주라", "알려주기", "알려주다", "알려줄래", "알려줄래요", "알려줘볼래", "알려 줄 수 있어", "알려 줄 수 있지", "알려주지 않겠니", "알려 줄 수 있어요", "알려 줄 수 있을까", "어딨어", "어디에있어", "찾아줘", "찾아줘라", "찾아줘줄래", "찾아줘볼래"}
 
 @mapping
-HomeiotLightLocation = {"livingroom", "livingroom", "room", "bathroom", "kitchen"}
-HomeiotLightObject = {"light", "light"}
+HomeiotLightLocation = {"Livingroom", "Livingroom", "Room", "Bathroom", "Kitchen", "Kitchen", "All"}
+HomeiotLightObject = {"Lamp", "Lamp", "Lamp"}
+HomeiotTvObject = {"Tv", "Tv", "Tv", "Remotecontrol", "Remotecontrol", "Volume", "Volume", "Mute", "Channel"}
+HomeiotTvChannel = {"Menu", "Menu", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번"}
 
 @user
-tts[HomeiotLightActionTrue] = "켜졌습니다"
-tts[HomeiotLightActionFalse] = "꺼졌습니다"
-tts[HomeiotLightBrightnessTrue] = "밝아졌습니다"
-tts[HomeiotLightBrightnessFalse] = "어두워졌습니다"
+tts[HomeiotLightActionTrue] = "켰습니다"
+tts[HomeiotLightActionFalse] = "껐습니다"
+tts[HomeiotLightBrightnessTrue] = "밝게 켰습니다"
+tts[HomeiotLightBrightnessFalse] = "어둡게 했습니다"
+tts[HomeiotTvPowerTrue] = "켰습니다"
+tts[HomeiotTvPowerFalse] = "껐습니다"
+tts[HomeiotTvVolumeTrue] = "켰습니다"
+tts[HomeiotTvVolumeFalse] = "줄였습니다"
+tts[HomeiotTvMuteTrue] = "했습니다"
+tts[HomeiotTvMuteFalse] = "껐습니다"
+tts[HomeiotTvRemoteLocTrue] = "찾았습니다"
 
 @pattern
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionTrue], HomeiotHomeiottype = 1
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionFalse],HomeiotHomeiottype = 1
+HomeiotLightObject, HomeiotLightActionTrue, HomeiotLightLocation / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionTrue], HomeiotHomeiottype = 1
+HomeiotLightObject, HomeiotLightActionFalse, HomeiotLightLocation / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionFalse], HomeiotHomeiottype = 1
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightBrightnessTrue, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightBrightnessTrue], HomeiotHomeiottype = 1
+HomeiotLightObject, HomeiotLightBrightnessTrue, HomeiotLightActionTrue, HomeiotLightLocation / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightBrightnessTrue], HomeiotHomeiottype = 1
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightBrightnessFalse, HomeiotLightActionFalse / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightBrightnessFalse], HomeiotHomeiottype = 1
+HomeiotLightObject, HomeiotLightBrightnessFalse, HomeiotLightActionFalse, HomeiotLightLocation / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightBrightnessFalse], HomeiotHomeiottype = 1
+HomeiotTvObject, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvPowerFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvPowerFalse], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
+HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvMuteTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvMuteTrue], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvMuteFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvMuteFalse], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvVolumeTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvVolumeTrue], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvVolumeFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvVolumeFalse], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvRemoteLocTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvRemoteLocTrue], HomeiotHomeiottype = 2
 
-HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜야 할까요?"
-%p1, HomeiotLightLocation / Pattern = Null, Tts = HomeiotLightLocation
+
+HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜 드릴까요?"
+%p1, HomeiotLightLocation / Pattern = Null, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionTrue]
 HomeiotLightLocation, HomeiotLightObject / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p2, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" 어떻게 할까요?"
 %p2, HomeiotLightActionTrue / Pattern = Null, Tts = tts[HomeiotLightActionTrue]
 %p2, HomeiotLightActionFalse / Pattern = Null, Tts = tts[HomeiotLightActionFalse]
+HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p3, Tts = "어디를 꺼 드릴까요?"
+%p3, HomeiotLightLocation / Pattern = Null, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionFalse]
+HomeiotLightObject, HomeiotLightBrightnessTrue, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p4, Tts = "어디를 켜 드릴까요?"
+%p4, HomeiotLightLocation / Pattern = Null, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightBrightnessTrue]
+HomeiotLightObject, HomeiotLightBrightnessFalse, HomeiotLightActionFalse / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p5, Tts = "어디를 어둡게 해 드릴까요?"
+%p5, HomeiotLightLocation / Pattern = Null, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightBrightnessFalse]
+HomeiotTvObject, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Pattern = $p6, Tts = "어떤 채널을 원하시나요?"
+%p6, HomeiotTvChannel / Pattern = Null, Tts = HomeiotTvObject+"을 "+tts[HomeiotTvPowerTrue]
+
