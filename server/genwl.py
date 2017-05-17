@@ -6,12 +6,13 @@ FLAG_SYMBOL = '@'
 
 LIST_FLAG = 1
 MAPPING_FLAG = 2
-PATTERN_FLAG = 3
-UNKNOWN_FALG = -1
+USER_FLAG = 3
+PATTERN_FLAG = 4
+UNKNOWN_FLAG = -1
 
 filename = 'config.txt'
 list_dict = {}
-mapping_func_dict = {}
+user_func_dict = {}
 pattern_dict = {}
 
 def isComment(symbol):
@@ -28,10 +29,12 @@ def getFlag(line):
 		return LIST_FLAG
 	elif line[1:].strip() == 'mapping':
 		return MAPPING_FLAG
+	elif line[1:].strip() == 'user':
+		return USER_FLAG
 	elif line[1:].strip() == 'pattern':
 		return PATTERN_FLAG
 	else:
-		return UNKNOWN_FALG
+		return UNKNOWN_FLAG
 
 def run(flag, line):
 	if flag == LIST_FLAG:
@@ -40,15 +43,19 @@ def run(flag, line):
 		list_dict[variable] = array
 
 	elif flag == MAPPING_FLAG:
+		
+		pass
+
+	elif flag == USER_FLAG:
 		mapping_func, value = line.split('=')
 		mapping_func, value = mapping_func.strip(), value.strip()
 
 		mapping_func_name, parameter = re.findall(r"[\w]+", mapping_func)
 
-		if not mapping_func_name in mapping_func_dict:
-			mapping_func_dict[mapping_func_name] = {}		
+		if not mapping_func_name in user_func_dict:
+			user_func_dict[mapping_func_name] = {}		
 
-		mapping_func_dict[mapping_func_name][parameter] = value
+		user_func_dict[mapping_func_name][parameter] = value
 
 	elif flag == PATTERN_FLAG:
 		pattern, json_rule = line.split('/')
@@ -74,7 +81,7 @@ def printResult():
 	    print(variable, array)
 
 	print('# mapping table')
-	for func_name, pair in mapping_func_dict.items():
+	for func_name, pair in user_func_dict.items():
 		print(func_name)
 		for parameter, value in pair.items():
 			print(parameter, value)
@@ -139,8 +146,8 @@ def generateWl():
 				for i, item in enumerate(rhs):
 					if re.match(r'[\w]+\[[\w]+\]', item):
 						func, param = re.findall(r"[\w]+", item)
-						if func in mapping_func_dict and param in mapping_func_dict[func]:
-							rhs[i] = mapping_func_dict[func][param]
+						if func in user_func_dict and param in user_func_dict[func]:
+							rhs[i] = user_func_dict[func][param]
 
 				rhs = [item.lower() if item in list_dict else item for item in rhs]
 				rhs = '~~'.join(rhs)

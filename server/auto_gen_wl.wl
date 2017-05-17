@@ -16,8 +16,8 @@ SentenceParameter1 = {homeiotlightlocation,homeiotlightobject,homeiotlightaction
 SentenceParameter2 = {homeiotlightlocation,homeiotlightobject,homeiotlightactiontrue}
 
 (* define sentence json *)
-SentenceJson1[{homeiotlightlocation_,homeiotlightobject_,homeiotlightactionfalse_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation;json["Homeiot"]["Light"]["Object"] = homeiotlightobject;json["Homeiot"]["Light"]["Action"] = homeiotlightactionfalse;json["Tasktype"] = 1;json["Tts"] = homeiotlightlocation~~"의"~~homeiotlightobject~~" "~~"꺼졌습니다";json]
-SentenceJson2[{homeiotlightlocation_,homeiotlightobject_,homeiotlightactiontrue_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation;json["Homeiot"]["Light"]["Object"] = homeiotlightobject;json["Homeiot"]["Light"]["Action"] = homeiotlightactiontrue;json["Tasktype"] = 1;json["Tts"] = homeiotlightlocation~~"의"~~homeiotlightobject~~" "~~"켜졌습니다";json]
+SentenceJson1[{homeiotlightlocation_,homeiotlightobject_,homeiotlightactionfalse_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation;json["Homeiot"]["Light"]["Object"] = homeiotlightobject;json["Homeiot"]["Light"]["Action"] = homeiotlightactionfalse;json["Tasktype"] = 1;json["Tts"] = homeiotlightlocation~~"의 "~~homeiotlightobject~~" "~~"꺼졌습니다";json["Homeiot"]["Homeiottype"] = 1;json]
+SentenceJson2[{homeiotlightlocation_,homeiotlightobject_,homeiotlightactiontrue_}] := Module[{json = DefaultJson},json["Homeiot"]["Light"]["Location"] = homeiotlightlocation;json["Homeiot"]["Light"]["Object"] = homeiotlightobject;json["Homeiot"]["Light"]["Action"] = homeiotlightactiontrue;json["Tasktype"] = 1;json["Tts"] = homeiotlightlocation~~"의 "~~homeiotlightobject~~" "~~"켜졌습니다";json["Homeiot"]["Homeiottype"] = 1;json]
 
 (* define function template *)
 FuncTemplate[SentencePattern1, SentenceParameter1, SentenceJson1]

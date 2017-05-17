@@ -1,22 +1,29 @@
-#######################################################
+##########################################################
 # config file 
-#######################################################
+##########################################################
 # This file consists of three elements using @ symbol.
 # 1. <list> define json element 
 # defines the values corresponding to the json element.
 # - json element = { element list ... }
 #
-# 2. <mapping> define user map
+# 2. <Mapping> is an option to replace a string type 
+# element with a specific json parameter. It must be
+# defined equal to the number of arrays defined in <list>
+# - 
+#
+# 3. <user> define user map
 # this will be use json part of <pattern>
 # - userfunc[<list symbol>] = "string"
 #
-# 3. <pattern> define pattern to json function
+# 4. <pattern> define pattern to json function
 # it will make wl function
 # - pattern / json rule
 # - string concat be use '+'
 #
 # # is comment start symbol. program not read this line
-#######################################################
+# $<symbol> direct current pattern line number
+# %<symbol> direct $<symbol> pattern line number
+##########################################################
 
 @list
 HomeiotLightLocation = {"거실", "마루", "방", "화장실", "부엌"}
@@ -27,11 +34,19 @@ HomeiotLightBrightnessTrue = {"밝게"}
 HomeiotLightBrightnessFalse = {"어둡게"}
 
 @mapping
+HomeiotLightLocation = {"livingroom", "livingroom", "room", "bathroom", "kitchen"}
+HomeiotLightObject = {"light", "light"}
+
+@user
 tts[HomeiotLightActionTrue] = "켜졌습니다"
 tts[HomeiotLightActionFalse] = "꺼졌습니다"
 tts[HomeiotLightBrightnessTrue] = "밝아졌습니다"
 tts[HomeiotLightBrightnessFalse] = "어두워졌습니다"
 
 @pattern
-HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionTrue]
-HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, Tts = HomeiotLightLocation+"의"+HomeiotLightObject+" "+tts[HomeiotLightActionFalse]
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionTrue], HomeiotHomeiottype = 1
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, Tts = HomeiotLightLocation+"의 "+HomeiotLightObject+" "+tts[HomeiotLightActionFalse],HomeiotHomeiottype = 1
+
+HomeiotLightObject, HomeiotLightActionTrue / pattern = $xxx
+%xxx HomeiotLightLocation / pattern = Null
+
