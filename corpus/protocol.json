@@ -19,7 +19,8 @@
 
 		"Tv":
 		{
-			"Power" : "Null",
+			"Object" : "Null",
+      "Power" : "Null",
 			"Channel" : "Null",
 			"Volume" : "Null",
 			"Mute" : "Null",
