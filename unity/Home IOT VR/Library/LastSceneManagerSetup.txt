@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/PC_demo.unity
+- path: Assets/Mobile_demo.unity
   isLoaded: 1
   isActive: 1

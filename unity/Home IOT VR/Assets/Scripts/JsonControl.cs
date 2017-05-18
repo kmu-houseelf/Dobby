@@ -5,17 +5,10 @@ using UnityEngine;
 
 public class JsonControl : MonoBehaviour {
 
-    public List<string> nameList;
-    public List<bool> stateList;
-    public int deviceCount;
-
     private Device_Controller controller;
 
 	// Use this for initialization
 	void Start () {
-        nameList = new List<string>();
-        stateList = new List<bool>();
-        deviceCount = 0;
         controller = GameObject.Find("GameController").GetComponent<Device_Controller>();
     }
 	
@@ -28,15 +21,24 @@ public class JsonControl : MonoBehaviour {
     {
         Debug.Log("Parse");
         JSONNode n = JSON.Parse(message);
-        deviceCount = n["device_count"].AsInt;
-        Debug.Log("cnt: "+ deviceCount);
-        for(int i=0; i < deviceCount; i++)
+
+        //Debug.Log(n["HomeIOT"].ToString());
+        JSONNode iot = JSON.Parse(n["HomeIOT"].ToString());
+        //Debug.Log(iot.ToString());
+
+        if(iot["HomeIOTType"].AsInt == 1)
         {
-            string name = n["device_light"][i]["name"];
-            nameList.Add(name);
-            bool state = n["device_light"][i]["state"];
-            stateList.Add(state);
-            controller.Change_light(name, state);
+            Debug.Log("Light");
+            controller.Change_light(JSON.Parse(iot["Light"].ToString()));
+        }
+        else if(iot["HomeIOTType"].AsInt == 2)
+        {
+            Debug.Log("TV");
+            controller.Change_TV(JSON.Parse(iot["TV"].ToString()));
+        }
+        else
+        {
+            Debug.Log("Unknown");
         }
     }
 }
