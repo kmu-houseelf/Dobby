@@ -78,7 +78,7 @@ HomeiotTvObject, HomeiotTvMuteTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts
 HomeiotTvObject, HomeiotTvMuteFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvMuteFalse], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvVolumeTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvVolumeTrue], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvVolumeFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvVolumeFalse], HomeiotHomeiottype = 2
-HomeiotTvObject, HomeiotTvRemoteLocTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvRemotelocTrue], HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvRemotelocTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvRemotelocTrue], HomeiotHomeiottype = 2
 HomeiotTvChannel, HomeiotTvObject, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
 
 
