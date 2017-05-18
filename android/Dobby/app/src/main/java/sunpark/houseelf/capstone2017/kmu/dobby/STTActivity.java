@@ -9,11 +9,16 @@ package sunpark.houseelf.capstone2017.kmu.dobby;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -28,8 +33,15 @@ public class STTActivity extends AppCompatActivity {
 
     SpeechRecognizer mSpeechRecognizer;
     String resultStr = "";
+    String stringForJSON = "";
+    JSONObject resultJSON;
+    String pattern;
+    String TTSMessage;
 
-    private Thread sendThread;
+    private int status = FIRST_STT;
+    private static final int FIRST_STT = 1;
+    private static final int RESTART_STT= 2;
+    private CommandSenderThread sendThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +54,6 @@ public class STTActivity extends AppCompatActivity {
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 3000);
 
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
@@ -53,6 +64,10 @@ public class STTActivity extends AppCompatActivity {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+        if(mSpeechRecognizer == null) {
+            mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+            mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
+        }
     }
 
     @Override
@@ -63,12 +78,16 @@ public class STTActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
+        if(mSpeechRecognizer != null) {
+            mSpeechRecognizer.stopListening();
+            mSpeechRecognizer.destroy();
+        }
+
         mainIntent.setAction("android.intent.action.MAIN");
         mainIntent.addCategory("android.intent.category.HOME");
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(mainIntent);
-        super.onDestroy();
-        mSpeechRecognizer.destroy();
         Log.d("sttAct Destroy", "sttAct Destroy");
     }
 
@@ -77,7 +96,15 @@ public class STTActivity extends AppCompatActivity {
         public void onBeginningOfSpeech() {
             // TODO Auto-generated method stub
             Log.d("onBeginningOfSpeech", "onBeginningOfSpeech");
-            TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//            mSpeechRecognizer.stopListening();
+//            TTSThread ttsThread = new TTSThread(FIRST_STT);
+//            ttsThread.start();
+//            try {
+//                ttsThread.join();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//                Log.d("sttBegin join", "sttBegin join");
+//            }
         }
         @Override
         public void onBufferReceived(byte[] buffer) {
@@ -93,6 +120,7 @@ public class STTActivity extends AppCompatActivity {
         public void onError(int error) {
             // TODO Auto-generated method stub
             if(error == ERROR_NO_MATCH || error == ERROR_SPEECH_TIMEOUT) {
+                status = RESTART_STT;
                 restartListening();
             }
             Log.d("sttAct onError", "onError" + error);
@@ -122,12 +150,47 @@ public class STTActivity extends AppCompatActivity {
             ArrayList<String> resultList = results.getStringArrayList(mSpeechRecognizer.RESULTS_RECOGNITION);
             resultStr = resultList.get(0);
             try {
-                sendThread = new CommandSenderThread(resultStr);
+//                sendThread = new Thread(new CommandSenderThread(resultStr, mHandler));
+                sendThread = new CommandSenderThread(resultStr, mHandler);
                 sendThread.start();
-                sendThread.interrupt();
+                sendThread.join();
+                stringForJSON = sendThread.getResultString();
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.e("errerrerr", "errerrerr");
             }
+
+            Log.d("stringForJONS", stringForJSON);
+
+            try {
+                resultJSON = new JSONObject(stringForJSON);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                pattern = (String) resultJSON.get("Pattern");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                TTSMessage = resultJSON.getString("Tts");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mSpeechRecognizer.stopListening();
+            mSpeechRecognizer.destroy();
+            TTSThread ttsThread = new TTSThread();
+            ttsThread.start();
+            try {
+                ttsThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
             finish();
         }
         @Override
@@ -143,5 +206,21 @@ public class STTActivity extends AppCompatActivity {
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
         mSpeechRecognizer.startListening(recognizerIntent);
+    }
+
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message msg){
+            if(msg.what == 0){
+                stringForJSON = (String) msg.obj;
+            }
+        }
+    };
+
+    class TTSThread extends Thread {
+        public void run(){
+            TTSIntent.putExtra("status", status);
+            TTSIntent.putExtra("TTSMessage", TTSMessage);
+            startActivity(TTSIntent);
+        }
     }
 }

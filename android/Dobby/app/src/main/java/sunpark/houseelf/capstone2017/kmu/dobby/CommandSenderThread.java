@@ -6,22 +6,32 @@
 
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 public class CommandSenderThread extends Thread implements Runnable {
     private String IP = "203.246.112.77";
-    private int PORT = 7777;
+    private int PORT = 1759; //1759
     private Socket socket = null;
 
     private String command;
+    private String resultString = "";
+    Handler mHandler;
 
-    public CommandSenderThread(String str) {
+    BufferedWriter out;
+    BufferedReader in;
+
+    public CommandSenderThread(String str, Handler handler) {
         command = str;
+        mHandler = handler;
     }
 
     public void run(){
@@ -34,7 +44,7 @@ public class CommandSenderThread extends Thread implements Runnable {
             Log.e("openSocket err", "openSocket err");
         }
         try {
-            sendCommand(command);
+            sendAndReceive(command);
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("sendCommand err", "sendCommand err");
@@ -45,6 +55,11 @@ public class CommandSenderThread extends Thread implements Runnable {
             e.printStackTrace();
             Log.e("closeSocket err", "closeSocket err");
         }
+
+        Message msg = new Message();
+        msg.what = 0;
+        msg.obj = resultString;
+        mHandler.sendMessage(msg);
     }
 
     private void openSocket() throws Exception {
@@ -52,16 +67,29 @@ public class CommandSenderThread extends Thread implements Runnable {
         Log.d("openSocket", "openSocket");
     }
 
-    private void sendCommand(String cmd) throws IOException {
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+    private void sendAndReceive(String cmd) throws IOException {
+        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out.write(cmd);
         out.flush();
+
+        String tmpString;
+        in.readLine();
+        while((tmpString = in.readLine()) != null){
+         resultString += tmpString;
+         Log.d("readLine", tmpString);
+        }
         Log.d("sendCommand", "sendCommand");
     }
 
     private void closeSocket() throws IOException {
+        out.close();
+        in.close();
         socket.close();
         Log.d("closeSocket", "closeSocket");
     }
 
+    public String getResultString(){
+        return resultString;
+    }
 }

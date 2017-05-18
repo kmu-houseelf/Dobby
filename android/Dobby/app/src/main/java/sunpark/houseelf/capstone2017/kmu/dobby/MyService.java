@@ -38,6 +38,7 @@ public class MyService extends Service {
     protected Intent mSpeechRecognizerIntent;
 
     static final String startWord = "도비";
+    private int volumeVal = 0;
 
     @Override
     public void onCreate() {
@@ -50,16 +51,17 @@ public class MyService extends Service {
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getApplication().getPackageName());
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+        volumeVal = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
     }
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (mSpeechRecognizer != null) {
             mSpeechRecognizer.destroy();
         }
-        super.onDestroy();
     }
 
     @Nullable
@@ -88,13 +90,13 @@ public class MyService extends Service {
 
         @Override
         public void onError(int error) {
+            Log.d("onerror", "error = " + error);
             if(error == ERROR_CLIENT) {
                 stopSelf();
             }
             if(error == ERROR_SPEECH_TIMEOUT || error == ERROR_NO_MATCH) {
                 restartListening();
             }
-            Log.d("onerror", "error = " + error);
         }
 
         @Override
@@ -104,8 +106,8 @@ public class MyService extends Service {
 
         @Override
         public void onPartialResults(Bundle partialResults) {
-            restartListening();
             Log.d("onPartialResults", "onPartialResults");
+            restartListening();
         }
 
         @Override
@@ -123,12 +125,12 @@ public class MyService extends Service {
 
             if(startWord.equals(inputWord)) {
                 mSpeechRecognizer.stopListening();
+                mSpeechRecognizer.destroy();
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, volumeVal);
+                stopSelf();
                 Intent sttIntent = new Intent(MyService.this, STTActivity.class);
                 sttIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-//                sttIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(sttIntent);
-                stopSelf();
             }
             else{
                 restartListening();
@@ -137,14 +139,16 @@ public class MyService extends Service {
 
         @Override
         public void onRmsChanged(float rmsdB) {
-        }
 
+        }
     }
 
     private void restartListening(){
         mSpeechRecognizer.stopListening();
         mSpeechRecognizer.destroy();
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+        volumeVal = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
         mSpeechRecognizer.setRecognitionListener(new SpeechRecognitionListener());
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
     }
