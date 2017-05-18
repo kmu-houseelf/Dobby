@@ -24,10 +24,15 @@ public class AI_Move : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        control.transform.rotation = target.transform.rotation;
+        if (control.transform.position.x == target.transform.position.x
+            && control.transform.position.z == target.transform.position.z)
+        {
+            Debug.Log("same pos");
+            control.transform.rotation = target.transform.rotation;
+        }
 	}
 
-    void ReadTransform(Vector3 position, Quaternion rotate)
+    public void ReadTransform(Vector3 position, Quaternion rotate)
     {
         target.transform.position = 
             new Vector3(position.x, target.transform.position.y, position.z);

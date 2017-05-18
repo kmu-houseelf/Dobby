@@ -14,6 +14,9 @@ public class Client_PC : MonoBehaviour
 
     private JsonControl json_control;
     private Device_Controller device_controller;
+    private AI_Move ai;
+
+    private string data;
 
     // Use this for initialization
     void Start()
@@ -30,6 +33,7 @@ public class Client_PC : MonoBehaviour
 
         json_control = GameObject.Find("GameController").GetComponent<JsonControl>();
         device_controller = GameObject.Find("GameController").GetComponent<Device_Controller>();
+        ai = GameObject.Find("GameController").GetComponent<AI_Move>();
     }
 
     // Update is called once per frame
@@ -44,7 +48,16 @@ public class Client_PC : MonoBehaviour
             receivebytes, 0, receivebytes.Length,
             SocketFlags.None,
             new AsyncCallback(ReceiveCallback), null);
-        string data = Encoding.Default.GetString(receivebytes);
+
+        string new_data = Encoding.Default.GetString(receivebytes);
+
+        if (new_data == null)
+            return;
+        else if (new_data.Equals(data))
+            return;
+        else
+            data = new_data;
+
         Debug.Log(data);
 
         // json control
@@ -58,9 +71,18 @@ public class Client_PC : MonoBehaviour
 
             //Debug.Log(pos.Length);
             //for(int i=0; i<pos.Length; i++)
-              //  Debug.Log(pos[i]);
+            //  Debug.Log(pos[i]);
             // 1,2,3 is pos x,y,z 5,6,7 rotate x,y,z
             // need to 123 6
+            ai.ReadTransform(
+                new Vector3(
+                    System.Convert.ToSingle(pos[1]),
+                    System.Convert.ToSingle(pos[2]),
+                    System.Convert.ToSingle(pos[3])),
+                Quaternion.Euler(
+                    (System.Convert.ToSingle(pos[5]) * 180.0f / (float)Math.PI),
+                    (System.Convert.ToSingle(pos[6]) * 180.0f / (float)Math.PI),
+                    (System.Convert.ToSingle(pos[7]) * 180.0f / (float)Math.PI)));
         }
 
     }
