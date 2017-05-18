@@ -40,7 +40,7 @@ HomeiotTvVolumeTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜�
 HomeiotTvVolumeFalse = {"줄여", "줄이다", "줄여봐", "줄여주기", "줄여주다", "줄일래", "낮춰", "낮추다", "낮출래"}
 HomeiotTvMuteTrue = {"해", "해줘", "하다", "하기", "해봐", "해라", "해주다", "해볼래", "할래", "킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜기", "켜봐", "켜주세요", "켜라", "켜주다", "켜줄", "켤래", "킬래"}
 HomeiotTvMuteFalse = {"끄", "끌", "꺼볼", "꺼", "꺼줘", "끄다", "끄기", "꺼봐", "꺼주다", "꺼라", "꺼봐줄래", "꺼볼래", "꺼 줄 수", "끌래"}
-HomeiotTvRemoteLocTrue = {"알려줘", "알려주다", "알려줄래", "어딨어", "어디에있어", "찾아줘", "찾아줘줄래", "찾아줘볼래"}
+HomeiotTvRemotelocTrue = {"알려줘", "알려주다", "알려줄래", "어딨어", "어디에있어", "찾아줘", "찾아줘줄래", "찾아줘볼래"}
 
 @mapping
 HomeiotLightLocation = {"Livingroom", "Livingroom", "Room", "Bathroom", "Kitchen", "Kitchen", "All"}
