@@ -150,7 +150,6 @@ public class STTActivity extends AppCompatActivity {
             ArrayList<String> resultList = results.getStringArrayList(mSpeechRecognizer.RESULTS_RECOGNITION);
             resultStr = resultList.get(0);
             try {
-//                sendThread = new Thread(new CommandSenderThread(resultStr, mHandler));
                 sendThread = new CommandSenderThread(resultStr, mHandler);
                 sendThread.start();
                 sendThread.join();

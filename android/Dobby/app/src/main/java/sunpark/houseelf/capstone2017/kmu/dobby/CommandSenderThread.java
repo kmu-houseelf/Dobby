@@ -19,26 +19,25 @@ import java.net.Socket;
 
 public class CommandSenderThread extends Thread implements Runnable {
     private String IP = "203.246.112.77";
-    private int PORT = 1759; //1759
+    private int SERVER_PORT = 1759; //1759
+    private int UNITY_PORT = 6666;
     private Socket socket = null;
 
     private String command;
     private String resultString = "";
-    Handler mHandler;
 
     BufferedWriter out;
     BufferedReader in;
 
-    public CommandSenderThread(String str, Handler handler) {
+    public CommandSenderThread(String str) {
         command = str;
-        mHandler = handler;
     }
 
     public void run(){
         super.run();
 
         try {
-            openSocket();
+            openSocket(SERVER_PORT);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("openSocket err", "openSocket err");
@@ -56,14 +55,27 @@ public class CommandSenderThread extends Thread implements Runnable {
             Log.e("closeSocket err", "closeSocket err");
         }
 
-        Message msg = new Message();
-        msg.what = 0;
-        msg.obj = resultString;
-        mHandler.sendMessage(msg);
+        try {
+            openSocket(UNITY_PORT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            sendToUnity(resultString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            closeSocket();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void openSocket() throws Exception {
-        socket = new Socket(IP, PORT);
+    private void openSocket(int port) throws Exception {
+        socket = new Socket(IP, port);
         Log.d("openSocket", "openSocket");
     }
 
@@ -79,7 +91,15 @@ public class CommandSenderThread extends Thread implements Runnable {
          resultString += tmpString;
          Log.d("readLine", tmpString);
         }
-        Log.d("sendCommand", "sendCommand");
+        Log.d("sendCommand", cmd);
+    }
+
+    private void sendToUnity(String cmd) throws IOException {
+        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        out.write(cmd);
+        out.flush();
+
+        Log.d("sendUnity", cmd);
     }
 
     private void closeSocket() throws IOException {
