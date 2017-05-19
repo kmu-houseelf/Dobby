@@ -17,7 +17,7 @@
 			"Brightness" : "Boolean"
 		},
 
-		"TV":
+		"Tv":
 		{
                         "Object" : "String",
 			"Power" : "Boolean",
