@@ -26,7 +26,7 @@
 ##########################################################
 
 @list
-HomeiotLightLocation = {"거실", "마루", "방", "화장실", "부엌", "주방", "전체"}
+HomeiotLightLocation = {"거실", "마루", "방", "화장실", "욕실", "부엌", "주방", "전체"}
 HomeiotLightObject = {"불", "조명", "등", "형광등", "조명등"}
 HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비젼", "테레비", "텔레비전", "리모컨", "리모콘"}
 HomeiotTvChannel = {"메뉴", "카테고리", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "ytn", "sbs", "cnn", "해외축구", "야구", "해외농구", "음악프로", "애니프로", "게임프로", "교육프로", "YTN", "Ytn", "SBS", "CNN", "Cnn", "축구", "농구", "음악프로그램", "만화", "애니메이션", "애니메이션프로그램", "애니메이션프로", "게임", "게임프로그램", "교육채널", "교육프로그램", "EBS", "ebs"}
@@ -43,7 +43,7 @@ HomeiotTvMuteFalse = {"음소거 끄", "음소거 끌", "음소거 꺼볼", "음
 HomeiotTvRemotelocTrue = {"알려줘", "알려주다", "알려줄래", "어딨어", "어디에있어", "찾아줘", "찾아줘줄래", "찾아줘볼래"}
 
 @mapping
-HomeiotLightLocation = {"Livingroom", "Livingroom", "Room", "Bathroom", "Kitchen", "Kitchen", "All"}
+HomeiotLightLocation = {"Livingroom", "Livingroom", "Room", "Bathroom", "Bathroom", "Kitchen", "Kitchen", "All"}
 HomeiotLightObject = {"Lamp", "Lamp", "Lamp", "Lamp", "Lamp"}
 HomeiotTvObject = {"TV", "TV", "TV", "TV", "TV", "TV", "TV", "Remotecontrol", "Remotecontrol"}
 HomeiotTvChannel = {"10", "10", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "0", "1", "2", "2", "3", "5", "6", "7", "7", "7", "7", "8", "8", "9", "9", "9", "9"}
