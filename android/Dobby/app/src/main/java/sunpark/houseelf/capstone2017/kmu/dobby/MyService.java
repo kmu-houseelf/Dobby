@@ -33,6 +33,7 @@ import static android.speech.SpeechRecognizer.ERROR_RECOGNIZER_BUSY;
 import static android.speech.SpeechRecognizer.ERROR_SPEECH_TIMEOUT;
 
 public class MyService extends Service {
+    private static final int FIRST_STT = 1;
     protected AudioManager mAudioManager;
     protected SpeechRecognizer mSpeechRecognizer;
     protected Intent mSpeechRecognizerIntent;
@@ -130,9 +131,10 @@ public class MyService extends Service {
                 stopSelf();
                 Intent sttIntent = new Intent(MyService.this, STTActivity.class);
                 sttIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                sttIntent.putExtra("stats", 1);
                 startActivity(sttIntent);
             }
-            else{
+            else {
                 restartListening();
             }
         }
