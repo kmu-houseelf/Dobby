@@ -28,7 +28,7 @@
 @list
 HomeiotLightLocation = {"거실", "마루", "방", "화장실", "부엌", "주방", "전체"}
 HomeiotLightObject = {"불", "조명", "등", "형광등", "조명등"}
-HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비젼", "테레비", "텔레비전", "리모컨", "리모콘", "소리", "볼륨", "음소거", "채널"}
+HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비젼", "테레비", "텔레비전", "리모컨", "리모콘"}
 HomeiotTvChannel = {"메뉴", "카테고리", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "ytn", "sbs", "cnn", "해외축구", "야구", "해외농구", "음악프로", "애니프로", "게임프로", "교육프로", "YTN", "Ytn", "SBS", "CNN", "Cnn", "축구", "농구", "음악프로그램", "만화", "애니메이션", "애니메이션프로그램", "애니메이션프로", "게임", "게임프로그램", "교육채널", "교육프로그램", "EBS", "ebs"}
 HomeiotLightActionTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜기", "켜봐", "켜봐라", "켜주라", "켜라", "켜줄", "켜 줄", "켜 줄 수"}
 HomeiotLightActionFalse = {"끄", "끌", "꺼볼", "꺼", "꺼줘", "끄다", "꺼봐", "꺼줬", "꺼주세요", "꺼라", "꺼주다", "꺼라", "꺼줄래", "꺼줄", "꺼 줄 수 있", "끌래", "해", "해줘", "줄", "줄여", "해봐", "해봐라", "해라", "해주기", "해줬", "해줄", "해줄래", "해볼래", "해주지", "줄여줄래"}
@@ -55,10 +55,10 @@ tts[HomeiotLightBrightnessTrue] = "밝게 켰습니다"
 tts[HomeiotLightBrightnessFalse] = "어둡게 했습니다"
 tts[HomeiotTvPowerTrue] = "켰습니다"
 tts[HomeiotTvPowerFalse] = "껐습니다"
-tts[HomeiotTvVolumeTrue] = "높였습니다"
-tts[HomeiotTvVolumeFalse] = "줄였습니다"
-tts[HomeiotTvMuteTrue] = "했습니다"
-tts[HomeiotTvMuteFalse] = "껐습니다"
+tts[HomeiotTvVolumeTrue] = "볼륨 높였습니다"
+tts[HomeiotTvVolumeFalse] = "볼륨 줄였습니다"
+tts[HomeiotTvMuteTrue] = "음소거 했습니다"
+tts[HomeiotTvMuteFalse] = "음소거 껐습니다"
 tts[HomeiotTvRemotelocTrue] = "찾았습니다"
 
 @pattern
@@ -75,9 +75,13 @@ HomeiotTvObject, HomeiotTvPowerFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+t
 HomeiotTvObject, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
 HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvMuteTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvMuteTrue], HomeiotHomeiottype = 2
+HomeiotTvMuteTrue / Tasktype = 1, Tts = tts[HomeiotTvMuteTrue], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvMuteFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvMuteFalse], HomeiotHomeiottype = 2
+HomeiotTvMuteFalse / Tasktype = 1, Tts = tts[HomeiotTvMuteFalse], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvVolumeTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvVolumeTrue], HomeiotHomeiottype = 2
+HomeiotTvVolumeTrue / Tasktype = 1, Tts = tts[HomeiotTvVolumeTrue], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvVolumeFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvVolumeFalse], HomeiotHomeiottype = 2
+HomeiotTvVolumeFalse / Tasktype = 1, Tts = tts[HomeiotTvVolumeFalse], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvRemoteLocTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvRemotelocTrue], HomeiotHomeiottype = 2
 HomeiotTvChannel, HomeiotTvObject, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
 
@@ -93,5 +97,3 @@ HomeiotLightObject, HomeiotLightBrightnessTrue, HomeiotLightActionTrue / Tasktyp
 %p4, HomeiotLightLocation / Pattern = Null, Tts = "밝게 켰습니다"
 HomeiotLightObject, HomeiotLightBrightnessFalse, HomeiotLightActionFalse / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p5, Tts = "어디를 어둡게 해 드릴까요?"
 %p5, HomeiotLightLocation / Pattern = Null, Tts = "어둡게 했습니다"
-HomeiotTvObject, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Pattern = $p6, Tts = "어떤 채널을 원하시나요?"
-%p6, HomeiotTvChannel / Pattern = Null, Tts = HomeiotTvChannel+" "+"틀었습니다"
