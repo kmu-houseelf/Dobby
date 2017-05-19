@@ -88,7 +88,7 @@ public class CommandSenderThread extends Thread implements Runnable {
         String tmpString;
         in.readLine();
         while((tmpString = in.readLine()) != null){
-         resultString += tmpString;
+         resultString += tmpString + "\n";
          Log.d("readLine", tmpString);
         }
         Log.d("sendCommand", cmd);

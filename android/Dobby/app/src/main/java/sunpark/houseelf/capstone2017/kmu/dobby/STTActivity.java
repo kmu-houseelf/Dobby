@@ -38,9 +38,12 @@ public class STTActivity extends AppCompatActivity {
     String pattern;
     String TTSMessage;
 
-    private int status = FIRST_STT;
+    private int status;
     private static final int FIRST_STT = 1;
     private static final int RESTART_STT= 2;
+    private static final int NEEDINFO_STT = 3;
+    private static final int RESULT_STT = 4;
+
     private CommandSenderThread sendThread;
 
     @Override
@@ -48,12 +51,27 @@ public class STTActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stt);
 
-        TTSIntent = new Intent(this, TTSActivity.class);
+        Intent currentIntent = getIntent();
+        status = currentIntent.getExtras().getInt("status");
+        if(status == RESULT_STT || status == NEEDINFO_STT) {
+            TTSMessage = currentIntent.getExtras().getString("TTSMessage");
+        }
+//
+//        TTSIntent = new Intent(this, TTSActivity.class);
+//
+//        TTSThread startTTS = new TTSThread();
+//        startTTS.start();
+//        try {
+//            startTTS.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         mainIntent = new Intent(this, MainActivity.class);
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 10000);
 
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
@@ -79,15 +97,26 @@ public class STTActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if(mSpeechRecognizer != null) {
             mSpeechRecognizer.stopListening();
             mSpeechRecognizer.destroy();
         }
 
-        mainIntent.setAction("android.intent.action.MAIN");
-        mainIntent.addCategory("android.intent.category.HOME");
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(mainIntent);
+//        if(status == RESULT_STT){
+//            mainIntent.setAction("android.intent.action.MAIN");
+//            mainIntent.addCategory("android.intent.category.HOME");
+//            mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            startActivity(mainIntent);
+//        }
+//        else {
+//            Intent reSTTIntent = new Intent(this, STTActivity.class);
+//            reSTTIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            reSTTIntent.putExtra("status", status);
+//            reSTTIntent.putExtra("message", TTSMessage);
+//            startActivity(reSTTIntent);
+//        }
+
         Log.d("sttAct Destroy", "sttAct Destroy");
     }
 
@@ -96,15 +125,6 @@ public class STTActivity extends AppCompatActivity {
         public void onBeginningOfSpeech() {
             // TODO Auto-generated method stub
             Log.d("onBeginningOfSpeech", "onBeginningOfSpeech");
-//            mSpeechRecognizer.stopListening();
-//            TTSThread ttsThread = new TTSThread(FIRST_STT);
-//            ttsThread.start();
-//            try {
-//                ttsThread.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//                Log.d("sttBegin join", "sttBegin join");
-//            }
         }
         @Override
         public void onBufferReceived(byte[] buffer) {
@@ -120,7 +140,6 @@ public class STTActivity extends AppCompatActivity {
         public void onError(int error) {
             // TODO Auto-generated method stub
             if(error == ERROR_NO_MATCH || error == ERROR_SPEECH_TIMEOUT) {
-                status = RESTART_STT;
                 restartListening();
             }
             Log.d("sttAct onError", "onError" + error);
@@ -139,6 +158,13 @@ public class STTActivity extends AppCompatActivity {
         @Override
         public void onReadyForSpeech(Bundle params) {
             // TODO Auto-generated method stub
+//            TTSThread startTTS = new TTSThread();
+//            startTTS.start();
+//            try {
+//                startTTS.join();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             Log.d("onReadyForSpeech", "onReadyForSpeech");
         }
 
@@ -149,8 +175,13 @@ public class STTActivity extends AppCompatActivity {
             Log.d("onResults", "onResults");
             ArrayList<String> resultList = results.getStringArrayList(mSpeechRecognizer.RESULTS_RECOGNITION);
             resultStr = resultList.get(0);
+
+            if(status == NEEDINFO_STT) {
+
+            }
+
             try {
-                sendThread = new CommandSenderThread(resultStr, mHandler);
+                sendThread = new CommandSenderThread(resultStr);
                 sendThread.start();
                 sendThread.join();
                 stringForJSON = sendThread.getResultString();
@@ -179,17 +210,12 @@ public class STTActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            mSpeechRecognizer.stopListening();
-            mSpeechRecognizer.destroy();
-            TTSThread ttsThread = new TTSThread();
-            ttsThread.start();
-            try {
-                ttsThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if(!pattern.equals("Null")) {
+                status = NEEDINFO_STT;
             }
-
-
+            else {
+                status = RESULT_STT;
+            }
             finish();
         }
         @Override
@@ -202,6 +228,11 @@ public class STTActivity extends AppCompatActivity {
     private void restartListening(){
         mSpeechRecognizer.stopListening();
         mSpeechRecognizer.destroy();
+        recognizerIntent = null;
+        recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 10000);
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
         mSpeechRecognizer.startListening(recognizerIntent);
@@ -218,7 +249,8 @@ public class STTActivity extends AppCompatActivity {
     class TTSThread extends Thread {
         public void run(){
             TTSIntent.putExtra("status", status);
-            TTSIntent.putExtra("TTSMessage", TTSMessage);
+            if(status == NEEDINFO_STT || status == RESULT_STT)
+                TTSIntent.putExtra("TTSMessage", TTSMessage);
             startActivity(TTSIntent);
         }
     }

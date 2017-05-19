@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -34,7 +35,12 @@ public class TTSActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tts);
 
+        setMessage();
         startTTS();
+
+//        while(!textToSpeech.isSpeaking()){
+//            Log.d("isSpeaking", "speaking");
+//        }
 
         this.finish();
     }
