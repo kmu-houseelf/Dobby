@@ -20,7 +20,7 @@ FuncTemplate := (RunCommand[s_String /; StringMatchQ[s, #1]] := Module[{param = 
 
 
 (* import function *)
-Get["module/homeIOTLight.wl"]
+Get["module/auto_gen_wl.wl"]
 
 
 (* read protocol json file *)

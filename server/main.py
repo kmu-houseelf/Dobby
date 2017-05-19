@@ -3,6 +3,9 @@ import sys
 import subprocess
 from datetime import datetime
 
+
+result = subprocess.check_output('python genwl.py', shell=True)
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 sock.bind(('', 1759))
