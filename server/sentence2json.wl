@@ -34,7 +34,7 @@ Print["sentence : ", Sentence]
 
 (* run function *)
 ResultJson = RunCommand[Sentence]
-
+print[ResultJson]
 
 (* json result *)
 Print[ExportString[ResultJson,"RawJSON"]]

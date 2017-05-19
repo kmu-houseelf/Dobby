@@ -85,6 +85,8 @@ def run(flag, line):
 with codecs.open(filename,'r',encoding='utf8') as f:
     for line in f.readlines():
     	text = line.strip('\n')
+	if text == "":
+		continue
     	symbol = text[0]
 
     	if isComment(symbol) or isWhiteSpace(symbol):
@@ -197,6 +199,8 @@ def generateWl():
 				# if $pattern
 				if rhs[0][0] == '$':
 					rhs = '{}'.format(patternline_dict[rhs[0][1:]])
+					json += lhs + ' = ' + rhs + ';'
+					continue
 
 				# if user function exist
 				for i, item in enumerate(rhs):
@@ -214,15 +218,16 @@ def generateWl():
 			json_number += 1
 
 
-		pattern_list = [(i, key.count(','), value.find('Pattern') >= 0) for i, (key, value) in enumerate(pattern_dict.items())]
+		pattern_list = [(i, key.count(','), not(value.find('Pattern') >= 0)) for i, (key, value) in enumerate(pattern_dict.items())]
 
-		pattern_list = sorted(pattern_list, key=itemgetter(2,1))
+		pattern_list = sorted(pattern_list, key=itemgetter(2,1), reverse=True)
 
 		f.write('\n(* define function template *)\n')
 		for p in pattern_list:
+			print p
 			f.write('FuncTemplate[SentencePattern{0}, SentenceParameter{0}, SentenceJson{0}]\n'.format(p[0] + 1))
 
 
-#printResult()
+printResult()
 generateWl()
 

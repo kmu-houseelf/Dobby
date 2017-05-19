@@ -41,17 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume(){
-        if(MyService.isServiceRunning(getApplicationContext())){
-            Log.i("service", "is running");
-        }
-        else {
-            activityContext = getApplicationContext();
-            STTServiceIntent = new Intent(activityContext, MyService.class);
-//            STTServiceIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            activityContext.startService(STTServiceIntent);
-        }
         super.onResume();
         Log.d("onResume", "Main onResume");
+        checkService();
     }
 
     @Override
@@ -62,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d("Main Pause", "Main Pause");
     }
 
     @Override
@@ -70,13 +63,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d("onSTOP", "onSTOP");
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
     public void onDestroy() {
         super.onDestroy();
         Log.d("Main onDestroy", "Main onDestroy");
+    }
+
+    private void checkService(){
+        if(MyService.isServiceRunning(getApplicationContext())){
+            Log.i("service", "is running");
+        }
+        else {
+            activityContext = getApplicationContext();
+            STTServiceIntent = new Intent(activityContext, MyService.class);
+            activityContext.startService(STTServiceIntent);
+        }
     }
 }

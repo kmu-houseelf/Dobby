@@ -34,14 +34,7 @@ public class TTSActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tts);
 
-        setMessage();
-
         startTTS();
-
-        if(textToSpeech != null){
-            textToSpeech.stop();
-            textToSpeech.shutdown();
-        }
 
         this.finish();
     }
@@ -49,11 +42,15 @@ public class TTSActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy(){
         if(textToSpeech != null){
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
-        finish();
+        super.onDestroy();
     }
 
     private void startTTS(){

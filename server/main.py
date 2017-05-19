@@ -1,6 +1,7 @@
 import socket 
 import sys
 import subprocess
+from datetime import datetime
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -8,13 +9,13 @@ sock.bind(('', 1759))
 sock.listen(1)
 
 while True:
-	print 'wait connection...'
+	print '... wait connection ...'
 	conn, client = sock.accept()
 
 	try:
 		print 'conn from', client
 		data = conn.recv(1024)
-		print data
+		print str(datetime.now()), data
 
 	finally:
 		try:
