@@ -121,7 +121,7 @@ def printResult():
 		print(symbol, num)
 
 def generateWl():
-	with codecs.open('auto_gen_wl.wl','w',encoding='utf8') as f:
+	with codecs.open('module/auto_gen_wl.wl','w',encoding='utf8') as f:
 		f.write('\n(* define morph pattern *)\n')
 		for variable, array in list_dict.items():
 			f.write(variable + ' = Apply[Alternatives, ' + array + ']\n')
