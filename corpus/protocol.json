@@ -19,7 +19,7 @@
 
 		"Tv":
 		{
-            "Option" : "String",
+            "Option" : "Null",
 			"Object" : "Null",
                         "Power" : "Null",
 			"Channel" : "Null",
