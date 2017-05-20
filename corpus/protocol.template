@@ -19,6 +19,7 @@
 
 		"Tv":
 		{
+            "Option" : "String",
                         "Object" : "String",
 			"Power" : "Boolean",
 			"Channel" : "Number",
