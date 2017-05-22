@@ -11,8 +11,14 @@ Kstr[num:_Number] := num
 QnumberPattern = "Q"~~NumberString
 
 
+(* error command *)
+ErrorCommand = Import["default_json.json", "RawJSON"]
+ErrorCommand["Tasktype"] = "0"
+ErrorCommand["Tts"] = "unknown pattern matched..."
+
+
 (* default function *)
-RunCommand[unknown:_] := "unknown pattern catched..."
+RunCommand[unknown:_] := ErrorCommand
 
 
 (* define funciton template *)
@@ -34,6 +40,7 @@ Sentence = Kstr[$ScriptCommandLine[[2]]]
 (* run function *)
 ResultJson = RunCommand[Sentence]
 print[ResultJson]
+
 
 (* json result *)
 Print[ExportString[ResultJson,"RawJSON"]]

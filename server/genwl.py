@@ -1,5 +1,6 @@
 import codecs
 import re
+import copy
 from operator import itemgetter, attrgetter
 
 COMMENT_SYMBOL = '#'
@@ -148,9 +149,12 @@ def generateWl():
 			lst = ['{}:{}'.format(item.lower(), item) for item in lst]
 			if pattern[0] == '%':
 				lst[0] = '\"Q{}\"'.format(patternline_dict[lst[0].split(':')[0]])
+	
+			pat = 't1:___~~'
+			for i, e in enumerate(lst):
+				pat += e + '~~t' + str(i+2) + ':___~~'	
+			pat = pat[:-2]
 
-			pat = '~~___~~'.join(lst)
-			pat = '___~~' + pat + '~~___'
 			f.write('SentencePattern{} = {}\n'.format(pattern_number, pat))
 			pattern_number += 1
 
@@ -158,10 +162,12 @@ def generateWl():
 		parameter_number = 1
 		for pattern, _ in pattern_dict.items():
 			lst = re.findall(r"[\w]+", pattern)
+			length = len(lst) + 1
 
 			if lst[0] in patternline_dict:
 				lst.remove(lst[0])
-
+			for i in range(length):
+				lst.append('t'+str(i+1))
 			lst = [item.lower() for item in lst]
 			arr = ','.join(lst)
 			f.write('SentenceParameter{} = {{{}}}\n'.format(parameter_number, arr))
@@ -172,10 +178,16 @@ def generateWl():
 		for pattern, json_rule in pattern_dict.items():
 			# paramter 
 			lst = re.findall(r"[\w]+", pattern)
+			length = len(lst) + 1
+
 			if lst[0] in patternline_dict:
 				lst.remove(lst[0])
+		
+			lst2 = copy.deepcopy(lst)
+			for i in range(length):
+				lst2.append('t' + str(i+1))
 
-			lst2 = ['{}_'.format(item.lower()) for item in lst]
+			lst2 = ['{}_'.format(item.lower()) for item in lst2]
 			arr = ','.join(lst2)
 			json = ''
 
@@ -188,6 +200,7 @@ def generateWl():
 				json += '{} = {};'.format(lhs, rhs)
 
 			# rule json
+			patternFlag = True
 			rules = json_rule.split(',')
 			for rule in rules:
 				lhs, rhs = rule.split('=')
@@ -200,6 +213,7 @@ def generateWl():
 
 				# if $pattern
 				if rhs[0][0] == '$':
+					patternFlag = False
 					rhs = '{}'.format(patternline_dict[rhs[0][1:]])
 					json += lhs + ' = ' + rhs + ';'
 					continue
@@ -215,6 +229,9 @@ def generateWl():
 				rhs = '~~'.join(rhs)
 
 				json += lhs + ' = ' + rhs + ';'
+
+			if patternFlag:
+				json += 'json["Pattern"]="Null";'
 
 			f.write('SentenceJson{}[{{{}}}] := Module[{{json = DefaultJson}},'.format(json_number, arr) + json + 'json]\n')
 			json_number += 1

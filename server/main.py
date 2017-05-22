@@ -16,7 +16,7 @@ sock.bind(('', 1759))
 sock.listen(1)
 
 with codecs.open('default_json.json', 'r', encoding='utf8') as f:
-	default_json = json.load(f)
+	default_json = f.read()
 
 while True:
 	print '... wait connection ...'
@@ -35,7 +35,7 @@ while True:
 			continue
 
 
-		if 'unknown' is js:
+		if 'unknown' in js:
 			js = default_json
 
 
