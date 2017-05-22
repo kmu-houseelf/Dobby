@@ -19,14 +19,31 @@
 
 		"Tv":
 		{
-                        "Option" : "Null",
+			"Component" : "Null",
+			"Option" : "Null",
 			"Object" : "Null",
-                        "Power" : "Null",
+			"Power" : "Null",
 			"Channel" : "Null",
 			"Volume" : "Null",
 			"Mute" : "Null",
 			"Remoteloc" : "Null"
-		}
+		},
+		
+		"Schedule" :
+		{
+			"Month": "Null",
+			"Day": "Null",
+			"Action" : "Null",
+			"Content" : "Null"
+		},
+
+		"Music" :
+		{
+			"Title" : "Null",
+			"Singer" : "Null",
+			"Gnr" : "Null",
+			"Action" : "Null"
+		}		
 	},
 
 	"Secretary" :

@@ -44,6 +44,13 @@ HomeiotTvMuteTrue = {"음소거 해", "음소거 해줘", "음소거 하다", "�
 HomeiotTvMuteFalse = {"음소거 끄", "음소거 끌", "음소거 꺼볼", "음소거 꺼", "음소거 꺼줘", "음소거 끄다", "음소거 끄기", "음소거 꺼봐", "음소거 꺼주다", "음소거 꺼라", "음소거 꺼봐줄래", "음소거 꺼볼래", "음소거 꺼 줄 수", "음소거 끌래"}
 HomeiotTvRemotelocTrue = {"알려줘", "알려주다", "알려줄래", "어딨어", "어디에있어", "찾아줘", "찾아줘줄래", "찾아줘볼래"}
 
+HomeiotMusicActionTrue = {"음악 틀어", "노래 틀어", "곡 틀어", "틀어줘"}
+HomeiotMusicActionFalse = {"음악 꺼줘", "노래 꺼줘", "곡 꺼줘"}
+HomeiotMusicSinger = {"아이유", "싸이"}
+HomeiotMusicTitle = {"밤 편지", "밤편지", "강남스타일", "강남 스타일", "좋은날", "좋은 날"}
+HomeiotMusicGnr = {"신나는", "잔잔한"}
+
+
 @mapping
 HomeiotLightLocation = {"Livingroom", "Livingroom", "Room", "Bathroom", "Bathroom", "Kitchen", "Kitchen", "All"}
 HomeiotLightObject = {"Lamp", "Lamp", "Lamp", "Lamp", "Lamp"}
@@ -51,6 +58,11 @@ HomeiotTvObject = {"TV", "TV", "TV", "TV", "TV", "TV", "TV"}
 HomeiotTvChannel = {"10", "10", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "0", "1", "2", "2", "3", "5", "6", "7", "7", "7", "7", "8", "8", "9", "9", "9", "9"}
 HomeiotTvOption = {"Channel", "Channel"}
 HomeiotTvComponent = {"Remotecontrol", "Remotecontrol"}
+
+HomeiotMusicSinger = {"IU", "PSY"}
+HomeiotMusicTitle = {"bampyeonji", "bampyeonji", "gangnamstyle", "gangnamstyle", "goodday", "goodday"}
+HomeiotMusicGnr = {"exicted", "windless"}
+
 
 @user
 tts[HomeiotLightActionTrue] = "켰습니다"
@@ -92,6 +104,14 @@ HomeiotTvChannel, HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, Tts = Home
 HomeiotTvObject, HomeiotTvOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvOption + " " + "변경했습니다", HomeiotHomeiottype = 2
 HomeiotTvOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotOption + " " + "변경했습니다", HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvChannel, HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+"틀었습니다", HomeiotHomeiottype = 2
+
+
+HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = t1+" 켜짐!"
+HomeiotMusicActionFalse / Tasktype = 1, HomeiotHomeiottype = 4, Tts = t1+"꺼짐!"
+HomeiotMusicSinger, HomeiotMusicTitle, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicSinger+"의"+HomeiotMusicTitle+" 켜짐!"
+HomeiotMusicSinger, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicSinger+" 노래 켜짐!"
+HomeiotMusicTitle, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicTitle+" 켜짐!"
+HomeiotMusicGnr, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicGnr+" 노래 켜짐!"
 
 
 HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜 드릴까요?"

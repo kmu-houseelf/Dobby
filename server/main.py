@@ -24,7 +24,7 @@ while True:
 
 	try:
 		print 'conn from', client
-		data = conn.recv(1024)
+		data = conn.recv(2048)
 		print str(datetime.now()), data
 
 		if '/' in data:
