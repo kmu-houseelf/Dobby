@@ -6,24 +6,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 
 import static android.content.ContentValues.TAG;
 import static android.content.Intent.FLAG_ACTIVITY_NO_HISTORY;
@@ -33,7 +25,6 @@ import static android.speech.SpeechRecognizer.ERROR_RECOGNIZER_BUSY;
 import static android.speech.SpeechRecognizer.ERROR_SPEECH_TIMEOUT;
 
 public class MyService extends Service {
-    private static final int FIRST_STT = 1;
     protected AudioManager mAudioManager;
     protected SpeechRecognizer mSpeechRecognizer;
     protected Intent mSpeechRecognizerIntent;
@@ -51,9 +42,8 @@ public class MyService extends Service {
         mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getApplication().getPackageName());
-//        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
-        volumeVal = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
     }
 
@@ -121,18 +111,23 @@ public class MyService extends Service {
             Log.d("onResults", "onResults");
             ArrayList<String> resultList = results.getStringArrayList(mSpeechRecognizer.RESULTS_RECOGNITION);
             String inputWord = resultList.get(0);
-
+//            mAudioManager.
             Log.d(TAG, "result = " + inputWord);
 
             if(startWord.equals(inputWord)) {
                 mSpeechRecognizer.stopListening();
                 mSpeechRecognizer.destroy();
-                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, volumeVal);
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 100);
                 stopSelf();
-                Intent sttIntent = new Intent(MyService.this, STTActivity.class);
-                sttIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                sttIntent.putExtra("stats", 1);
-                startActivity(sttIntent);
+//                Intent sttIntent = new Intent(MyService.this, STTActivity.class);
+//                sttIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                sttIntent.putExtra("stats", 1);
+//                startActivity(sttIntent);
+
+                Intent TTSIntent = new Intent(MyService.this, TTSActivity.class);
+                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                TTSIntent.putExtra("status", 1);
+                startActivity(TTSIntent);
             }
             else {
                 restartListening();
@@ -149,8 +144,6 @@ public class MyService extends Service {
         mSpeechRecognizer.stopListening();
         mSpeechRecognizer.destroy();
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
-        volumeVal = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
         mSpeechRecognizer.setRecognitionListener(new SpeechRecognitionListener());
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
     }

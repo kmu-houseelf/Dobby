@@ -24,13 +24,16 @@ public class CommandSenderThread extends Thread implements Runnable {
     private Socket socket = null;
 
     private String command;
+    private String JSONString;
     private String resultString = "";
+
 
     BufferedWriter out;
     BufferedReader in;
 
-    public CommandSenderThread(String str) {
-        command = str;
+    public CommandSenderThread(String cmd, String jsonString) {
+        command = cmd;
+        JSONString = jsonString;
     }
 
     public void run(){
@@ -43,7 +46,7 @@ public class CommandSenderThread extends Thread implements Runnable {
             Log.e("openSocket err", "openSocket err");
         }
         try {
-            sendAndReceive(command);
+            sendAndReceive(command, JSONString);
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("sendCommand err", "sendCommand err");
@@ -54,6 +57,8 @@ public class CommandSenderThread extends Thread implements Runnable {
             e.printStackTrace();
             Log.e("closeSocket err", "closeSocket err");
         }
+
+        Log.d("resultString", resultString);
 
         try {
             openSocket(UNITY_PORT);
@@ -79,14 +84,14 @@ public class CommandSenderThread extends Thread implements Runnable {
         Log.d("openSocket", "openSocket");
     }
 
-    private void sendAndReceive(String cmd) throws IOException {
+    private void sendAndReceive(String cmd, String json) throws IOException {
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out.write(cmd);
+        out.write(cmd+"/"+json);
         out.flush();
 
         String tmpString;
-        in.readLine();
+//        in.readLine();
         while((tmpString = in.readLine()) != null){
          resultString += tmpString + "\n";
          Log.d("readLine", tmpString);

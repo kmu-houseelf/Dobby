@@ -7,10 +7,8 @@
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.SystemClock;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -28,38 +26,86 @@ import static android.speech.SpeechRecognizer.ERROR_SPEECH_TIMEOUT;
 public class STTActivity extends AppCompatActivity {
 
     Intent recognizerIntent;
-    Intent TTSIntent;
     Intent mainIntent;
 
     SpeechRecognizer mSpeechRecognizer;
-    String resultStr = "";
+    String sttResultStr = "";
     String stringForJSON = "";
+
     JSONObject resultJSON;
     String pattern;
-    String TTSMessage;
+    String TTSMessage = " ";
+    int taskType;
 
-    private int status;
-    private static final int FIRST_STT = 1;
-    private static final int RESTART_STT= 2;
-    private static final int NEEDINFO_STT = 3;
-    private static final int RESULT_STT = 4;
+    private static final int START_MESSAGE = 1;
+    private static final int RESTART_MESSAGE = 2;
+    private static final int NEEDINFO_MESSAGE = 3;
+    private static final int RESULT_MESSAGE = 4;
+
+    String defaultJSON = "{\n" +
+            "\t\"Tasktype\" : \"Null\",\n" +
+            "\n" +
+            "\t\"Pattern\" : \"Null\",\n" +
+            "\n" +
+            "\t\"Tts\" : \"Null\",\n" +
+            "\t\n" +
+            "\t\"Homeiot\" : \n" +
+            "\t{\n" +
+            "\t\t\"Homeiottype\" : \"Null\",\n" +
+            "\n" +
+            "\t\t\"Light\":\n" +
+            "\t\t{\n" +
+            "\t\t\t\"Location\" : \"Null\",\n" +
+            "\t\t\t\"Object\" : \"Null\",\n" +
+            "\t\t\t\"Action\" : \"Null\",\n" +
+            "\t\t\t\"Brightness\" : \"Null\"\n" +
+            "\t\t},\n" +
+            "\n" +
+            "\t\t\"Tv\":\n" +
+            "\t\t{\n" +
+            "                        \"Option\" : \"Null\",\n" +
+            "\t\t\t\"Object\" : \"Null\",\n" +
+            "                        \"Power\" : \"Null\",\n" +
+            "\t\t\t\"Channel\" : \"Null\",\n" +
+            "\t\t\t\"Volume\" : \"Null\",\n" +
+            "\t\t\t\"Mute\" : \"Null\",\n" +
+            "\t\t\t\"Remoteloc\" : \"Null\"\n" +
+            "\t\t}\n" +
+            "\t},\n" +
+            "\n" +
+            "\t\"Secretary\" :\n" +
+            "\t{\n" +
+            "\t\t\"Secretarytype\" : \"Null\",\n" +
+            "\n" +
+            "\t\t\"Schedule\" :\n" +
+            "\t\t{\n" +
+            "\t\t\t\"Startdate\" : \"Null\",\n" +
+            "\t\t\t\"Starttime\": \"Null\",\n" +
+            "\t\t\t\"Enddate\" : \"Null\",\n" +
+            "\t\t\t\"Endtime\" : \"Null\",\n" +
+            "\t\t\t\"Content\" : \"Null\"\n" +
+            "\t\t},\n" +
+            "\n" +
+            "\t\t\"Music\" :\n" +
+            "\t\t{\n" +
+            "\t\t\t\"Title\" : \"Null\",\n" +
+            "\t\t\t\"Singer\" : \"Null\",\n" +
+            "\t\t\t\"Album\" : \"Null\",\n" +
+            "\t\t\t\"Gnr\" : \"Null\",\n" +
+            "\t\t\t\"Dtlgnr\" : \"Null\"\n" +
+            "\t\t}\n" +
+            "\t}\n" +
+            "}";
 
     private CommandSenderThread sendThread;
+    private TTSActivity ttsActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stt);
 
-        Intent currentIntent = getIntent();
-        status = currentIntent.getExtras().getInt("status");
-        if(status == RESULT_STT || status == NEEDINFO_STT) {
-            TTSMessage = currentIntent.getExtras().getString("TTSMessage");
-        }
-//
-//        TTSIntent = new Intent(this, TTSActivity.class);
-//
-//        TTSThread startTTS = new TTSThread();
+//        TTSThread startTTS = new TTSThread(START_MESSAGE, TTSMessage);
 //        startTTS.start();
 //        try {
 //            startTTS.join();
@@ -67,14 +113,7 @@ public class STTActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 
-        mainIntent = new Intent(this, MainActivity.class);
-        recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 10000);
-
-        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
+        initSpeechRecognition();
         mSpeechRecognizer.startListening(recognizerIntent);
     }
 
@@ -82,10 +121,6 @@ public class STTActivity extends AppCompatActivity {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        if(mSpeechRecognizer == null) {
-            mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-            mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
-        }
     }
 
     @Override
@@ -98,26 +133,13 @@ public class STTActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
+        Log.d("sttAct Destroy", "sttAct Destroy");
+
         if(mSpeechRecognizer != null) {
             mSpeechRecognizer.stopListening();
             mSpeechRecognizer.destroy();
         }
-
-//        if(status == RESULT_STT){
-//            mainIntent.setAction("android.intent.action.MAIN");
-//            mainIntent.addCategory("android.intent.category.HOME");
-//            mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//            startActivity(mainIntent);
-//        }
-//        else {
-//            Intent reSTTIntent = new Intent(this, STTActivity.class);
-//            reSTTIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-//            reSTTIntent.putExtra("status", status);
-//            reSTTIntent.putExtra("message", TTSMessage);
-//            startActivity(reSTTIntent);
-//        }
-
-        Log.d("sttAct Destroy", "sttAct Destroy");
+        returnMainActivity();
     }
 
     RecognitionListener mRecognitionListener = new RecognitionListener() {
@@ -140,6 +162,7 @@ public class STTActivity extends AppCompatActivity {
         public void onError(int error) {
             // TODO Auto-generated method stub
             if(error == ERROR_NO_MATCH || error == ERROR_SPEECH_TIMEOUT) {
+                SystemClock.sleep(1000);
                 restartListening();
             }
             Log.d("sttAct onError", "onError" + error);
@@ -158,13 +181,6 @@ public class STTActivity extends AppCompatActivity {
         @Override
         public void onReadyForSpeech(Bundle params) {
             // TODO Auto-generated method stub
-//            TTSThread startTTS = new TTSThread();
-//            startTTS.start();
-//            try {
-//                startTTS.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             Log.d("onReadyForSpeech", "onReadyForSpeech");
         }
 
@@ -174,49 +190,63 @@ public class STTActivity extends AppCompatActivity {
             // TODO Auto-generated method stub
             Log.d("onResults", "onResults");
             ArrayList<String> resultList = results.getStringArrayList(mSpeechRecognizer.RESULTS_RECOGNITION);
-            resultStr = resultList.get(0);
+            sttResultStr = resultList.get(0);
 
-            if(status == NEEDINFO_STT) {
+            Log.d("resultSTR", sttResultStr);
 
+            if(sttResultStr.equals("들어가")) {
+                finish();
+            } else {
+
+                try {
+                    sendThread = new CommandSenderThread(sttResultStr, defaultJSON);
+                    sendThread.start();
+                    sendThread.join();
+                    stringForJSON = sendThread.getResultString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("errerrerr", "errerrerr");
+                }
+
+                Log.d("stringForJONS", stringForJSON);
+
+                try {
+                    resultJSON = new JSONObject(stringForJSON);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("convert JSONObj err", stringForJSON);
+                }
+
+                try {
+                    pattern = resultJSON.getString("Pattern");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("pattern parse err", stringForJSON);
+                }
+
+                try {
+                    TTSMessage = resultJSON.getString("Tts");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//            pattern != null -> restart stt and
+//            pattern == null -> perfect sentence
+
+                Intent TTSIntent = new Intent(getApplicationContext(), TTSActivity.class);
+                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                if(pattern.equals("Null")) {
+                    //tts TTSMessage and stop
+                    finish();
+                }
+                else {
+                    defaultJSON = stringForJSON;
+                    //tts TTSMessage and restart;
+                    restartListening();
+                }
             }
 
-            try {
-                sendThread = new CommandSenderThread(resultStr);
-                sendThread.start();
-                sendThread.join();
-                stringForJSON = sendThread.getResultString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("errerrerr", "errerrerr");
-            }
-
-            Log.d("stringForJONS", stringForJSON);
-
-            try {
-                resultJSON = new JSONObject(stringForJSON);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                pattern = (String) resultJSON.get("Pattern");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                TTSMessage = resultJSON.getString("Tts");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            if(!pattern.equals("Null")) {
-                status = NEEDINFO_STT;
-            }
-            else {
-                status = RESULT_STT;
-            }
-            finish();
         }
         @Override
         public void onRmsChanged(float rmsdB) {
@@ -228,30 +258,25 @@ public class STTActivity extends AppCompatActivity {
     private void restartListening(){
         mSpeechRecognizer.stopListening();
         mSpeechRecognizer.destroy();
-        recognizerIntent = null;
+        this.initSpeechRecognition();
+        mSpeechRecognizer.startListening(recognizerIntent);
+    }
+
+    private void initSpeechRecognition() {
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 10000);
-        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 3000);
+        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
-        mSpeechRecognizer.startListening(recognizerIntent);
     }
 
-    Handler mHandler = new Handler() {
-        public void handleMessage(Message msg){
-            if(msg.what == 0){
-                stringForJSON = (String) msg.obj;
-            }
-        }
-    };
-
-    class TTSThread extends Thread {
-        public void run(){
-            TTSIntent.putExtra("status", status);
-            if(status == NEEDINFO_STT || status == RESULT_STT)
-                TTSIntent.putExtra("TTSMessage", TTSMessage);
-            startActivity(TTSIntent);
-        }
+    private void returnMainActivity() {
+        mainIntent = new Intent(this, MainActivity.class);
+        mainIntent.setAction("android.intent.action.MAIN");
+        mainIntent.addCategory("android.intent.category.HOME");
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(mainIntent);
     }
 }

@@ -8,6 +8,7 @@ package sunpark.houseelf.capstone2017.kmu.dobby;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BackPressCloseHandler backPressCloseHandler;
+    protected AudioManager mAudioManager;
 
     Intent STTServiceIntent;
     Context activityContext;
@@ -27,8 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        backPressCloseHandler = new BackPressCloseHandler(this);
-
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+//                volumeVal = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+//        mAudioManager.abandonAudioFocus(CONNECTIVITY_SERVICE);
         bStopService = (Button) findViewById(R.id.button_Stop);
         bStopService.setOnClickListener(new View.OnClickListener() {
             @Override
