@@ -28,7 +28,7 @@
 @list
 HomeiotLightLocation = {"거실", "마루", "방", "화장실", "욕실", "부엌", "주방", "전체"}
 HomeiotLightObject = {"불", "조명", "등", "형광등", "조명등"}
-HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비젼", "테레비", "텔레비전", "리모컨", "리모콘"}
+HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비젼", "테레비", "텔레비전"}
 HomeiotTvChannel = {"메뉴", "카테고리", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "ytn", "sbs", "cnn", "해외축구", "야구", "해외농구", "음악프로", "애니프로", "게임프로", "교육프로", "YTN", "Ytn", "SBS", "CNN", "Cnn", "축구", "농구", "음악프로그램", "만화", "애니메이션", "애니메이션프로그램", "애니메이션프로", "게임", "게임프로그램", "교육채널", "교육프로그램", "EBS", "ebs"}
 HomeiotTvOption = {"채널", "번호"}
 HomeiotLightActionTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜기", "켜봐", "켜봐라", "켜주라", "켜라", "켜줄", "켜 줄", "켜 줄 수"}
@@ -46,7 +46,7 @@ HomeiotTvRemotelocTrue = {"알려줘", "알려주다", "알려줄래", "어딨�
 @mapping
 HomeiotLightLocation = {"Livingroom", "Livingroom", "Room", "Bathroom", "Bathroom", "Kitchen", "Kitchen", "All"}
 HomeiotLightObject = {"Lamp", "Lamp", "Lamp", "Lamp", "Lamp"}
-HomeiotTvObject = {"TV", "TV", "TV", "TV", "TV", "TV", "TV", "Remotecontrol", "Remotecontrol"}
+HomeiotTvObject = {"TV", "TV", "TV", "TV", "TV", "TV", "TV"}
 HomeiotTvChannel = {"10", "10", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "0", "1", "2", "2", "3", "5", "6", "7", "7", "7", "7", "8", "8", "9", "9", "9", "9"}
 HomeiotTvOption = {"Channel", "Channel"}
 
@@ -84,7 +84,7 @@ HomeiotTvObject, HomeiotTvVolumeTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+t
 HomeiotTvVolumeTrue / Tasktype = 1, Tts = tts[HomeiotTvVolumeTrue], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvVolumeFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvVolumeFalse], HomeiotHomeiottype = 2
 HomeiotTvVolumeFalse / Tasktype = 1, Tts = tts[HomeiotTvVolumeFalse], HomeiotHomeiottype = 2
-HomeiotTvObject, HomeiotTvRemotelocTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvRemotelocTrue], HomeiotHomeiottype = 2
+#HomeiotTvObject, HomeiotTvRemotelocTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvRemotelocTrue], HomeiotHomeiottype = 2
 HomeiotTvChannel, HomeiotTvObject, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvOption + " " + "변경했습니다", HomeiotHomeiottype = 2
 HomeiotTvOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotOption + " " + "변경했습니다", HomeiotHomeiottype = 2
