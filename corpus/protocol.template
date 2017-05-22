@@ -19,6 +19,7 @@
 
 		"Tv":
 		{
+            "Component" : "String",
                         "Option" : "String",
                         "Object" : "String",
 			"Power" : "Boolean",
