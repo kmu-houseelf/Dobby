@@ -1,6 +1,10 @@
+#!/usr/bin/python
+
 import socket 
 import sys
 import subprocess
+import codecs
+import json
 from datetime import datetime
 
 
@@ -11,6 +15,9 @@ sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 sock.bind(('', 1759))
 sock.listen(1)
 
+with codecs.open('default_json.json', 'r', encoding='utf8') as f:
+	default_json = json.load(f)
+
 while True:
 	print '... wait connection ...'
 	conn, client = sock.accept()
@@ -20,9 +27,33 @@ while True:
 		data = conn.recv(1024)
 		print str(datetime.now()), data
 
+		if '/' in data:
+			sent, js = data.split('/')
+		else:
+			conn.send('data must be sentence / json')
+			conn.close()
+			continue
+
+
+		if 'unknown' is js:
+			js = default_json
+
+
+		j = json.loads(js)
+
+
+		with codecs.open('protocol.json','w',encoding='utf8') as f:
+			f.write(js.decode('utf8'))
+#		with codecs.open('protocol.json','r',encoding='utf8') as f:
+#			j = json.load(f)
+
+		if j["Pattern"] != "Null":
+			sent = "Q" + str(j["Pattern"]) + sent
+
 	finally:
 		try:
-			result = subprocess.check_output('./sentence2json.wl \"'+data+'\"', shell=True)
+			result = subprocess.check_output('./sentence2json.wl \"'+sent+'\"', shell=True)
+			print result
 			conn.send(result)
 		except:
 			pass

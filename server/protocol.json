@@ -1,0 +1,54 @@
+{
+	"Tasktype" : "Null",
+
+	"Pattern" : "Null",
+
+	"Tts" : "Null",
+	
+	"Homeiot" : 
+	{
+		"Homeiottype" : "Null",
+
+		"Light":
+		{
+			"Location" : "Null",
+			"Object" : "Null",
+			"Action" : "Null",
+			"Brightness" : "Null"
+		},
+
+		"Tv":
+		{
+                        "Option" : "Null",
+			"Object" : "Null",
+                        "Power" : "Null",
+			"Channel" : "Null",
+			"Volume" : "Null",
+			"Mute" : "Null",
+			"Remoteloc" : "Null"
+		}
+	},
+
+	"Secretary" :
+	{
+		"Secretarytype" : "Null",
+
+		"Schedule" :
+		{
+			"Startdate" : "Null",
+			"Starttime": "Null",
+			"Enddate" : "Null",
+			"Endtime" : "Null",
+			"Content" : "Null"
+		},
+
+		"Music" :
+		{
+			"Title" : "Null",
+			"Singer" : "Null",
+			"Album" : "Null",
+			"Gnr" : "Null",
+			"Dtlgnr" : "Null"
+		}
+	}
+}

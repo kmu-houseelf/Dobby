@@ -131,6 +131,8 @@ def generateWl():
 			if variable in mapping_dict:
 				lhs = array[1:-1].split(',')
 				rhs = mapping_dict[variable][1:-1].split(',')
+				print 'lhs', lhs
+				print 'rhs', rhs
 				res = [l + '->' + rhs[i] for i, l in enumerate(lhs)]
 				res = '{' + ','.join(res) + '}'
 				f.write(variable + 'Mapping = ' + res + '\n')

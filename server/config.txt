@@ -86,23 +86,23 @@ HomeiotTvObject, HomeiotTvVolumeFalse / Tasktype = 1, Tts = HomeiotTvObject+" "+
 HomeiotTvVolumeFalse / Tasktype = 1, Tts = tts[HomeiotTvVolumeFalse], HomeiotHomeiottype = 2
 HomeiotTvObject, HomeiotTvRemotelocTrue / Tasktype = 1, Tts = HomeiotTvObject+" "+tts[HomeiotTvRemotelocTrue], HomeiotHomeiottype = 2
 HomeiotTvChannel, HomeiotTvObject, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+tts[HomeiotTvPowerTrue], HomeiotHomeiottype = 2
-HomeiotTvObject, HomeioTvtOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvOption + " " + "변경했습니다", HomeiotHomeiottype = 2
+HomeiotTvObject, HomeiotTvOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvOption + " " + "변경했습니다", HomeiotHomeiottype = 2
 HomeiotTvOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotOption + " " + "변경했습니다", HomeiotHomeiottype = 2
 HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = "틀었습니다", HomeiotHomeiottype = 2
 
 
 HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜 드릴까요?"
-%p1, HomeiotLightLocation / Pattern = Null, Tts = "불 켰습니다"
+%p1, HomeiotLightLocation / Pattern = "Null", Tts = "불 켰습니다"
 HomeiotLightLocation, HomeiotLightObject / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p2, Tts = HomeiotLightLocation+" "+HomeiotLightObject+" 어떻게 할까요?"
-%p2, HomeiotLightActionTrue / Pattern = Null, Tts = "불 켰습니다" 
-%p2, HomeiotLightActionFalse / Pattern = Null, Tts = "불 껐습니다"
+%p2, HomeiotLightActionTrue / Pattern = "Null", Tts = "불 켰습니다" 
+%p2, HomeiotLightActionFalse / Pattern = "Null", Tts = "불 껐습니다"
 HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p3, Tts = "어디를 꺼 드릴까요?"
-%p3, HomeiotLightLocation / Pattern = Null, Tts = "불 껐습니다"
+%p3, HomeiotLightLocation / Pattern = "Null", Tts = "불 껐습니다"
 HomeiotLightObject, HomeiotLightBrightnessTrue, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p4, Tts = "어디를 켜 드릴까요?"
-%p4, HomeiotLightLocation / Pattern = Null, Tts = "밝게 켰습니다"
+%p4, HomeiotLightLocation / Pattern = "Null", Tts = "밝게 켰습니다"
 HomeiotLightObject, HomeiotLightBrightnessFalse, HomeiotLightActionFalse / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p5, Tts = "어디를 어둡게 해 드릴까요?"
-%p5, HomeiotLightLocation / Pattern = Null, Tts = "어둡게 했습니다"
+%p5, HomeiotLightLocation / Pattern = "Null", Tts = "어둡게 했습니다"
 HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Pattern = $p6, Tts = "어떤 채널로 틀어드릴까요?"
-%p6, HomeiotTvChannel / Pattern = Null, Tts = "틀었습니다"
+%p6, HomeiotTvChannel / Pattern = "Null", Tts = "틀었습니다"
 HomeiotTvObject, HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Pattern = $p7, Tts = "어떤 채널로 틀어드릴까요?"
-%p7, HomeiotTvChannel / Pattern = Null, Tts = "틀었습니다"
+%p7, HomeiotTvChannel / Pattern = "Null", Tts = "틀었습니다"

@@ -24,12 +24,11 @@ Get["module/auto_gen_wl.wl"]
 
 
 (* read protocol json file *)
-DefaultJson = Import["../corpus/protocol.json", "RawJSON"]
+DefaultJson = Import["protocol.json", "RawJSON"]
 
 
 (* read user input *)
 Sentence = Kstr[$ScriptCommandLine[[2]]]
-Print["sentence : ", Sentence]
 
 
 (* run function *)
