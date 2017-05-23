@@ -18,10 +18,8 @@ import java.util.ArrayList;
 
 
 import static android.content.ContentValues.TAG;
-import static android.content.Intent.FLAG_ACTIVITY_NO_HISTORY;
 import static android.speech.SpeechRecognizer.ERROR_CLIENT;
 import static android.speech.SpeechRecognizer.ERROR_NO_MATCH;
-import static android.speech.SpeechRecognizer.ERROR_RECOGNIZER_BUSY;
 import static android.speech.SpeechRecognizer.ERROR_SPEECH_TIMEOUT;
 
 public class MyService extends Service {
@@ -30,12 +28,13 @@ public class MyService extends Service {
     protected Intent mSpeechRecognizerIntent;
 
     static final String startWord = "도비";
-    private int volumeVal = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(new SpeechRecognitionListener());
 
@@ -117,15 +116,10 @@ public class MyService extends Service {
             if(startWord.equals(inputWord)) {
                 mSpeechRecognizer.stopListening();
                 mSpeechRecognizer.destroy();
-                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 100);
                 stopSelf();
-//                Intent sttIntent = new Intent(MyService.this, STTActivity.class);
-//                sttIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                sttIntent.putExtra("stats", 1);
-//                startActivity(sttIntent);
 
                 Intent TTSIntent = new Intent(MyService.this, TTSActivity.class);
-                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 TTSIntent.putExtra("status", 1);
                 startActivity(TTSIntent);
             }

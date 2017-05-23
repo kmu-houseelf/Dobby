@@ -6,7 +6,9 @@
 
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.RecognitionListener;
@@ -21,12 +23,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static android.speech.SpeechRecognizer.ERROR_NO_MATCH;
+import static android.speech.SpeechRecognizer.ERROR_RECOGNIZER_BUSY;
 import static android.speech.SpeechRecognizer.ERROR_SPEECH_TIMEOUT;
 
 public class STTActivity extends AppCompatActivity {
 
     Intent recognizerIntent;
     Intent mainIntent;
+    int status;
 
     SpeechRecognizer mSpeechRecognizer;
     String sttResultStr = "";
@@ -35,12 +39,13 @@ public class STTActivity extends AppCompatActivity {
     JSONObject resultJSON;
     String pattern;
     String TTSMessage = " ";
-    int taskType;
+    int tasktype;
 
     private static final int START_MESSAGE = 1;
     private static final int RESTART_MESSAGE = 2;
     private static final int NEEDINFO_MESSAGE = 3;
     private static final int RESULT_MESSAGE = 4;
+    private static final int ERROR_MESSAGE = 5;
 
     String defaultJSON = "{\n" +
             "\t\"Tasktype\" : \"Null\",\n" +
@@ -63,14 +68,31 @@ public class STTActivity extends AppCompatActivity {
             "\n" +
             "\t\t\"Tv\":\n" +
             "\t\t{\n" +
-            "                        \"Option\" : \"Null\",\n" +
+            "\t\t\t\"Component\" : \"Null\",\n" +
+            "\t\t\t\"Option\" : \"Null\",\n" +
             "\t\t\t\"Object\" : \"Null\",\n" +
-            "                        \"Power\" : \"Null\",\n" +
+            "\t\t\t\"Power\" : \"Null\",\n" +
             "\t\t\t\"Channel\" : \"Null\",\n" +
             "\t\t\t\"Volume\" : \"Null\",\n" +
             "\t\t\t\"Mute\" : \"Null\",\n" +
             "\t\t\t\"Remoteloc\" : \"Null\"\n" +
-            "\t\t}\n" +
+            "\t\t},\n" +
+            "\t\t\n" +
+            "\t\t\"Schedule\" :\n" +
+            "\t\t{\n" +
+            "\t\t\t\"Month\": \"Null\",\n" +
+            "\t\t\t\"Day\": \"Null\",\n" +
+            "\t\t\t\"Action\" : \"Null\",\n" +
+            "\t\t\t\"Content\" : \"Null\"\n" +
+            "\t\t},\n" +
+            "\n" +
+            "\t\t\"Music\" :\n" +
+            "\t\t{\n" +
+            "\t\t\t\"Title\" : \"Null\",\n" +
+            "\t\t\t\"Singer\" : \"Null\",\n" +
+            "\t\t\t\"Gnr\" : \"Null\",\n" +
+            "\t\t\t\"Action\" : \"Null\"\n" +
+            "\t\t}\t\t\n" +
             "\t},\n" +
             "\n" +
             "\t\"Secretary\" :\n" +
@@ -98,20 +120,21 @@ public class STTActivity extends AppCompatActivity {
             "}";
 
     private CommandSenderThread sendThread;
-    private TTSActivity ttsActivity;
+    private AudioManager mAudioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stt);
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
 
-//        TTSThread startTTS = new TTSThread(START_MESSAGE, TTSMessage);
-//        startTTS.start();
-//        try {
-//            startTTS.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        Intent thisIntent = getIntent();
+        status = thisIntent.getExtras().getInt("status");
+
+        if(status == NEEDINFO_MESSAGE) {
+            defaultJSON = thisIntent.getExtras().getString("JSON");
+        }
 
         initSpeechRecognition();
         mSpeechRecognizer.startListening(recognizerIntent);
@@ -139,7 +162,6 @@ public class STTActivity extends AppCompatActivity {
             mSpeechRecognizer.stopListening();
             mSpeechRecognizer.destroy();
         }
-        returnMainActivity();
     }
 
     RecognitionListener mRecognitionListener = new RecognitionListener() {
@@ -161,7 +183,7 @@ public class STTActivity extends AppCompatActivity {
         @Override
         public void onError(int error) {
             // TODO Auto-generated method stub
-            if(error == ERROR_NO_MATCH || error == ERROR_SPEECH_TIMEOUT) {
+            if(error == ERROR_NO_MATCH || error == ERROR_SPEECH_TIMEOUT || error == ERROR_RECOGNIZER_BUSY) {
                 SystemClock.sleep(1000);
                 restartListening();
             }
@@ -230,20 +252,35 @@ public class STTActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                try {
+                    tasktype = resultJSON.getInt("Tasktype");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 //            pattern != null -> restart stt and
 //            pattern == null -> perfect sentence
 
                 Intent TTSIntent = new Intent(getApplicationContext(), TTSActivity.class);
-                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                 if(pattern.equals("Null")) {
-                    //tts TTSMessage and stop
                     finish();
+                    if(tasktype == 0) {
+                        TTSIntent.putExtra("status", ERROR_MESSAGE);
+                    } else {
+                        TTSIntent.putExtra("status", RESULT_MESSAGE);
+                        TTSIntent.putExtra("Message", TTSMessage);
+                    }
+                    startActivity(TTSIntent);
                 }
                 else {
+                    finish();
                     defaultJSON = stringForJSON;
-                    //tts TTSMessage and restart;
-                    restartListening();
+                    TTSIntent.putExtra("status", NEEDINFO_MESSAGE);
+                    TTSIntent.putExtra("Message", TTSMessage);
+                    TTSIntent.putExtra("JSON", defaultJSON);
+                    startActivity(TTSIntent);
                 }
             }
 
@@ -272,11 +309,11 @@ public class STTActivity extends AppCompatActivity {
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
     }
 
-    private void returnMainActivity() {
-        mainIntent = new Intent(this, MainActivity.class);
-        mainIntent.setAction("android.intent.action.MAIN");
-        mainIntent.addCategory("android.intent.category.HOME");
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(mainIntent);
-    }
+//    private void returnMainActivity() {
+//        mainIntent = new Intent(this, MainActivity.class);
+//        mainIntent.setAction("android.intent.action.MAIN");
+//        mainIntent.addCategory("android.intent.category.HOME");
+//        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(mainIntent);
+//    }
 }

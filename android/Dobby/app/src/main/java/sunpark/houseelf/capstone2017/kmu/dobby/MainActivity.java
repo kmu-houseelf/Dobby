@@ -17,8 +17,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected AudioManager mAudioManager;
-
+    AudioManager mAudioManager;
     Intent STTServiceIntent;
     Context activityContext;
     Button bStopService;
@@ -28,10 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//                volumeVal = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
-//        mAudioManager.abandonAudioFocus(CONNECTIVITY_SERVICE);
         bStopService = (Button) findViewById(R.id.button_Stop);
         bStopService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        checkService();
         super.onPause();
         Log.d("Main Pause", "Main Pause");
     }
@@ -63,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("onSTOP", "onSTOP");
+        Log.d("Main onStop", "onSTOP");
     }
 
     public void onDestroy() {
@@ -79,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             activityContext = getApplicationContext();
             STTServiceIntent = new Intent(activityContext, MyService.class);
             activityContext.startService(STTServiceIntent);
+            STTServiceIntent.
         }
     }
 }
