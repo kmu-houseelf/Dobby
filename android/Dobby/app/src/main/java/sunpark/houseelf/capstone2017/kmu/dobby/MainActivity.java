@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             activityContext = getApplicationContext();
             STTServiceIntent = new Intent(activityContext, MyService.class);
             activityContext.startService(STTServiceIntent);
-            STTServiceIntent.
+            //STTServiceIntent.
         }
     }
 }
