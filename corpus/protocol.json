@@ -52,6 +52,7 @@
 
 		"Schedule" :
 		{
+			"Action" : "Null",
 			"Startdate" : "Null",
 			"Starttime": "Null",
 			"Enddate" : "Null",
