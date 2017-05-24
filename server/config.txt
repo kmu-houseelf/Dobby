@@ -28,14 +28,15 @@
 @list
 HomeiotLightLocation = {"거실", "마루", "방", "화장실", "욕실", "부엌", "주방", "전체"}
 HomeiotLightObject = {"불", "조명", "등", "형광등", "조명등"}
-HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비", "테레비"}
-HomeiotTvChannel = {"메뉴", "카테고리", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "ytn", "sbs", "cnn", "해외축구", "야구", "해외농구", "음악프로", "애니프로", "게임프로", "교육프로", "YTN", "Ytn", "SBS", "CNN", "Cnn", "축구", "농구", "음악프로그램", "만화", "애니메이션", "애니메이션프로그램", "애니메이션프로", "게임", "게임프로그램", "교육채널", "교육프로그램", "EBS", "ebs"}
-HomeiotTvOption = {"채널", "번호"}
-HomeiotTvComponent = {"리모컨", "리모콘"}
 HomeiotLightActionTrue = {"킬", "켤", "켜"}
 HomeiotLightActionFalse = {"끄", "끌", "꺼"}
 HomeiotLightBrightnessTrue = {"밝게"}
 HomeiotLightBrightnessFalse = {"어둡게"}
+
+HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비", "테레비"}
+HomeiotTvChannel = {"메뉴", "카테고리", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "ytn", "sbs", "cnn", "해외축구", "야구", "해외농구", "음악프로", "애니프로", "게임프로", "교육프로", "YTN", "Ytn", "SBS", "CNN", "Cnn", "축구", "농구", "음악프로그램", "만화", "애니메이션", "애니메이션프로그램", "애니메이션프로", "게임", "게임프로그램", "교육채널", "교육프로그램", "EBS", "ebs"}
+HomeiotTvOption = {"채널", "번호"}
+HomeiotTvComponent = {"리모컨", "리모콘"}
 HomeiotTvPowerTrue = {"킬", "켤", "켜", "바꿔", "바꾸", "바꿀", "틀", "온", "돌려", "돌리", "보여", "봐봐", "알려", "알리", "변경"}
 HomeiotTvPowerFalse = {"끄", "끌", "꺼", "오프"}
 HomeiotTvVolumeTrue = {"소리킬", "소리켜", "소리켤", "소리높", "볼륨킬", "볼륨켜", "볼륨켤", "볼륨높", "음량높", "음량올"}
@@ -44,15 +45,22 @@ HomeiotTvMuteTrue = {"음소거해", "음소거하", "음소거할", "음소거�
 HomeiotTvMuteFalse = {"음소거끄", "음소거끌", "음소거꺼"}
 HomeiotTvRemotelocTrue = {"알려", "어딨", "어디", "찾아"}
 
-
-HomeiotMusicActionTrue = {"음악 틀어", "노래 틀어", "곡 틀어", "틀어"}
-HomeiotMusicActionFalse = {"음악 꺼줘", "노래 꺼줘", "곡 꺼줘"}
+HomeiotMusicActionTrue = {"음악틀어", "노래틀어", "곡틀어", "틀어"}
+HomeiotMusicActionFalse = {"음악꺼줘", "노래꺼줘", "곡꺼줘"}
 HomeiotMusicSinger = {"아이유", "이적"}
 HomeiotMusicTitle = {"밤편지", "걱정말아요그대"}
 HomeiotMusicGnr = {"가요", "OST"}
 
 SecretaryFoodObject = {"아침", "점심", "저녁", "음식"}
 SecretaryFoodAction = {"뭐먹을", "추천"}
+
+HomeiotAirconObject = {"에어컨", "보일러"}
+HomeiotAirconSub = {"온도"}
+HomeiotAirconTemperature = {"도"}
+HomeiotAirconPowerTrue = {"켜", "킬", "켤", "온", "틀", "해줘"}
+HomeiotAirconPowerFalse = {"꺼", "끌", "끄", "오프"}
+HomeiotAirconActionTrue = {"높", "올"}
+HomeiotAirconActionFalse = {"낮", "내"}
 
 
 
@@ -71,6 +79,10 @@ HomeiotMusicGnr = {"Song", "OST"}
 SecretaryFoodObject = {"food", "food","food","food"}
 SecretaryFoodAction = {"act", "act"}
 
+HomeiotAirconObject = {"aircon", "aircon"}
+HomeiotAirconSub = {"temp"}
+HomeiotAirconTemperature = {"do"}
+
 
 @user
 tts[HomeiotLightActionTrue] = "켰습니다"
@@ -84,7 +96,6 @@ tts[HomeiotTvVolumeFalse] = "볼륨 줄였습니다"
 tts[HomeiotTvMuteTrue] = "음소거 했습니다"
 tts[HomeiotTvMuteFalse] = "음소거 껐습니다"
 tts[HomeiotTvRemotelocTrue] = "찾았습니다"
-
 
 
 @pattern
@@ -123,7 +134,16 @@ HomeiotMusicSinger, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 
 HomeiotMusicTitle, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicTitle+" 켜졌습니다!"
 HomeiotMusicGnr, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicGnr+" 노래 켜졌습니다!"
 
-SecretaryFoodObject, SecretaryFoodAction / Tasktype = 2, SecretarySecretarytype = 2, Tts = SecretaryFoodObject+" 추천은 떡볶이가 좋겠어요"
+SecretaryFoodObject, SecretaryFoodAction / Tasktype = 2, SecretarySecretarytype = 2, Tts = SecretaryFoodObject+" 추천은 떡볶이 이면 좋겠어요"
+
+HomeiotAirconObject, HomeiotAirconPowerTrue / Tasktype = 1, HomeiotHomeiottype=5, Tts = HomeiotAirconObject+" 켰습니다"
+HomeiotAirconObject, HomeiotAirconPowerFalse / Tasktype = 1, HomeiotHomeiottype=5, Tts = HomeiotAirconObject+" 껏습니다"
+HomeiotAirconObject, HomeiotAirconTemperature, HomeiotAirconPowerTrue / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t2,Tts = HomeiotAirconObject+" "+t2+"도로 켰습니다"
+HomeiotAirconObject, HomeiotAirconSub, HomeiotAirconTemperature, HomeiotAirconPowerTrue / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t3, Tts = HomeiotAirconObject+" "+t3+"도로 틀었습니다" 
+HomeiotAirconObject, HomeiotAirconSub, HomeiotAirconTemperature, HomeiotAirconActionTrue / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t3, Tts = HomeiotAirconObject+" 온도를 "+t3+"도 높였습니다" 
+HomeiotAirconObject, HomeiotAirconSub, HomeiotAirconTemperature, HomeiotAirconActionFalse / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t3, Tts = HomeiotAirconObject+" 온도를 "+t3+"도 낮췄습니다" 
+HomeiotAirconObject, HomeiotAirconTemperature, HomeiotAirconActionTrue / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t2, Tts = HomeiotAirconObject+" 온도를 "+t2+"도 높였습니다" 
+HomeiotAirconObject, HomeiotAirconTemperature, HomeiotAirconActionFalse / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t2, Tts = HomeiotAirconObject+" 온도를 "+t2+"도 낮췄습니다"
 
 
 HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜 드릴까요?"
