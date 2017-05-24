@@ -1,14 +1,10 @@
 {
 	"Tasktype" : "Null",
-
 	"Pattern" : "Null",
-
 	"Tts" : "Null",
-	
 	"Homeiot" : 
 	{
 		"Homeiottype" : "Null",
-
 		"Light":
 		{
 			"Location" : "Null",
@@ -16,7 +12,6 @@
 			"Action" : "Null",
 			"Brightness" : "Null"
 		},
-
 		"Tv":
 		{
 			"Component" : "Null",
@@ -28,7 +23,6 @@
 			"Mute" : "Null",
 			"Remoteloc" : "Null"
 		},
-		
 		"Schedule" :
 		{
 			"Month": "Null",
@@ -36,12 +30,19 @@
 			"Action" : "Null",
 			"Content" : "Null"
 		},
-
 		"Music" :
 		{
 			"Title" : "Null",
 			"Singer" : "Null",
 			"Gnr" : "Null",
+			"Action" : "Null"
+		},
+		"Aircon" :
+		{
+			"Object" : "Null",
+			"Sub" : "Null",
+			"Temperature" : "Null",
+			"Power" : "Null",
 			"Action" : "Null"
 		}		
 	},
@@ -58,14 +59,10 @@
 			"Endtime" : "Null",
 			"Content" : "Null"
 		},
-
-		"Music" :
+		"Food" : 
 		{
-			"Title" : "Null",
-			"Singer" : "Null",
-			"Album" : "Null",
-			"Gnr" : "Null",
-			"Dtlgnr" : "Null"
+			"Object" : "Null",
+			"Action" : "Null"
 		}
 	}
 }
