@@ -28,40 +28,48 @@
 @list
 HomeiotLightLocation = {"거실", "마루", "방", "화장실", "욕실", "부엌", "주방", "전체"}
 HomeiotLightObject = {"불", "조명", "등", "형광등", "조명등"}
-HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비젼", "테레비", "텔레비전"}
+HomeiotTvObject = {"TV", "Tv", "tv", "티비", "텔레비", "테레비"}
 HomeiotTvChannel = {"메뉴", "카테고리", "0번", "1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번", "9번", "ytn", "sbs", "cnn", "해외축구", "야구", "해외농구", "음악프로", "애니프로", "게임프로", "교육프로", "YTN", "Ytn", "SBS", "CNN", "Cnn", "축구", "농구", "음악프로그램", "만화", "애니메이션", "애니메이션프로그램", "애니메이션프로", "게임", "게임프로그램", "교육채널", "교육프로그램", "EBS", "ebs"}
 HomeiotTvOption = {"채널", "번호"}
 HomeiotTvComponent = {"리모컨", "리모콘"}
-HomeiotLightActionTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜기", "켜봐", "켜봐라", "켜주라", "켜라", "켜줄", "켜 줄", "켜 줄 수"}
-HomeiotLightActionFalse = {"끄", "끌", "꺼볼", "꺼", "꺼줘", "끄다", "꺼봐", "꺼줬", "꺼주세요", "꺼라", "꺼주다", "꺼라", "꺼줄래", "꺼줄", "꺼 줄 수 있", "끌래", "해", "해줘", "줄", "줄여", "해봐", "해봐라", "해라", "해주기", "해줬", "해줄", "해줄래", "해볼래", "해주지", "줄여줄래"}
-HomeiotLightBrightnessTrue = {"밝게", "더 밝게"}
-HomeiotLightBrightnessFalse = {"어둡게", "더 어둡게"}
-HomeiotTvPowerTrue = {"킬", "켜볼", "켤", "켜", "켜줘", "켜다", "켜기", "켜봐", "켜라", "켜주다", "켜줄", "바꿔", "바꾸다", "바꿔주다", "바꿔라", "바꿔줄래", "바꿀래", "틀", "틀어", "틀다", "틀기", "틀어주다", "틀을래", "온", "돌려", "돌리다", "돌려", "돌려주다", "보여줘", "봐봐", "보여주다", "알려", "알려줘", "알리다", "변경", "변경해", "변경하다"}
-HomeiotTvPowerFalse = {"끄", "끌", "꺼볼", "꺼", "꺼줘", "끄다", "꺼줘라", "끄기", "꺼봐", "꺼봐라", "꺼주다", "꺼줄", "꺼볼래", "끌래", "오프"}
-HomeiotTvVolumeTrue = {"소리 킬", "소리 켜볼", "소리 켤", "소리 켜", "소리 켜줘", "소리 켜다", "소리 켜기", "소리 켜봐", "소리 켜주다", "소리 켜줄", "소리 높여", "소리 높이다", "소리 높여주다", "소리 높여줄래", "소리 높일래", "볼륨 킬", "볼륨 켜볼", "볼륨 켤", "볼륨 켜", "볼륨 켜줘", "볼륨 켜다", "볼륨 켜기", "볼륨 켜봐", "볼륨 켜주다", "볼륨 켜줄", "볼륨 높여", "볼륨 높이다", "볼륨 높여주다", "볼륨 높여줄래", "볼륨 높일래"}
-HomeiotTvVolumeFalse = {"소리 줄여", "소리 줄이다", "소리 줄여봐", "소리 줄여주기", "소리 줄여주다", "소리 줄일래", "소리 낮춰", "소리 낮추다", "소리 낮출래", "볼륨 줄여", "볼륨 줄이다", "볼륨 줄여봐", "볼륨 줄여주기", "볼륨 줄여주다", "볼륨 줄일래", "볼륨 낮춰", "볼륨 낮추다", "볼륨 낮출래"}
-HomeiotTvMuteTrue = {"음소거 해", "음소거 해줘", "음소거 하다", "음소거 하기", "음소거 해봐", "음소거 해라", "음소거 해주다", "음소거 해볼래", "음소거 할래", "음소거 킬", "음소거 켜볼", "음소거 켤", "음소거 켜", "음소거 켜줘", "음소거 켜다", "음소거 켜기", "음소거 켜봐", "음소거 켜주세요", "음소거 켜라", "음소거 켜주다", "음소거 켜줄", "음소거 켤래", "음소거 킬래"}
-HomeiotTvMuteFalse = {"음소거 끄", "음소거 끌", "음소거 꺼볼", "음소거 꺼", "음소거 꺼줘", "음소거 끄다", "음소거 끄기", "음소거 꺼봐", "음소거 꺼주다", "음소거 꺼라", "음소거 꺼봐줄래", "음소거 꺼볼래", "음소거 꺼 줄 수", "음소거 끌래"}
-HomeiotTvRemotelocTrue = {"알려", "알려주", "알려줄", "어딨", "어디에", "찾아", "찾", "찾다", "찾아줄"}
+HomeiotLightActionTrue = {"킬", "켤", "켜"}
+HomeiotLightActionFalse = {"끄", "끌", "꺼"}
+HomeiotLightBrightnessTrue = {"밝게"}
+HomeiotLightBrightnessFalse = {"어둡게"}
+HomeiotTvPowerTrue = {"킬", "켤", "켜", "바꿔", "바꾸", "바꿀", "틀", "온", "돌려", "돌리", "보여", "봐봐", "알려", "알리", "변경"}
+HomeiotTvPowerFalse = {"끄", "끌", "꺼", "오프"}
+HomeiotTvVolumeTrue = {"소리킬", "소리켜", "소리켤", "소리높", "볼륨킬", "볼륨켜", "볼륨켤", "볼륨높", "음량높", "음량올"}
+HomeiotTvVolumeFalse = {"소리줄", "소리낮", "볼륨줄", "볼륨낮", "음량낮", "음량줄"}
+HomeiotTvMuteTrue = {"음소거해", "음소거하", "음소거할", "음소거킬", "음소거켜", "음소거켤"}
+HomeiotTvMuteFalse = {"음소거끄", "음소거끌", "음소거꺼"}
+HomeiotTvRemotelocTrue = {"알려", "어딨", "어디", "찾아"}
 
-HomeiotMusicActionTrue = {"음악 틀어", "노래 틀어", "곡 틀어", "틀어줘"}
+
+HomeiotMusicActionTrue = {"음악 틀어", "노래 틀어", "곡 틀어", "틀어"}
 HomeiotMusicActionFalse = {"음악 꺼줘", "노래 꺼줘", "곡 꺼줘"}
-HomeiotMusicSinger = {"아이유", "싸이"}
-HomeiotMusicTitle = {"밤 편지", "밤편지", "강남스타일", "강남 스타일", "좋은날", "좋은 날"}
-HomeiotMusicGnr = {"신나는", "잔잔한"}
+HomeiotMusicSinger = {"아이유", "이적"}
+HomeiotMusicTitle = {"밤편지", "걱정말아요그대"}
+HomeiotMusicGnr = {"가요", "OST"}
+
+SecretaryFoodObject = {"아침", "점심", "저녁", "음식"}
+SecretaryFoodAction = {"뭐먹을", "추천"}
+
 
 
 @mapping
 HomeiotLightLocation = {"Livingroom", "Livingroom", "Room", "Bathroom", "Bathroom", "Kitchen", "Kitchen", "All"}
 HomeiotLightObject = {"Lamp", "Lamp", "Lamp", "Lamp", "Lamp"}
-HomeiotTvObject = {"TV", "TV", "TV", "TV", "TV", "TV", "TV"}
+HomeiotTvObject = {"TV", "TV", "TV", "TV", "TV", "TV"}
 HomeiotTvChannel = {"10", "10", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "0", "1", "2", "2", "3", "5", "6", "7", "7", "7", "7", "8", "8", "9", "9", "9", "9"}
 HomeiotTvOption = {"Channel", "Channel"}
 HomeiotTvComponent = {"Remotecontrol", "Remotecontrol"}
 
-HomeiotMusicSinger = {"IU", "PSY"}
-HomeiotMusicTitle = {"bampyeonji", "bampyeonji", "gangnamstyle", "gangnamstyle", "goodday", "goodday"}
-HomeiotMusicGnr = {"exicted", "windless"}
+HomeiotMusicSinger = {"IU", "LEE_JUK"}
+HomeiotMusicTitle = {"Through_The_Night", "Don't_worry_dear"}
+HomeiotMusicGnr = {"Song", "OST"}
+
+SecretaryFoodObject = {"food", "food","food","food"}
+SecretaryFoodAction = {"act", "act"}
 
 
 @user
@@ -76,6 +84,8 @@ tts[HomeiotTvVolumeFalse] = "볼륨 줄였습니다"
 tts[HomeiotTvMuteTrue] = "음소거 했습니다"
 tts[HomeiotTvMuteFalse] = "음소거 껐습니다"
 tts[HomeiotTvRemotelocTrue] = "찾았습니다"
+
+
 
 @pattern
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightActionTrue], HomeiotHomeiottype = 1
@@ -106,12 +116,14 @@ HomeiotTvOption, HomeiotTvChannel, HomeiotTvPowerTrue / Tasktype = 1, Tts = Home
 HomeiotTvObject, HomeiotTvChannel, HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, Tts = HomeiotTvChannel+" "+"틀었습니다", HomeiotHomeiottype = 2
 
 
-HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = t1+" 켜짐!"
-HomeiotMusicActionFalse / Tasktype = 1, HomeiotHomeiottype = 4, Tts = t1+"꺼짐!"
-HomeiotMusicSinger, HomeiotMusicTitle, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicSinger+"의"+HomeiotMusicTitle+" 켜짐!"
-HomeiotMusicSinger, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicSinger+" 노래 켜짐!"
-HomeiotMusicTitle, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicTitle+" 켜짐!"
-HomeiotMusicGnr, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicGnr+" 노래 켜짐!"
+HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = t1+" 켜졌습니다"
+HomeiotMusicActionFalse / Tasktype = 1, HomeiotHomeiottype = 4, Tts = t1+" 꺼졌습니다"
+HomeiotMusicSinger, HomeiotMusicTitle, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicSinger+"의"+HomeiotMusicTitle+" 켜졌습니다!"
+HomeiotMusicSinger, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicSinger+" 노래 켜졌습니다!"
+HomeiotMusicTitle, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicTitle+" 켜졌습니다!"
+HomeiotMusicGnr, HomeiotMusicActionTrue / Tasktype = 1, HomeiotHomeiottype = 4, Tts = HomeiotMusicGnr+" 노래 켜졌습니다!"
+
+SecretaryFoodObject, SecretaryFoodAction / Tasktype = 2, SecretarySecretarytype = 2, Tts = SecretaryFoodObject+" 추천은 떡볶이가 좋겠어요"
 
 
 HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜 드릴까요?"
@@ -129,3 +141,4 @@ HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Patt
 %p6, HomeiotTvChannel / Pattern = "Null", Tts = "틀었습니다"
 HomeiotTvObject, HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Pattern = $p7, Tts = "어떤 채널로 틀어드릴까요?"
 %p7, HomeiotTvChannel / Pattern = "Null", Tts = "틀었습니다"
+
