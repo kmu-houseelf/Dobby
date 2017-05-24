@@ -15,16 +15,7 @@ public class ScheduleStructure {
     private String endTime;
     private String content;
     DateTime now = new DateTime(System.currentTimeMillis());
-    /*
-        SecretaryStructure(){
-            action = 2;
-            startDate = "2017-06-30";
-            startTime = "09:00:00";
-            endDate = "2017-07-04";
-            endTime = "17:00:00";
-            content = "제목없음";
-        }
-*/
+
     ScheduleStructure(){
         action = "0";
         startDate = "2017-05-29";
@@ -34,17 +25,48 @@ public class ScheduleStructure {
         content = "저녁";
     }
 
-    ScheduleStructure(String stringForJSON) throws JSONException{
-        JSONObject resultJSON = new JSONObject(stringForJSON);
-        JSONObject secretaryObject = resultJSON.getJSONObject("Secretary");
-        JSONObject scheduleObject = secretaryObject.getJSONObject("Schedule");
+    ScheduleStructure(JSONObject scheduleObject) throws JSONException{
+//        JSONObject resultJSON = new JSONObject(stringForJSON);
+//        JSONObject secretaryObject = resultJSON.getJSONObject("Secretary");
+//        JSONObject scheduleObject = secretaryObject.getJSONObject("Schedule");
 
-        this.action = scheduleObject.getString("Action");
-        this.startDate = scheduleObject.getString("Startdate");
-        this.startTime = scheduleObject.getString("Starttime");
-        this.endDate = scheduleObject.getString("Enddate");
-        this.endTime = scheduleObject.getString("Endtime");
-        this.content = scheduleObject.getString("Content");
+        DateTime now = new DateTime(System.currentTimeMillis());
+        String currentDateTime = now.toString();
+
+        String[] currentDateTimeToken = currentDateTime.split("T");
+        String currentDate =  currentDateTimeToken[0];
+        Log.d("currentdate", currentDate);
+        String[] currentTimeToken = currentDateTimeToken[1].split("\\.");
+        String currentTime =  currentTimeToken[0];
+        Log.d("currenttime", currentTime);
+
+        action = scheduleObject.getString("Action");
+        startDate = scheduleObject.getString("Startdate");
+        if(startDate.equals("Null")){
+            startDate = currentDate;
+        }
+        startTime = scheduleObject.getString("Starttime");
+        if(startTime.equals("Null")){
+            startTime = currentTime + ".000";
+        }
+        else {
+            startTime += ".000";
+        }
+        endDate = scheduleObject.getString("Enddate");
+        if(endDate.equals("Null")){
+            endDate = startDate;
+        }
+        endTime = scheduleObject.getString("Endtime");
+        if(endTime.equals("Null")){
+            endTime = startTime;
+        }
+        else {
+            endTime += ".000";
+        }
+        content = scheduleObject.getString("Content");
+        if(content.equals("Null")){
+            content = "제목없음";
+        }
     }
     protected String getAction(){ return action; }
     protected String getStartTime(){ return startTime; }
