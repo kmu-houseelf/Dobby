@@ -25,9 +25,7 @@
 		},
 		"Schedule" :
 		{
-			"Month": "Null",
-			"Day": "Null",
-			"Action" : "Null",
+			"Date": "Null",
 			"Content" : "Null"
 		},
 		"Music" :
