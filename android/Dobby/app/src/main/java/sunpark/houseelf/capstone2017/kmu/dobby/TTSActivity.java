@@ -194,7 +194,7 @@ public class TTSActivity extends AppCompatActivity {
     }
 
     private void returnMainActivity() {
-        Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
         mainIntent.setAction("android.intent.action.MAIN");
         mainIntent.addCategory("android.intent.category.HOME");
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -6,6 +6,8 @@
 
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
+import android.app.ActivityManager;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -17,16 +19,18 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    AudioManager mAudioManager;
     Intent STTServiceIntent;
     Context activityContext;
     Button bStopService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activityContext = getApplicationContext();
+        STTServiceIntent = new Intent(activityContext, MyService.class);
+
         bStopService = (Button) findViewById(R.id.button_Stop);
         bStopService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         Log.d("onResume", "Main onResume");
-        checkService();
+        stopService(STTServiceIntent);
+        startService(STTServiceIntent);
     }
 
     @Override
@@ -51,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        checkService();
         super.onPause();
         Log.d("Main Pause", "Main Pause");
     }
@@ -59,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        stopService(STTServiceIntent);
+        startService(STTServiceIntent);
         Log.d("Main onStop", "onSTOP");
     }
 
@@ -72,10 +78,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("service", "is running");
         }
         else {
-            activityContext = getApplicationContext();
-            STTServiceIntent = new Intent(activityContext, MyService.class);
             activityContext.startService(STTServiceIntent);
-            STTServiceIntent.
         }
     }
 }

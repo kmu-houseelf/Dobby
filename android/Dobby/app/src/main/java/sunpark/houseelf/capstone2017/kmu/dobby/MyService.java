@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -28,10 +29,12 @@ public class MyService extends Service {
     protected Intent mSpeechRecognizerIntent;
 
     static final String startWord = "도비";
+    private boolean found;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        found = false;
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
 
@@ -61,6 +64,10 @@ public class MyService extends Service {
         return null;
     }
 
+    public void stop() {
+        stopSelf();
+    }
+
 
     protected class SpeechRecognitionListener implements RecognitionListener {
         @Override
@@ -85,6 +92,7 @@ public class MyService extends Service {
                 stopSelf();
             }
             if(error == ERROR_SPEECH_TIMEOUT || error == ERROR_NO_MATCH) {
+                SystemClock.sleep(1500);
                 restartListening();
             }
         }
@@ -110,18 +118,25 @@ public class MyService extends Service {
             Log.d("onResults", "onResults");
             ArrayList<String> resultList = results.getStringArrayList(mSpeechRecognizer.RESULTS_RECOGNITION);
             String inputWord = resultList.get(0);
-//            mAudioManager.
+            for(String e : resultList) {
+                Log.d("ResultList", e);
+                if(startWord.equals(e)){
+                    found = true;
+                    break;
+                }
+            }
+
             Log.d(TAG, "result = " + inputWord);
 
-            if(startWord.equals(inputWord)) {
+            if(found) {
                 mSpeechRecognizer.stopListening();
                 mSpeechRecognizer.destroy();
-                stopSelf();
-
+                found = false;
                 Intent TTSIntent = new Intent(MyService.this, TTSActivity.class);
-                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 TTSIntent.putExtra("status", 1);
                 startActivity(TTSIntent);
+                stopSelf();
             }
             else {
                 restartListening();

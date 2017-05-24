@@ -49,15 +49,11 @@ public class STTActivity extends AppCompatActivity {
 
     String defaultJSON = "{\n" +
             "\t\"Tasktype\" : \"Null\",\n" +
-            "\n" +
             "\t\"Pattern\" : \"Null\",\n" +
-            "\n" +
             "\t\"Tts\" : \"Null\",\n" +
-            "\t\n" +
             "\t\"Homeiot\" : \n" +
             "\t{\n" +
             "\t\t\"Homeiottype\" : \"Null\",\n" +
-            "\n" +
             "\t\t\"Light\":\n" +
             "\t\t{\n" +
             "\t\t\t\"Location\" : \"Null\",\n" +
@@ -65,7 +61,6 @@ public class STTActivity extends AppCompatActivity {
             "\t\t\t\"Action\" : \"Null\",\n" +
             "\t\t\t\"Brightness\" : \"Null\"\n" +
             "\t\t},\n" +
-            "\n" +
             "\t\t\"Tv\":\n" +
             "\t\t{\n" +
             "\t\t\t\"Component\" : \"Null\",\n" +
@@ -77,7 +72,6 @@ public class STTActivity extends AppCompatActivity {
             "\t\t\t\"Mute\" : \"Null\",\n" +
             "\t\t\t\"Remoteloc\" : \"Null\"\n" +
             "\t\t},\n" +
-            "\t\t\n" +
             "\t\t\"Schedule\" :\n" +
             "\t\t{\n" +
             "\t\t\t\"Month\": \"Null\",\n" +
@@ -85,12 +79,19 @@ public class STTActivity extends AppCompatActivity {
             "\t\t\t\"Action\" : \"Null\",\n" +
             "\t\t\t\"Content\" : \"Null\"\n" +
             "\t\t},\n" +
-            "\n" +
             "\t\t\"Music\" :\n" +
             "\t\t{\n" +
             "\t\t\t\"Title\" : \"Null\",\n" +
             "\t\t\t\"Singer\" : \"Null\",\n" +
             "\t\t\t\"Gnr\" : \"Null\",\n" +
+            "\t\t\t\"Action\" : \"Null\"\n" +
+            "\t\t},\n" +
+            "\t\t\"Aircon\" :\n" +
+            "\t\t{\n" +
+            "\t\t\t\"Object\" : \"Null\",\n" +
+            "\t\t\t\"Sub\" : \"Null\",\n" +
+            "\t\t\t\"Temperature\" : \"Null\",\n" +
+            "\t\t\t\"Power\" : \"Null\",\n" +
             "\t\t\t\"Action\" : \"Null\"\n" +
             "\t\t}\t\t\n" +
             "\t},\n" +
@@ -101,20 +102,17 @@ public class STTActivity extends AppCompatActivity {
             "\n" +
             "\t\t\"Schedule\" :\n" +
             "\t\t{\n" +
+            "\t\t\t\"Action\" : \"Null\",\n" +
             "\t\t\t\"Startdate\" : \"Null\",\n" +
             "\t\t\t\"Starttime\": \"Null\",\n" +
             "\t\t\t\"Enddate\" : \"Null\",\n" +
             "\t\t\t\"Endtime\" : \"Null\",\n" +
             "\t\t\t\"Content\" : \"Null\"\n" +
             "\t\t},\n" +
-            "\n" +
-            "\t\t\"Music\" :\n" +
+            "\t\t\"Food\" : \n" +
             "\t\t{\n" +
-            "\t\t\t\"Title\" : \"Null\",\n" +
-            "\t\t\t\"Singer\" : \"Null\",\n" +
-            "\t\t\t\"Album\" : \"Null\",\n" +
-            "\t\t\t\"Gnr\" : \"Null\",\n" +
-            "\t\t\t\"Dtlgnr\" : \"Null\"\n" +
+            "\t\t\t\"Object\" : \"Null\",\n" +
+            "\t\t\t\"Action\" : \"Null\"\n" +
             "\t\t}\n" +
             "\t}\n" +
             "}";
@@ -184,7 +182,7 @@ public class STTActivity extends AppCompatActivity {
         public void onError(int error) {
             // TODO Auto-generated method stub
             if(error == ERROR_NO_MATCH || error == ERROR_SPEECH_TIMEOUT || error == ERROR_RECOGNIZER_BUSY) {
-                SystemClock.sleep(1000);
+                SystemClock.sleep(2000);
                 restartListening();
             }
             Log.d("sttAct onError", "onError" + error);
