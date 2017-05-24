@@ -41,6 +41,9 @@ public class STTActivity extends AppCompatActivity {
     String TTSMessage = " ";
     int tasktype;
 
+    JSONObject secretaryObject;
+    String isSchedule;
+
     private static final int START_MESSAGE = 1;
     private static final int RESTART_MESSAGE = 2;
     private static final int NEEDINFO_MESSAGE = 3;
@@ -238,6 +241,15 @@ public class STTActivity extends AppCompatActivity {
                 }
 
                 try {
+                    secretaryObject = resultJSON.getJSONObject("Secretary");
+                    isSchedule = secretaryObject.getString("Secretarytype");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("pattern parse err", stringForJSON);
+                }
+                Log.d("Secretary11", isSchedule);
+
+                try {
                     pattern = resultJSON.getString("Pattern");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -262,6 +274,15 @@ public class STTActivity extends AppCompatActivity {
                 Intent TTSIntent = new Intent(getApplicationContext(), TTSActivity.class);
                 TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_NO_HISTORY);
 
+//                if (isSchedule.equals("Null")) {
+//                    //finish();
+//                    Intent googleLogInIntent = new Intent(STTActivity.this, GoogleLogIn.class);
+//                    //googleLogInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                    googleLogInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    //Log.d("sttjson", stringForJSON);
+//                    googleLogInIntent.putExtra("resultJSON", stringForJSON);
+//                    startActivity(googleLogInIntent);
+//                } else
                 if(pattern.equals("Null")) {
                     finish();
                     if(tasktype == 0) {

@@ -52,7 +52,7 @@ while True:
 
 	finally:
 		try:
-			result = subprocess.check_output('./sentence2json.wl \"'+sent+'\"', shell=True)
+			result = subprocess.check_output('./sentence2json.wl \"'+sent.replace(' ','')+'\"', shell=True)
 			print result
 			conn.send(result)
 		except:

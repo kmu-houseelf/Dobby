@@ -64,11 +64,6 @@ public class MyService extends Service {
         return null;
     }
 
-    public void stop() {
-        stopSelf();
-    }
-
-
     protected class SpeechRecognitionListener implements RecognitionListener {
         @Override
         public void onBeginningOfSpeech() {
