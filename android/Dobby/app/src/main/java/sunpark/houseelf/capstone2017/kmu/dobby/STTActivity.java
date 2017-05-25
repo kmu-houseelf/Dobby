@@ -219,7 +219,6 @@ public class STTActivity extends AppCompatActivity {
             if(sttResultStr.equals("들어가")) {
                 finish();
             } else {
-
                 try {
                     sendThread = new CommandSenderThread(sttResultStr, defaultJSON);
                     sendThread.start();
@@ -313,10 +312,6 @@ public class STTActivity extends AppCompatActivity {
         @Override
         public void onRmsChanged(float rmsdB) {
             // TODO Auto-generated method stub
-<<<<<<< HEAD
-=======
-            // Log.d("onRmsChanged", "onRmsChanged");
->>>>>>> 1bff77c7bc5cfd90f87504b26bf1cce05a9f4edd
         }
     };
 
@@ -334,16 +329,4 @@ public class STTActivity extends AppCompatActivity {
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
     }
-<<<<<<< HEAD
 }
-=======
-
-//    private void returnMainActivity() {
-//        mainIntent = new Intent(this, MainActivity.class);
-//        mainIntent.setAction("android.intent.action.MAIN");
-//        mainIntent.addCategory("android.intent.category.HOME");
-//        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(mainIntent);
-//    }
-}
->>>>>>> 1bff77c7bc5cfd90f87504b26bf1cce05a9f4edd
