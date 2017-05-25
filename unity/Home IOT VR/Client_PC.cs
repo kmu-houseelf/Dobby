@@ -10,13 +10,11 @@ public class Client_PC : MonoBehaviour
     public string IPAddress = "203.246.112.77";
     public int Port = 6666;
     private Socket Socket;
-    byte[] receivebytes = new byte[1024];
+    byte[] receivebytes = new byte[2048];
 
     private JsonControl json_control;
     private Device_Controller device_controller;
     private AI_Move ai;
-
-    private string data;
 
     // Use this for initialization
     void Start()
@@ -44,19 +42,16 @@ public class Client_PC : MonoBehaviour
 
     void Read_Message()
     {
+
         Socket.BeginReceive(
             receivebytes, 0, receivebytes.Length,
             SocketFlags.None,
             new AsyncCallback(ReceiveCallback), null);
+        
+        string data = Encoding.UTF8.GetString(receivebytes);
 
-        string new_data = Encoding.Default.GetString(receivebytes);
-
-        if (new_data == null)
-            return;
-        else if (new_data.Equals(data))
-            return;
-        else
-            data = new_data;
+        for (int i = 0; i < receivebytes.Length; i++)
+            receivebytes[i] = 0;
 
         Debug.Log(data);
 
@@ -65,7 +60,7 @@ public class Client_PC : MonoBehaviour
             json_control.Parse(data);
 
         // position control
-        if (data.Contains("(") && data.Contains(")"))
+        else if (data.Contains("(") && data.Contains(")"))
         {
             string[] pos = data.Split(',', '(', ')');
 
@@ -83,6 +78,10 @@ public class Client_PC : MonoBehaviour
                     (System.Convert.ToSingle(pos[5]) * 180.0f / (float)Math.PI),
                     (System.Convert.ToSingle(pos[6]) * 180.0f / (float)Math.PI),
                     (System.Convert.ToSingle(pos[7]) * 180.0f / (float)Math.PI)));
+        }
+        else
+        {
+            Debug.Log("Wrong Message");
         }
 
     }
