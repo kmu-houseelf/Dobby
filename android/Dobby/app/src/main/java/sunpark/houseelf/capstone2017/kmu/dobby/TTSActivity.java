@@ -87,8 +87,8 @@ public class TTSActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d("TTSACT", "DESTROY");
         super.onDestroy();
-        if(currentStatus == ERROR_MESSAGE || currentStatus == RESULT_MESSAGE)
-            returnMainActivity();
+//        if(currentStatus == ERROR_MESSAGE || currentStatus == RESULT_MESSAGE)
+//            returnMainActivity();
     }
 
     private void startTTS() {
@@ -132,7 +132,6 @@ public class TTSActivity extends AppCompatActivity {
 
                                 case ERROR_MESSAGE: case RESULT_MESSAGE:
                                     finish();
-                                    returnMainActivity();
                                     break;
                             }
                         }

@@ -53,6 +53,7 @@
 
 		"Schedule" :
 		{
+			"Ampm" : "Null",
 			"Action" : "Null",
 			"Startdate" : "Null",
 			"Starttime": "Null",

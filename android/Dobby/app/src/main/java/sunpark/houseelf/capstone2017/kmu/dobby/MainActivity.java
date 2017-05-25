@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        checkService();
         Log.d("Main onStop", "onSTOP");
     }
 
@@ -74,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private void checkService(){
         if(MyService.isServiceRunning(getApplicationContext())){
             Log.i("service", "is running");
-            stopService(STTServiceIntent);
-            startService(STTServiceIntent);
+            activityContext.stopService(STTServiceIntent);
+            activityContext.startService(STTServiceIntent);
         }
         else {
             activityContext.startService(STTServiceIntent);

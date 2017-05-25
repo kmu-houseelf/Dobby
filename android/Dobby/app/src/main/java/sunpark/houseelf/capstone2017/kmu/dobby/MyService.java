@@ -1,6 +1,7 @@
 
 package sunpark.houseelf.capstone2017.kmu.dobby;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.Context;
@@ -44,7 +45,6 @@ public class MyService extends Service {
         mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getApplication().getPackageName());
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
 
         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
     }
@@ -87,7 +87,6 @@ public class MyService extends Service {
                 stopSelf();
             }
             if(error == ERROR_SPEECH_TIMEOUT || error == ERROR_NO_MATCH) {
-                SystemClock.sleep(1500);
                 restartListening();
             }
         }
@@ -103,11 +102,13 @@ public class MyService extends Service {
             restartListening();
         }
 
+
         @Override
         public void onReadyForSpeech(Bundle params) {
             Log.d("onReadyForSpeech", "onReadyForSpeech");
         }
 
+        @SuppressLint("LongLogTag")
         @Override
         public void onResults(Bundle results) {
             Log.d("onResults", "onResults");
@@ -127,15 +128,25 @@ public class MyService extends Service {
                 mSpeechRecognizer.stopListening();
                 mSpeechRecognizer.destroy();
                 found = false;
-                Intent TTSIntent = new Intent(MyService.this, TTSActivity.class);
-                TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                TTSIntent.putExtra("status", 1);
-                startActivity(TTSIntent);
-                stopSelf();
+
+                if(isServiceRunning(getApplicationContext())) {
+                    Log.d("service destroy", "Fail");
+                } else {
+                    Log.d("service destroy", "Success");
+                }
+
+                TTSThread ttsThread = new TTSThread();
+                ttsThread.start();
+                try {
+                    ttsThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
-            else {
-                restartListening();
-            }
+            Log.d("service thread", "join finished");
+
+            restartListening();
         }
 
         @Override
@@ -160,6 +171,16 @@ public class MyService extends Service {
                 return true;
         }
         return false;
+    }
+
+    private class TTSThread extends Thread {
+        @Override
+        public void run(){
+            Intent TTSIntent = new Intent(MyService.this, TTSActivity.class);
+            TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+            TTSIntent.putExtra("status", 1);
+            startActivity(TTSIntent);
+        }
     }
 
 }

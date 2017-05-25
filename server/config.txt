@@ -62,6 +62,15 @@ HomeiotAirconPowerFalse = {"꺼", "끌", "끄", "오프"}
 HomeiotAirconActionTrue = {"높", "올"}
 HomeiotAirconActionFalse = {"낮", "내"}
 
+SecretaryScheduleStartdate = {"월에", "월"}
+SecretaryScheduleEnddate = {"일에", "일"}
+SecretaryScheduleStarttime = {"시에", "시"}
+SecretaryScheduleEndtime = {"분에", "분"}
+SecretaryScheduleContent = {"일정", "스케쥴", "스케줄"}
+SecretaryScheduleActionFalse = {"등록", "잡아줘"}
+SecretaryScheduleActionTrue = {"삭제", "지워", "취소"}
+SecretaryScheduleAmpmTrue = {"오전"}
+SecretaryScheduleAmpmFalse = {"오후"}
 
 
 @mapping
@@ -82,6 +91,13 @@ SecretaryFoodAction = {"act", "act"}
 HomeiotAirconObject = {"aircon", "aircon"}
 HomeiotAirconSub = {"temp"}
 HomeiotAirconTemperature = {"do"}
+
+SecretaryScheduleStartdate = {"월에", "월"}
+SecretaryScheduleEnddate = {"일에", "일"}
+SecretaryScheduleStarttime = {"시에", "시"}
+SecretaryScheduleEndtime = {"분에", "에"}
+SecretaryScheduleContent = {"일정", "스케쥴", "스케줄"}
+
 
 
 @user
@@ -146,6 +162,105 @@ HomeiotAirconObject, HomeiotAirconSub, HomeiotAirconTemperature, HomeiotAirconAc
 HomeiotAirconObject, HomeiotAirconSub, HomeiotAirconTemperature, HomeiotAirconActionFalse / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t3, Tts = HomeiotAirconObject+" 온도를 "+t3+"도 낮췄습니다" 
 HomeiotAirconObject, HomeiotAirconTemperature, HomeiotAirconActionTrue / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t2, Tts = HomeiotAirconObject+" 온도를 "+t2+"도 높였습니다" 
 HomeiotAirconObject, HomeiotAirconTemperature, HomeiotAirconActionFalse / Tasktype = 1, HomeiotHomeiottype=5, HomeiotAirconTemperature = t2, Tts = HomeiotAirconObject+" 온도를 "+t2+"도 낮췄습니다"
+
+
+
+# x월 x일 () 일정 삭제해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleContent, SecretaryScheduleActionTrue / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null", SecretaryScheduleContent=t3, Tts="2017년 "+t1+"월"+t2+"일 "+t3+" 일정이 삭제 되었습니다."
+
+# () 일정 삭제해줘
+SecretaryScheduleContent, SecretaryScheduleActionTrue / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleContent=t1, Tts=t1+" 일정이 삭제 되었습니다."
+
+# x월 x일 () 삭제해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleActionTrue / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null", SecretaryScheduleContent=t3, Tts="2017년 "+t1+"월"+t2+"일 "+t3+" 일정이 삭제 되었습니다."
+
+# () 삭제해줘
+SecretaryScheduleActionTrue / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleContent=t1, Tts=t1+" 일정이 삭제 되었습니다."
+
+
+
+
+
+# x월 x일 x시 () 일정 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleStarttime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t3+":00:00" , SecretaryScheduleContent=t4, Tts="2017년 "+t1+"월"+t2+"일 "+t3+"시"+t4+" 일정이 등록 되었습니다."
+
+# x월 x일 오전 x시 () 일정 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":00:00" , SecretaryScheduleContent=t5, Tts="2017년 "+t1+"월"+t2+"일 오전 "+t4+"시"+t5+" 일정이 등록 되었습니다."
+
+# x월 x일 오후 x시 () 일정 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":00:00" , SecretaryScheduleContent=t5, Tts="2017년 "+t1+"월"+t2+"일 오후 "+t4+"시"+t5+" 일정이 등록 되었습니다."
+
+# x월 x일 x시 x분 () 일정 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t3+":"+t4+":00" , SecretaryScheduleContent=t5, SecretaryScheduleEndtime="Null",Tts="2017년 "+t1+"월"+t2+"일 "+t3+"시 "+t4+"분"+t5+" 일정이 등록 되었습니다."
+
+# x월 x일 오전 x시 x분 () 일정 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":"+t5+":00" , SecretaryScheduleContent=t6, SecretaryScheduleEndtime="Null", Tts="2017년 "+t1+"월"+t2+"일 "+t4+"시 "+t5+"분"+t6+" 일정이 등록 되었습니다."
+
+# x월 x일 오후 x시 x분 () 일정 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":"+t5+":00" , SecretaryScheduleContent=t6, SecretaryScheduleEndtime="Null", Tts="2017년 "+t1+"월"+t2+"일 "+t4+"시 "+t5+"분"+t6+" 일정이 등록 되었습니다."
+
+
+
+
+
+
+# x월 x일 x시 () 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleStarttime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t3+":00:00" , SecretaryScheduleContent=t4, Tts="2017년 "+t1+"월"+t2+"일 "+t3+"시"+t4+" 일정이 등록 되었습니다."
+
+# x월 x일 오전 x시 () 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":00:00" , SecretaryScheduleContent=t5, Tts="2017년 "+t1+"월"+t2+"일 오전 "+t4+"시"+t5+" 일정이 등록 되었습니다."
+
+# x월 x일 오후 x시 () 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":00:00" , SecretaryScheduleContent=t5, Tts="2017년 "+t1+"월"+t2+"일 오후 "+t4+"시"+t5+" 일정이 등록 되었습니다."
+
+# x월 x일 x시 x분 () 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t3+":"+t4+":00" , SecretaryScheduleContent=t5, SecretaryScheduleEndtime="Null",Tts="2017년 "+t1+"월"+t2+"일 "+t3+"시 "+t4+"분"+t5+" 일정이 등록 되었습니다."
+
+# x월 x일 오전 x시 x분 () 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":"+t5+":00" , SecretaryScheduleContent=t6, SecretaryScheduleEndtime="Null", Tts="2017년 "+t1+"월"+t2+"일 "+t4+"시 "+t5+"분"+t6+" 일정이 등록 되었습니다."
+
+# x월 x일 오후 x시 x분 () 등록해줘
+SecretaryScheduleStartdate, SecretaryScheduleEnddate, SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStartdate = "2017-"+t1+"-"+t2, SecretaryScheduleEnddate="Null",SecretaryScheduleStarttime=t4+":"+t5+":00" , SecretaryScheduleContent=t6, SecretaryScheduleEndtime="Null", Tts="2017년 "+t1+"월"+t2+"일 "+t4+"시 "+t5+"분"+t6+" 일정이 등록 되었습니다."
+
+
+# x시 일정 등록
+SecretaryScheduleStarttime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t1+":00:00" , SecretaryScheduleContent=t2, Tts=t1+"시 "+t2+" 일정이 등록 되었습니다."
+
+# 오전 x시 일정 등록
+SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":00:00" , SecretaryScheduleContent=t3, Tts="오전 "+t2+"시 "+t3+" 일정이 등록 되었습니다."
+
+# 오후 x시 일정 등록
+SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":00:00" , SecretaryScheduleContent=t3, Tts="오후 "+t2+"시 "+t3+" 일정이 등록 되었습니다."
+
+# x시 x분 일정 등록
+SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleEndtime="Null", SecretaryScheduleStarttime=t1+":"+t2+":00", SecretaryScheduleContent=t3, Tts=t1+"시 "+t2+"분 "+t3+" 일정이 등록 되었습니다."
+
+# 오전 x시 x분 일정 등록
+SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":"+t3+":00", SecretaryScheduleEndtime="Null", SecretaryScheduleContent=t4, Tts="오전 "+t2+"시 "+t3+"분 "+t4+" 일정이 등록 되었습니다."
+
+# 오후 x시 x분 일정 등록
+SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleContent, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":"+t3+":00", SecretaryScheduleEndtime="Null", SecretaryScheduleContent=t4, Tts="오후 "+t2+"시 "+t3+"분 "+t4+" 일정이 등록 되었습니다."
+
+
+# x시 등록
+SecretaryScheduleStarttime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t1+":00:00" , SecretaryScheduleContent=t2, Tts=t1+"시 "+t2+" 일정이 등록 되었습니다."
+
+# 오전 x시 등록
+SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":00:00" , SecretaryScheduleContent=t3, Tts="오전 "+t2+"시 "+t3+" 일정이 등록 되었습니다."
+
+# 오후 x시 등록
+SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":00:00" , SecretaryScheduleContent=t3, Tts="오후 "+t2+"시 "+t3+" 일정이 등록 되었습니다."
+
+# x시 x분 등록
+SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleEndtime="Null", SecretaryScheduleStarttime=t1+":"+t2+":00", SecretaryScheduleContent=t3, Tts=t1+"시 "+t2+"분 "+t3+" 일정이 등록 되었습니다."
+
+# 오전 x시 x분 등록
+SecretaryScheduleAmpmTrue, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":"+t3+":00", SecretaryScheduleEndtime="Null", SecretaryScheduleContent=t4, Tts="오전 "+t2+"시 "+t3+"분 "+t4+" 일정이 등록 되었습니다."
+
+# 오후 x시 x분 등록
+SecretaryScheduleAmpmFalse, SecretaryScheduleStarttime, SecretaryScheduleEndtime, SecretaryScheduleActionFalse / Tasktype = 2, SecretarySecretarytype = 1, SecretaryScheduleStarttime=t2+":"+t3+":00", SecretaryScheduleEndtime="Null", SecretaryScheduleContent=t4, Tts="오후 "+t2+"시 "+t3+"분 "+t4+" 일정이 등록 되었습니다."
+
+
 
 
 HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, HomeiotHomeiottype = 1, Pattern = $p1, Tts = "어디를 켜 드릴까요?"
