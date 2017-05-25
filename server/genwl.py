@@ -10,6 +10,7 @@ LIST_FLAG = 1
 MAPPING_FLAG = 2
 USER_FLAG = 3
 PATTERN_FLAG = 4
+DIRECT_FLAG = 5
 UNKNOWN_FLAG = -1
 
 filename = 'config.txt'
@@ -18,6 +19,7 @@ mapping_dict = {}
 user_func_dict = {}
 pattern_dict = {}
 patternline_dict = {}
+direct_dict = {}
 
 global_pattern_num = 1
 
@@ -39,6 +41,8 @@ def getFlag(line):
 		return USER_FLAG
 	elif line[1:].strip() == 'pattern':
 		return PATTERN_FLAG
+	elif line[1:].strip() == 'direct':
+		return DIRECT_FLAG
 	else:
 		return UNKNOWN_FLAG
 
@@ -81,6 +85,12 @@ def run(flag, line):
 				patternline_dict[rhs[0][1:]]=global_pattern_num
 		global_pattern_num += 1
 
+	elif flag == DIRECT_FLAG:
+		sent, tts = line.split('/')
+		sent, tts = sent.strip(), tts.strip()
+		sent = sent.replace(' ', '')
+		direct_dict[sent] = tts
+
 
 
 with codecs.open(filename,'r',encoding='utf8') as f:
@@ -120,6 +130,10 @@ def printResult():
 	print('# pattern variable table')
 	for symbol, num in patternline_dict.items():
 		print(symbol, num)
+
+	print('# direct table')
+	for sent, tts in direct_dict.items():
+		print(sent, tts)
 
 def generateWl():
 	with codecs.open('module/auto_gen_wl.wl','w',encoding='utf8') as f:
@@ -240,6 +254,10 @@ def generateWl():
 		pattern_list = [(i, key.count(','), not(value.find('Pattern') >= 0)) for i, (key, value) in enumerate(pattern_dict.items())]
 
 		pattern_list = sorted(pattern_list, key=itemgetter(2,1), reverse=True)
+
+		f.write('\n(* direct sentence command *)\n')
+		for sent, tts in direct_dict.items():
+			f.write('RunCommand[' + sent + '] := Module[{json = DefaultJson}, json["Tasktype"] = "-1"; json["Tts"] = ' + tts + ';json]\n') 
 
 		f.write('\n(* define function template *)\n')
 		for p in pattern_list:

@@ -101,6 +101,8 @@ tts[HomeiotTvRemotelocTrue] = "찾았습니다"
 @pattern
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightActionTrue], HomeiotHomeiottype = 1
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightActionFalse / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightActionFalse],HomeiotHomeiottype = 1
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightBrightnessTrue / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightBrightnessTrue], HomeiotHomeiottype = 1
+HomeiotLightLocation, HomeiotLightObject, HomeiotLightBrightnessFalse / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightBrightnessFalse],HomeiotHomeiottype = 1
 HomeiotLightObject, HomeiotLightActionTrue, HomeiotLightLocation / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightActionTrue], HomeiotHomeiottype = 1
 HomeiotLightObject, HomeiotLightActionFalse, HomeiotLightLocation / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightActionFalse], HomeiotHomeiottype = 1
 HomeiotLightLocation, HomeiotLightObject, HomeiotLightBrightnessTrue, HomeiotLightActionTrue / Tasktype = 1, Tts = HomeiotLightLocation+" "+HomeiotLightObject+"을 "+tts[HomeiotLightBrightnessTrue], HomeiotHomeiottype = 1
@@ -162,3 +164,17 @@ HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Patt
 HomeiotTvObject, HomeiotTvOption, HomeiotTvPowerTrue / Tasktype = 1, HomeiotHomeiottype = 2, Pattern = $p7, Tts = "어떤 채널로 틀어드릴까요?"
 %p7, HomeiotTvChannel / Pattern = "Null", Tts = "틀었습니다"
 
+
+@direct
+"도비" / "주인님이 저에게 양말을 주었어요! 도비는 자유로운 집요정이에요"
+"비트박스 해봐" / "연습 중인 비트박스예요. 북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기 전 이거 하루종일 할 수 있어요. 북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기북치기박치기"
+"훈민정음" / "나랏말싸미 듕귁에달아 문짜와로 서로 사맛디 아니할 세 이런 절차로 어린백성이 니르고져 할빼있어도 비로서 제뜻을 시러 펴디 못할노미 하니라 내이를 위하야 어엿삐여겨 새로 스물여덟짜를 맹그노 니 사람마다 하여 날마다 쉬이니겨 날로 브쓰메 편하킈 하고져 할따라미니라"
+"놀아줘" / "놀아드릴 수는 있는데 그것보다 중요한 일이 있지 않으신가요?"
+"심심해" / "혹시 과제나 다른 해야할 것이 있지는 않으신가요?"
+"안녕" / "안녕하세요 힘세고 강한 아침. 만약 내게 물어보면 나는 도비"
+"개발날짜" / "2017년 5월 25일 새벽 5시에 만들어졌어요."
+"개발장소" / "국민대 자연어 처리실 627호에서 만들어졌어요."
+"시발" / "당신은 좀 더 좋은 사람이 될수 있을꺼에요. 당신이 그렇게 생각하지 않아도 말이에요. 제가 보증할께요"
+"씨발" / "당신은 좀 더 좋은 사람이 될수 있을꺼에요. 당신이 그렇게 생각하지 않아도 말이에요. 제가 보증할께요"
+"개새끼" / "당신은 좀 더 좋은 사람이 될수 있을꺼에요. 당신이 그렇게 생각하지 않아도 말이에요. 제가 보증할께요"
+"시리" / "그녀가 누구죠?"
