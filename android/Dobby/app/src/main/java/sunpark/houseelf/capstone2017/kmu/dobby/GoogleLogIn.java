@@ -81,73 +81,73 @@ public class GoogleLogIn extends AppCompatActivity implements EasyPermissions.Pe
         Log.d("googleloginjson", stringForJSON);
 
 
-        stringForJSON = "{\n" +
-                "\t\"Tasktype\" : \"Null\",\n" +
-                "\t\"Pattern\" : \"Null\",\n" +
-                "\t\"Tts\" : \"Null\",\n" +
-                "\t\"Homeiot\" : \n" +
-                "\t{\n" +
-                "\t\t\"Homeiottype\" : \"Null\",\n" +
-                "\t\t\"Light\":\n" +
-                "\t\t{\n" +
-                "\t\t\t\"Location\" : \"Null\",\n" +
-                "\t\t\t\"Object\" : \"Null\",\n" +
-                "\t\t\t\"Action\" : \"Null\",\n" +
-                "\t\t\t\"Brightness\" : \"Null\"\n" +
-                "\t\t},\n" +
-                "\t\t\"Tv\":\n" +
-                "\t\t{\n" +
-                "\t\t\t\"Component\" : \"Null\",\n" +
-                "\t\t\t\"Option\" : \"Null\",\n" +
-                "\t\t\t\"Object\" : \"Null\",\n" +
-                "\t\t\t\"Power\" : \"Null\",\n" +
-                "\t\t\t\"Channel\" : \"Null\",\n" +
-                "\t\t\t\"Volume\" : \"Null\",\n" +
-                "\t\t\t\"Mute\" : \"Null\",\n" +
-                "\t\t\t\"Remoteloc\" : \"Null\"\n" +
-                "\t\t},\n" +
-                "\t\t\"Schedule\" :\n" +
-                "\t\t{\n" +
-                "\t\t\t\"Date\": \"Null\",\n" +
-                "\t\t\t\"Content\" : \"Null\"\n" +
-                "\t\t},\n" +
-                "\t\t\"Music\" :\n" +
-                "\t\t{\n" +
-                "\t\t\t\"Title\" : \"Null\",\n" +
-                "\t\t\t\"Singer\" : \"Null\",\n" +
-                "\t\t\t\"Gnr\" : \"Null\",\n" +
-                "\t\t\t\"Action\" : \"Null\"\n" +
-                "\t\t},\n" +
-                "\t\t\"Aircon\" :\n" +
-                "\t\t{\n" +
-                "\t\t\t\"Object\" : \"Null\",\n" +
-                "\t\t\t\"Sub\" : \"Null\",\n" +
-                "\t\t\t\"Temperature\" : \"Null\",\n" +
-                "\t\t\t\"Power\" : \"Null\",\n" +
-                "\t\t\t\"Action\" : \"Null\"\n" +
-                "\t\t}\t\t\n" +
-                "\t},\n" +
-                "\n" +
-                "\t\"Secretary\" :\n" +
-                "\t{\n" +
-                "\t\t\"Secretarytype\" : \"Null\",\n" +
-                "\n" +
-                "\t\t\"Schedule\" :\n" +
-                "\t\t{\n" +
-                "\t\t\t\"Action\" : \"Null\",\n" +
-                "\t\t\t\"Startdate\" : \"Null\",\n" +
-                "\t\t\t\"Starttime\": \"Null\",\n" +
-                "\t\t\t\"Enddate\" : \"Null\",\n" +
-                "\t\t\t\"Endtime\" : \"Null\",\n" +
-                "\t\t\t\"Content\" : \"Null\"\n" +
-                "\t\t},\n" +
-                "\t\t\"Food\" : \n" +
-                "\t\t{\n" +
-                "\t\t\t\"Object\" : \"Null\",\n" +
-                "\t\t\t\"Action\" : \"Null\"\n" +
-                "\t\t}\n" +
-                "\t}\n" +
-                "}";
+//        stringForJSON = "{\n" +
+//                "\t\"Tasktype\" : \"2\",\n" +
+//                "\t\"Pattern\" : \"Null\",\n" +
+//                "\t\"Tts\" : \"Null\",\n" +
+//                "\t\"Homeiot\" : \n" +
+//                "\t{\n" +
+//                "\t\t\"Homeiottype\" : \"Null\",\n" +
+//                "\t\t\"Light\":\n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"Location\" : \"Null\",\n" +
+//                "\t\t\t\"Object\" : \"Null\",\n" +
+//                "\t\t\t\"Action\" : \"Null\",\n" +
+//                "\t\t\t\"Brightness\" : \"Null\"\n" +
+//                "\t\t},\n" +
+//                "\t\t\"Tv\":\n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"Component\" : \"Null\",\n" +
+//                "\t\t\t\"Option\" : \"Null\",\n" +
+//                "\t\t\t\"Object\" : \"Null\",\n" +
+//                "\t\t\t\"Power\" : \"Null\",\n" +
+//                "\t\t\t\"Channel\" : \"Null\",\n" +
+//                "\t\t\t\"Volume\" : \"Null\",\n" +
+//                "\t\t\t\"Mute\" : \"Null\",\n" +
+//                "\t\t\t\"Remoteloc\" : \"Null\"\n" +
+//                "\t\t},\n" +
+//                "\t\t\"Schedule\" :\n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"Date\": \"Null\",\n" +
+//                "\t\t\t\"Content\" : \"Null\"\n" +
+//                "\t\t},\n" +
+//                "\t\t\"Music\" :\n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"Title\" : \"Null\",\n" +
+//                "\t\t\t\"Singer\" : \"Null\",\n" +
+//                "\t\t\t\"Gnr\" : \"Null\",\n" +
+//                "\t\t\t\"Action\" : \"Null\"\n" +
+//                "\t\t},\n" +
+//                "\t\t\"Aircon\" :\n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"Object\" : \"Null\",\n" +
+//                "\t\t\t\"Sub\" : \"Null\",\n" +
+//                "\t\t\t\"Temperature\" : \"Null\",\n" +
+//                "\t\t\t\"Power\" : \"Null\",\n" +
+//                "\t\t\t\"Action\" : \"Null\"\n" +
+//                "\t\t}\t\t\n" +
+//                "\t},\n" +
+//                "\n" +
+//                "\t\"Secretary\" :\n" +
+//                "\t{\n" +
+//                "\t\t\"Secretarytype\" : \"1\",\n" +
+//                "\n" +
+//                "\t\t\"Schedule\" :\n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"Action\" : false,\n" +
+//                "\t\t\t\"Startdate\" : \"2017-6-1\",\n" +
+//                "\t\t\t\"Starttime\": \"08:30:00\",\n" +
+//                "\t\t\t\"Enddate\" : \"Null\",\n" +
+//                "\t\t\t\"Endtime\" : \"Null\",\n" +
+//                "\t\t\t\"Content\" : \"Null\"\n" +
+//                "\t\t},\n" +
+//                "\t\t\"Food\" : \n" +
+//                "\t\t{\n" +
+//                "\t\t\t\"Object\" : \"Null\",\n" +
+//                "\t\t\t\"Action\" : \"Null\"\n" +
+//                "\t\t}\n" +
+//                "\t}\n" +
+//                "}";
 
         mOutputText = (TextView) findViewById(R.id.textView);
         mCallApiButton = (Button) findViewById(R.id.button_login);

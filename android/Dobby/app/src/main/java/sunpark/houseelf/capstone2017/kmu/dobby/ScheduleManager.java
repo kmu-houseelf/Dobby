@@ -31,10 +31,11 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
     private ProgressBar mProgress;
     //    private Exception mLastError = null;
 //    private TextView mOutputText;
-    String stringForJSON;
-    JSONObject scheduleObject;
+    private String stringForJSON;
+    private JSONObject resultJSON;
+    private JSONObject scheduleObject;
 
-    private String action;
+    private Boolean action;
     private String resultDateString = "";
     private String resultContentString = "";
 
@@ -47,25 +48,25 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
     ScheduleManager(GoogleLogIn activity) throws JSONException, IOException{
         this.activity = activity;
         stringForJSON = activity.stringForJSON;
-        JSONObject resultJSON = new JSONObject(stringForJSON);
+        resultJSON = new JSONObject(stringForJSON);
         JSONObject secretaryObject = resultJSON.getJSONObject("Secretary");
         scheduleObject = secretaryObject.getJSONObject("Schedule");
-        action =  scheduleObject.getString("Action");
+        action =  scheduleObject.getBoolean("Action");
 
         mService = activity.mService;
         mProgress = (ProgressBar) activity.findViewById(R.id.progressBar2);
     }
 
-    public void insertSchedule(ScheduleStructure scheduleStructure) throws IOException{
+    public void insertSchedule(ScheduleStructure scheduleStructure) throws JSONException, IOException{
         Event event = new Event()
                 .setSummary(scheduleStructure.getContent());
         DateTime startDateTime = new DateTime(scheduleStructure.getStartDateTime());
+        DateTime endDateTime = new DateTime(scheduleStructure.getEndDateTime());
 
         EventDateTime start = new EventDateTime()
                 .setDateTime(startDateTime);
         event.setStart(start);
 
-        DateTime endDateTime = new DateTime(scheduleStructure.getEndDateTime());
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime);
         event.setEnd(end);
@@ -76,38 +77,84 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         refreshEvents();
-
     }
 
-    private void deleteSchedule(ScheduleStructure scheduleStructure) throws IOException{
+    private void deleteSchedule(ScheduleStructure scheduleStructure) throws JSONException, IOException {
         List<String> deleteEventIdList = new ArrayList<String>();
         String searchContent = scheduleStructure.getContent();
-
-        Events events = mService.events().list("primary")
-                .setTimeMin(now)    // 지금시간부터
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-//        Log.d("eventjson", events.toPrettyString());
-        Log.d("eventjson", items.toString());
-
-        for (Event event : items) {
-            if(searchContent.equals(event.getSummary())){   // 현재 콘텐츠 명으로만 삭제 가능
-                deleteEventIdList.add(event.getId());
-                mService.events().delete("primary", event.getId()).execute();
-                Log.d("delete", "complete");
+        if (scheduleStructure.getStartDate().equals("Null")) {
+            Events events = mService.events().list("primary")
+                    .setTimeMin(now)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute();
+            List<Event> items = events.getItems();
+            for (Event event : items) {
+                if (searchContent.equals(event.getSummary())) {
+                    deleteEventIdList.add(event.getId());
+                    mService.events().delete("primary", event.getId()).execute();
+                    Log.d("delete", event.getSummary());
+                }
             }
-            else {
-                Log.d("에러", "삭제할 일정이 아닙니다");
+        } else {
+            DateTime searchStartDateTime = new DateTime(scheduleStructure.getDayStartTime());
+            Log.d("startDT", searchStartDateTime.toString());
+            DateTime searchEndDateTime = new DateTime(scheduleStructure.getDayEndTime());
+            Log.d("endDT", searchEndDateTime.toString());
+            Events events = mService.events().list("primary")
+                    .setTimeMin(searchStartDateTime)
+                    .setTimeMax(searchEndDateTime)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute();
+            List<Event> items = events.getItems();
+            if (scheduleStructure.getContent().equals("Null")) {
+                for (Event event : items) {
+                    deleteEventIdList.add(event.getId());
+                      mService.events().delete("primary", event.getId()).execute();
+                    Log.d("delete", event.getSummary());
+                }
+            } else {
+                for (Event event : items) {
+                    if (searchContent.equals(event.getSummary())) {
+                        deleteEventIdList.add(event.getId());
+                       mService.events().delete("primary", event.getId()).execute();
+                        Log.d("delete", event.getSummary());
+                    }
+                }
             }
         }
         refreshEvents();
     }
+//        if ( !(scheduleStructure.getStartDate().equals("Null")) && !(scheduleStructure.getContent().equals("Null"))) {
+//            Events events = mService.events().list("primary")
+//                    .setTimeMin(startDateTime)
+//                    .setTimeMax(endDateTime)
+//                    .setOrderBy("startTime")
+//                    .setSingleEvents(true)
+//                    .execute();
+//            List<Event> items = events.getItems();
+//        }
+////        else if(){
+////
+////        }
+////        Log.d("eventjson", events.toPrettyString());
+//        Log.d("eventjson", items.toString());
+//
+//        for (Event event : items) {
+//            if(searchContent.equals(event.getSummary())){   // 현재 콘텐츠 명으로만 삭제 가능
+//                deleteEventIdList.add(event.getId());
+//                mService.events().delete("primary", event.getId()).execute();
+//                Log.d("delete", "complete");
+//            }
+//            else {
+//                Log.d("에러", "삭제할 일정이 아닙니다");
+//            }
+//        }
 
-    private void refreshEvents() throws IOException{
+
+    private void refreshEvents() throws JSONException, IOException{
         events = mService.events().list("primary")
                 .setTimeMin(now)    // 지금시간부터
                 .setOrderBy("startTime")
@@ -115,19 +162,36 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
                 .execute();
         items = events.getItems();
 
+        resultJSON.put("Tasktype", "1");
+        resultJSON.put("Pattern", "Null");
+        JSONObject HomeIotObject = resultJSON.getJSONObject("Homeiot");
+        HomeIotObject.put("Homeiottype", "3");
+        JSONObject scheduleObject = HomeIotObject.getJSONObject("Schedule");
+
+
         for (Event event : items) {
-            if(resultDateString.equals(""))
-                resultDateString += event.getStart().toString().split("T")[0];
-            else
-                resultDateString += "/" + event.getStart().toString().split("T")[0];
+            if(resultDateString.equals("")) {
+                resultDateString += event.getStart().getDateTime().toString().split("T")[0];
+            }
+            else {
+                resultDateString += "_" + event.getStart().getDateTime().toString().split("T")[0];
+            }
             if(resultContentString.equals(""))
                 resultContentString += event.getSummary();
             else
-                resultContentString += "/" + event.getSummary();
+                resultContentString += "_" + event.getSummary();
         }
 
+        scheduleObject.put("Date", resultDateString);
+        scheduleObject.put("Content", resultContentString);
+        Log.d("schedulejsonobj", scheduleObject.getString("Date"));
+        Log.d("schedulejsonobj", scheduleObject.getString("Content"));
+        Log.d("schedulejsonobj", resultJSON.toString());
+
+        //String stringForJSON = resultJSON.t;
+
         try {
-            CommandSenderToUnityThread sendThread = new CommandSenderToUnityThread( resultDateString + "\n" + resultContentString);
+            CommandSenderToUnityThread sendThread = new CommandSenderToUnityThread(resultJSON.toString() + "\n");
             sendThread.start();
             sendThread.join();
             Log.e("sendunity", "complete");
@@ -141,7 +205,6 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
     protected void onPreExecute() {
         Log.d("preexe", "edit schedule start");
         super.onPreExecute();
-        //activity.numAsyncTasks++;
         mProgress.setVisibility(View.VISIBLE);
     }
 
@@ -150,12 +213,12 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
         Log.d("doInBack", "schedulemanager");
 //        try {
         //doInBackground();
-        Log.d("action=", action);
+        Log.d("action=", action.toString());
         try {
-            if (action.equals("0")){
+            if (!action){
                 insertSchedule(new ScheduleStructure(scheduleObject));
             }
-            else if (action.equals("1")){
+            else if (action){
                 deleteSchedule(new ScheduleStructure(scheduleObject));
             }
         } catch(JSONException e) {
@@ -221,7 +284,6 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             out.write(cmd);
             out.flush();
-
             Log.d("sendUnity", cmd);
         }
     }
