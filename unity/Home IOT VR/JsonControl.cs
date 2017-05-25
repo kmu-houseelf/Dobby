@@ -20,21 +20,45 @@ public class JsonControl : MonoBehaviour {
     public void Parse(string message)
     {
         Debug.Log("Parse");
-        JSONNode n = JSON.Parse(message);
+        JSONNode iot = JSON.Parse(message);
 
-        //Debug.Log(n["HomeIOT"].ToString());
-        JSONNode iot = JSON.Parse(n["HomeIOT"].ToString());
-        //Debug.Log(iot.ToString());
+        if (!iot["Tasktype"].ToString().Contains("Null") &&
+            iot["Tasktype"].AsInt == 0)
+        {
+            Debug.Log("unknwon pattern catched");
+            return;
+        }
 
-        if(iot["HomeIOTType"].AsInt == 1)
+        if (!iot["Pattern"].ToString().Contains("Null"))
+        {
+            Debug.Log("Sentence is not perfect");
+            return;
+        }
+
+        if(iot["Homeiot"]["Homeiottype"].AsInt == 1)
         {
             Debug.Log("Light");
-            controller.Change_light(JSON.Parse(iot["Light"].ToString()));
+            controller.Change_light(iot);
         }
-        else if(iot["HomeIOTType"].AsInt == 2)
+        else if(iot["Homeiot"]["Homeiottype"].AsInt == 2)
         {
-            Debug.Log("TV");
-            controller.Change_TV(JSON.Parse(iot["TV"].ToString()));
+            Debug.Log("Tv");
+            controller.Change_TV(iot);
+        }
+        else if(iot["Homeiot"]["Homeiottype"].AsInt == 3)
+        {
+            Debug.Log("Schedule");
+            controller.Show_Schedule(iot);
+        }
+        else if(iot["Homeiot"]["Homeiottype"].AsInt == 4)
+        {
+            Debug.Log("Music");
+            controller.Change_Music(iot);
+        }
+        else if(iot["Homeiot"]["Homeiottype"].AsInt == 5)
+        {
+            Debug.Log("Aircon");
+            controller.Change_Aircon(iot);
         }
         else
         {

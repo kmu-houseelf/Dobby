@@ -77,9 +77,7 @@ public class STTActivity extends AppCompatActivity {
             "\t\t},\n" +
             "\t\t\"Schedule\" :\n" +
             "\t\t{\n" +
-            "\t\t\t\"Month\": \"Null\",\n" +
-            "\t\t\t\"Day\": \"Null\",\n" +
-            "\t\t\t\"Action\" : \"Null\",\n" +
+            "\t\t\t\"Date\": \"Null\",\n" +
             "\t\t\t\"Content\" : \"Null\"\n" +
             "\t\t},\n" +
             "\t\t\"Music\" :\n" +
@@ -275,7 +273,7 @@ public class STTActivity extends AppCompatActivity {
                 Intent TTSIntent = new Intent(getApplicationContext(), TTSActivity.class);
                 TTSIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-//                if (isSchedule.equals("Null")) {
+//                if (tasktype == 2) {
 //                    //finish();
 //                    Intent googleLogInIntent = new Intent(STTActivity.this, GoogleLogIn.class);
 //                    //googleLogInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -286,6 +284,13 @@ public class STTActivity extends AppCompatActivity {
 //                } else
                 if(pattern.equals("Null")) {
                     finish();
+                    if (tasktype == 2) {
+                        //finish();
+                        Intent googleLogInIntent = new Intent(STTActivity.this, GoogleLogIn.class);
+                        googleLogInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        googleLogInIntent.putExtra("resultJSON", stringForJSON);
+                        startActivity(googleLogInIntent);
+                    }
                     if(tasktype == 0) {
                         TTSIntent.putExtra("status", ERROR_MESSAGE);
                     } else {
@@ -308,6 +313,10 @@ public class STTActivity extends AppCompatActivity {
         @Override
         public void onRmsChanged(float rmsdB) {
             // TODO Auto-generated method stub
+<<<<<<< HEAD
+=======
+            // Log.d("onRmsChanged", "onRmsChanged");
+>>>>>>> 1bff77c7bc5cfd90f87504b26bf1cce05a9f4edd
         }
     };
 
@@ -325,4 +334,16 @@ public class STTActivity extends AppCompatActivity {
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
     }
+<<<<<<< HEAD
 }
+=======
+
+//    private void returnMainActivity() {
+//        mainIntent = new Intent(this, MainActivity.class);
+//        mainIntent.setAction("android.intent.action.MAIN");
+//        mainIntent.addCategory("android.intent.category.HOME");
+//        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(mainIntent);
+//    }
+}
+>>>>>>> 1bff77c7bc5cfd90f87504b26bf1cce05a9f4edd

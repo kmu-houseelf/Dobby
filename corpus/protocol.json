@@ -25,7 +25,9 @@
 		},
 		"Schedule" :
 		{
-			"Date": "Null",
+			"Month": "Null",
+			"Day": "Null",
+			"Action" : "Null",
 			"Content" : "Null"
 		},
 		"Music" :
@@ -51,6 +53,7 @@
 
 		"Schedule" :
 		{
+			"Ampm" : "Null",
 			"Action" : "Null",
 			"Startdate" : "Null",
 			"Starttime": "Null",
