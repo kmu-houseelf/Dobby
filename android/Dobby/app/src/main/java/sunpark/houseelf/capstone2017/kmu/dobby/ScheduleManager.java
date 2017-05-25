@@ -69,9 +69,9 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
                 .setDateTime(endDateTime);
         event.setEnd(end);
         try {
-            //event = GoogleLogIn.mService.events().insert("primary", event).execute();
+            //event = Google//LogIn.mService.events().insert("primary", event).execute();
             mService.events().insert("primary", event).execute();
-            Log.d("insert", "complete");
+            ////Log.d("insert", "complete");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -79,8 +79,9 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void deleteSchedule(ScheduleStructure scheduleStructure) throws JSONException, IOException {
-        List<String> deleteEventIdList = new ArrayList<String>();
+        //List<String> deleteEventIdList = new ArrayList<String>();
         String searchContent = scheduleStructure.getContent();
+
         if (scheduleStructure.getStartDate().equals("Null")) {
             Events events = mService.events().list("primary")
                     .setTimeMin(now)
@@ -89,17 +90,20 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
                     .execute();
             List<Event> items = events.getItems();
             for (Event event : items) {
+                ////Log.d("summeeeeee", event.getSummary());
                 if (searchContent.equals(event.getSummary())) {
-                    deleteEventIdList.add(event.getId());
+                    //deleteEventIdList.add(event.getId());
+                    ////Log.d("contentdelete", "eeeeee");
                     mService.events().delete("primary", event.getId()).execute();
-                    Log.d("delete", event.getSummary());
+                    ////Log.d("delete", event.getSummary());
                 }
             }
         } else {
+            ////Log.d("content or date", "eeeeee");
             DateTime searchStartDateTime = new DateTime(scheduleStructure.getDayStartTime());
-            Log.d("startDT", searchStartDateTime.toString());
+            ////Log.d("startDT", searchStartDateTime.toString());
             DateTime searchEndDateTime = new DateTime(scheduleStructure.getDayEndTime());
-            Log.d("endDT", searchEndDateTime.toString());
+            ////Log.d("endDT", searchEndDateTime.toString());
             Events events = mService.events().list("primary")
                     .setTimeMin(searchStartDateTime)
                     .setTimeMax(searchEndDateTime)
@@ -107,18 +111,20 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
                     .setSingleEvents(true)
                     .execute();
             List<Event> items = events.getItems();
-            if (scheduleStructure.getContent().equals("Null")) {
+            if (scheduleStructure.getContent().equals("Null") || scheduleStructure.getContent().equals("제목없음") || scheduleStructure.getContent().equals("")) {
                 for (Event event : items) {
-                    deleteEventIdList.add(event.getId());
-                      mService.events().delete("primary", event.getId()).execute();
-                    Log.d("delete", event.getSummary());
+                    //deleteEventIdList.add(event.getId());
+                    ////Log.d("datedelete", "eeeeee");
+                    mService.events().delete("primary", event.getId()).execute();
+                    ////Log.d("delete", event.getSummary());
                 }
             } else {
                 for (Event event : items) {
                     if (searchContent.equals(event.getSummary())) {
-                        deleteEventIdList.add(event.getId());
-                       mService.events().delete("primary", event.getId()).execute();
-                        Log.d("delete", event.getSummary());
+                        //deleteEventIdList.add(event.getId());
+                        ////Log.d("datecontentdelete", "eeeeee");
+                        mService.events().delete("primary", event.getId()).execute();
+                        ////Log.d("delete", event.getSummary());
                     }
                 }
             }
@@ -156,9 +162,9 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
 
         scheduleObject.put("Date", resultDateString);
         scheduleObject.put("Content", resultContentString);
-        Log.d("schedulejsonobj", scheduleObject.getString("Date"));
-        Log.d("schedulejsonobj", scheduleObject.getString("Content"));
-        Log.d("schedulejsonobj", resultJSON.toString());
+//        ////Log.d("schedulejsonobj", scheduleObject.getString("Date"));
+//        ////Log.d("schedulejsonobj", scheduleObject.getString("Content"));
+//        ////Log.d("schedulejsonobj", resultJSON.toString());
 
         //String stringForJSON = resultJSON.t;
 
@@ -166,26 +172,26 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
             CommandSenderToUnityThread sendThread = new CommandSenderToUnityThread(resultJSON.toString() + "\n");
             sendThread.start();
             sendThread.join();
-            Log.e("sendunity", "complete");
+//            //Log.e("sendunity", "complete");
         } catch (Exception e){
             e.printStackTrace();
-            Log.e("errerrerr", "errerrerr");
+//            //Log.e("errerrerr", "errerrerr");
         }
     }
 
     @Override
     protected void onPreExecute() {
-        Log.d("preexe", "edit schedule start");
+        ////Log.d("preexe", "edit schedule start");
         super.onPreExecute();
         mProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected final Boolean doInBackground(Void... ignored) {
-        Log.d("doInBack", "schedulemanager");
+        ////Log.d("doInBack", "schedulemanager");
 //        try {
         //doInBackground();
-        Log.d("action=", action.toString());
+        ////Log.d("action=", action.toString());
         try {
             if (!action){
                 insertSchedule(new ScheduleStructure(scheduleObject));
@@ -195,7 +201,7 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
             }
         } catch(JSONException e) {
             e.printStackTrace();
-            Log.e("schedule parse err", stringForJSON);
+            //Log.e("schedule parse err", stringForJSON);
         } catch(IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -210,7 +216,7 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
         super.onPostExecute(success);
         mProgress.setVisibility(View.INVISIBLE);
         if (success) {
-            Log.d("postexe", "edit schedule complete");
+            ////Log.d("postexe", "edit schedule complete");
         }
     }
 
@@ -247,18 +253,18 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
 
         private void openSocket(int port) throws Exception {
             socket = new Socket(IP, port);
-            Log.d("openSocket", "openSocket");
+            ////Log.d("openSocket", "openSocket");
         }
         private void closeSocket() throws IOException {
             out.close();
             socket.close();
-            Log.d("closeSocket", "closeSocket");
+            ////Log.d("closeSocket", "closeSocket");
         }
         private void sendToUnity(String cmd) throws IOException {
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             out.write(cmd);
             out.flush();
-            Log.d("sendUnity", cmd);
+            ////Log.d("sendUnity", cmd);
         }
     }
 }

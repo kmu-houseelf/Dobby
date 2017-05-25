@@ -78,7 +78,7 @@ public class GoogleLogIn extends AppCompatActivity implements EasyPermissions.Pe
 
         Intent thisIntent = getIntent();
         stringForJSON = thisIntent.getExtras().getString("resultJSON");
-        Log.d("googleloginjson", stringForJSON);
+        ////Log.d("googleloginjson", stringForJSON);
 
 
 //        stringForJSON = "{\n" +
@@ -169,7 +169,7 @@ public class GoogleLogIn extends AppCompatActivity implements EasyPermissions.Pe
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("onResume", "GoogleLogIn");
+        ////Log.d("onResume", "GoogleLogIn");
 //        if (checkGooglePlayServicesAvailable()) {
 //            haveGooglePlayServices();
 //        }
@@ -191,7 +191,7 @@ public class GoogleLogIn extends AppCompatActivity implements EasyPermissions.Pe
         } else if (!isDeviceOnline()) {
             mOutputText.setText("No network connection available.");
         } else {
-            Log.d("getResultsFromApi", "Login success");
+            ////Log.d("getResultsFromApi", "Login success");
             try {
                 new ScheduleManager(this).execute();
             } catch (JSONException e) {
