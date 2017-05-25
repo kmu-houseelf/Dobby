@@ -87,13 +87,13 @@ public class insertSchedule extends AsyncTask<Void, Void, Boolean> {
     protected final Boolean doInBackground(Void... ignored) {
         Log.d("doInBack", "insetschedule");
 //        try {
-            //doInBackground();
-        try {
-            insertScheduleToCalendar(new ScheduleStructure(stringForJSON));
-        } catch(JSONException e) {
-            e.printStackTrace();
-            Log.e("schedule parse err", stringForJSON);
-        }
+//            //doInBackground();
+//        try {
+//            insertScheduleToCalendar(new ScheduleStructure(stringForJSON));
+//        } catch(JSONException e) {
+//            e.printStackTrace();
+//            Log.e("schedule parse err", stringForJSON);
+//        }
         return true;
 //        }
 //        } catch (final GooglePlayServicesAvailabilityIOException availabilityException) {

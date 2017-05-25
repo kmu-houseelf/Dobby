@@ -105,6 +105,7 @@ public class STTActivity extends AppCompatActivity {
             "\n" +
             "\t\t\"Schedule\" :\n" +
             "\t\t{\n" +
+            "\t\t\t\"Ampm\" : \"Null\",\n" +
             "\t\t\t\"Action\" : \"Null\",\n" +
             "\t\t\t\"Startdate\" : \"Null\",\n" +
             "\t\t\t\"Starttime\": \"Null\",\n" +
@@ -185,7 +186,7 @@ public class STTActivity extends AppCompatActivity {
         public void onError(int error) {
             // TODO Auto-generated method stub
             if(error == ERROR_NO_MATCH || error == ERROR_SPEECH_TIMEOUT || error == ERROR_RECOGNIZER_BUSY) {
-                SystemClock.sleep(2000);
+                SystemClock.sleep(1500);
                 restartListening();
             }
             Log.d("sttAct onError", "onError" + error);
@@ -307,7 +308,6 @@ public class STTActivity extends AppCompatActivity {
         @Override
         public void onRmsChanged(float rmsdB) {
             // TODO Auto-generated method stub
-           // Log.d("onRmsChanged", "onRmsChanged");
         }
     };
 
@@ -322,17 +322,7 @@ public class STTActivity extends AppCompatActivity {
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 10000);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 3000);
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
     }
-
-//    private void returnMainActivity() {
-//        mainIntent = new Intent(this, MainActivity.class);
-//        mainIntent.setAction("android.intent.action.MAIN");
-//        mainIntent.addCategory("android.intent.category.HOME");
-//        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(mainIntent);
-//    }
 }
