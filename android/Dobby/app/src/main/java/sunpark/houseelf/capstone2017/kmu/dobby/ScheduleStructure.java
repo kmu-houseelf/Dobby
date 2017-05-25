@@ -13,6 +13,7 @@ import java.util.Date;
 
 public class ScheduleStructure {
     private Boolean action;     // 0:insert,  1:delete,  2:search
+    private Boolean ampm;
     private String startDate;
     private String startTime;
     private String endDate;
@@ -22,6 +23,7 @@ public class ScheduleStructure {
 
     ScheduleStructure(){
         action = true;
+        ampm = true;
         startDate = "2017-05-29";
         startTime = "09:00:00.000";
         endDate = "2017-05-29";
@@ -29,7 +31,7 @@ public class ScheduleStructure {
         content = "저녁";
     }
 
-    ScheduleStructure(JSONObject scheduleObject) throws JSONException{
+    ScheduleStructure(JSONObject scheduleObject) throws JSONException, ParseException{
 //        JSONObject resultJSON = new JSONObject(stringForJSON);
 //        JSONObject secretaryObject = resultJSON.getJSONObject("Secretary");
 //        JSONObject scheduleObject = secretaryObject.getJSONObject("Schedule");
@@ -45,28 +47,42 @@ public class ScheduleStructure {
         Log.d("currenttime", currentTime);
 
         action = scheduleObject.getBoolean("Action");
-        startDate = scheduleObject.getString("Startdate");
-        try {
-            Date tempDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
-            startDate = new SimpleDateFormat("yyyy-MM-dd").format(tempDate);
-        } catch(ParseException e) {
-            e.printStackTrace();
-            Log.d("wwwwwwwww", "errerererer");
-        }
+        ampm = scheduleObject.getBoolean("Ampm");
 
-        //Log.d("wwwwwwwww", startDate);
+        startDate = scheduleObject.getString("Startdate");
+        if (startDate.equals("Null"))
+                startDate = currentDate;
+        Date tempDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
+        startDate = new SimpleDateFormat("yyyy-MM-dd").format(tempDate);
+
 
         startTime = scheduleObject.getString("Starttime");
-        endDate = scheduleObject.getString("Enddate");
-        try {
-            Date tempDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDate);
-            endDate = new SimpleDateFormat("yyyy-MM-dd").format(tempDate);
-        } catch(ParseException e) {
-            e.printStackTrace();
-            Log.d("wwwwwwwww", "errerererer");
+        String tempTime = "";
+        if (! startTime.equals("Null")) {
+            String[] timeSplitList = startTime.split(":");
+            for (int i = 0 ; i < 2 ; i++) {
+                String temp = timeSplitList[i];
+                if (Integer.parseInt(temp) < 10) {
+                    if (i == 0 && !ampm) //오후
+                        tempTime += String.valueOf(Integer.parseInt(temp) + 12);
+                    else
+                        tempTime += "0" + temp;
+                }
+                else {
+                    tempTime += temp;
+                }
+                tempTime += ":";
+            }
+            tempTime += "00";
+            //Log.d("eeeeeee", temp);
+            startTime = tempTime;
         }
 
+        Log.d("startTime", startTime);
+
+        endDate = scheduleObject.getString("Enddate");
         endTime = scheduleObject.getString("Endtime");
+
         content = scheduleObject.getString("Content");
         if (!action) {
             if (startDate.equals("Null"))
@@ -75,14 +91,14 @@ public class ScheduleStructure {
                 startTime = currentTime + ".000";
             else
                 startTime += ".000";
-            if (endDate.equals("Null"))
+            if (endDate.equals("Null") || content.equals(""))
                 endDate = startDate;
-            if (endTime.equals("Null"))
+            if (endTime.equals("Null") || content.equals(""))
                 endTime = startTime;
             else
                 endTime += ".000";
-            if (content.equals("Null"))
-                content = "제목없음";
+            if (content.equals("Null") || content.equals(""))
+                content = "제목 없음";
         }
 //        else if (action.equals("1")) {
 //

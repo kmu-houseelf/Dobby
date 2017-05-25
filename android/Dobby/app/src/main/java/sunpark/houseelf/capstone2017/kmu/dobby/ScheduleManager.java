@@ -17,6 +17,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +26,10 @@ import java.util.List;
  */
 
 public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
-    //    private CommandSenderToUnityThread sendThread;
     final GoogleLogIn activity;
     final com.google.api.services.calendar.Calendar mService;
     private ProgressBar mProgress;
-    //    private Exception mLastError = null;
-//    private TextView mOutputText;
+
     private String stringForJSON;
     private JSONObject resultJSON;
     private JSONObject scheduleObject;
@@ -38,7 +37,6 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
     private Boolean action;
     private String resultDateString = "";
     private String resultContentString = "";
-
 
     private Events events;
     private List<Event> items;
@@ -127,32 +125,6 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
         }
         refreshEvents();
     }
-//        if ( !(scheduleStructure.getStartDate().equals("Null")) && !(scheduleStructure.getContent().equals("Null"))) {
-//            Events events = mService.events().list("primary")
-//                    .setTimeMin(startDateTime)
-//                    .setTimeMax(endDateTime)
-//                    .setOrderBy("startTime")
-//                    .setSingleEvents(true)
-//                    .execute();
-//            List<Event> items = events.getItems();
-//        }
-////        else if(){
-////
-////        }
-////        Log.d("eventjson", events.toPrettyString());
-//        Log.d("eventjson", items.toString());
-//
-//        for (Event event : items) {
-//            if(searchContent.equals(event.getSummary())){   // 현재 콘텐츠 명으로만 삭제 가능
-//                deleteEventIdList.add(event.getId());
-//                mService.events().delete("primary", event.getId()).execute();
-//                Log.d("delete", "complete");
-//            }
-//            else {
-//                Log.d("에러", "삭제할 일정이 아닙니다");
-//            }
-//        }
-
 
     private void refreshEvents() throws JSONException, IOException{
         events = mService.events().list("primary")
@@ -225,6 +197,8 @@ public class ScheduleManager extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             Log.e("schedule parse err", stringForJSON);
         } catch(IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 

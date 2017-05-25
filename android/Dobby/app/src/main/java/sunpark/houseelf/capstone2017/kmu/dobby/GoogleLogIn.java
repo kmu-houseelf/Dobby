@@ -135,8 +135,9 @@ public class GoogleLogIn extends AppCompatActivity implements EasyPermissions.Pe
 //                "\t\t\"Schedule\" :\n" +
 //                "\t\t{\n" +
 //                "\t\t\t\"Action\" : false,\n" +
+//                "\t\t\t\"Ampm\" : false,\n" +
 //                "\t\t\t\"Startdate\" : \"2017-6-1\",\n" +
-//                "\t\t\t\"Starttime\": \"08:30:00\",\n" +
+//                "\t\t\t\"Starttime\": \"8:3:00\",\n" +
 //                "\t\t\t\"Enddate\" : \"Null\",\n" +
 //                "\t\t\t\"Endtime\" : \"Null\",\n" +
 //                "\t\t\t\"Content\" : \"Null\"\n" +
